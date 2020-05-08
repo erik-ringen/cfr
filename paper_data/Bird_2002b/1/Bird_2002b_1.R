@@ -74,7 +74,7 @@ d_fin$timescale <- "hr" # whether the rate is per hour (hr), per day, or other
 #### Step 4: Export outcome csv for further processing 
 d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
 
-write_csv(d_export, paste0( paste("data", paper_name, sep="_"), ".csv" ))
+write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 
 setwd(home)
 #################################

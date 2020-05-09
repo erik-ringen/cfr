@@ -10,15 +10,13 @@ data{
   vector[N] age_lower; // low-end of age, if given as interval
   vector[N] age_upper; // high-end of age, if given as interval
   vector[N] age_sd; // std. dev of age, if given
-  vector[N] RR_mean; // mean returns ratio (child/adult)
-  vector[N] RR_sd; // sd of returns ratio
-  int N_RR_sd; // number of obs with known sd on RR
-  int RR_sd_ind[N]; // index of those obs
+  vector[N] lRR_mean; // mean ln returns ratio (child/adult)
+  vector[N] lRR_sd; // sd of ln returns ratio
 }
 
 parameters{
-  real a_mu; // expected value intercept, log-scale
-  real a_scale; // scale intercept, log-scale
+  real a_mu; // expected value intercept
+  real a_sigma; // sd intercept, log scale
   
   vector[N_outcomes] outcome_z;
   vector[N_studies] study_z;
@@ -28,13 +26,11 @@ parameters{
   real<lower=0> sigma_study;
   real<lower=0> sigma_id;
   vector<lower=0,upper=1>[N] age_me; // measurement error on age, constraints will be rescaled in transformed parameter block
-  vector<lower=0>[N_RR_sd] RR_me; // measurement error on RR
 }
 
 transformed parameters{
   vector[N] age_merged; // all age values
-  vector[N] RR_merged; // all RR values
-  
+
   // contraints on age will depend on whether the error is gaussian or interval
   for (i in 1:N) {
     // uniform error
@@ -46,20 +42,14 @@ transformed parameters{
       age_merged[i] = age_me[i];
     }
   }
-  
-  // add measurement error to RR where appropriate
-  RR_merged = RR_mean;
-  for (i in 1:N) {
-    if (RR_sd_ind[i] > 0) RR_merged[i] = RR_me[ RR_sd_ind[i] ];
-  }
 }
 
 model{
-  vector[N] alpha;
-  vector[N] beta;
+  vector[N] mu;
+  vector[N] sigma;
   
   a_mu ~ normal(0,1);
-  a_scale ~ normal(0,1);
+  a_sigma ~ normal(0,1);
   
   outcome_z ~ std_normal();
   study_z ~ std_normal();
@@ -79,25 +69,20 @@ model{
   ////// Model loop for RR outcome /////////////
   for (i in 1:N) {
   
-  // beta is fixed when the RR variance is known
-  if (RR_sd_ind[i] > 0) {
-    beta[i] = pow( RR_mean[i] / square(RR_sd[i]) , 1/3 );
+  // Observation level variance is fixed when sd known
+  if (lRR_sd[i] > 0) {
+    sigma[i] = lRR_sd[i];
   }
   
-  // Otherwise beta estimated
-  else beta[i] = 1 / exp(a_scale);
+  // Otherwise need to parameterize observation-level variance
+  else sigma[i] = exp( a_sigma );
   
   // calculate alpha for each obs (mu/scale)
-  {
-  real mu;
-  mu = a_mu + outcome_z[outcome[i]]*sigma_outcome + study_z[study[i]]*sigma_study;
-  if (id[i] != -99) mu = mu + id_z[id[i]]*sigma_id;  
-  
-  alpha[i] = exp(mu) / beta[i];
-  }
+  mu[i] = a_mu + outcome_z[outcome[i]]*sigma_outcome + study_z[study[i]]*sigma_study;
+  if (id[i] != -99) mu[i] = mu[i] + id_z[id[i]]*sigma_id;  // adding individual random effect where appropriate
   
   // likelihood for the return ratio
-  RR_mean[i] ~ gamma(alpha[i],beta[i]);
+  lRR_mean[i] ~ normal(mu[i],sigma[i]);
   }
 }
 

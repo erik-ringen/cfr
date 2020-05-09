@@ -49,6 +49,9 @@ adult_avg <- d %>%
 # bring in age to main df
 d <- left_join(d, age_avg)
 
+# filter out individuals above age 20
+d <- filter(d, age <= 20)
+
 ##################################
 #### Step 2: Calculate standardized effect sizes 
 # calculate log returns ratio
@@ -62,8 +65,8 @@ lRR_fun <- function( m1, m2, sd1, sd2, n1, n2, value="mean" ) {
 }
 
 d$lRR_mean <- ifelse(   d$sex == "female",
-  lRR_fun( m1 = adult_avg$mean_adult[adult_avg$sex == "female"], m2 = d$x, sd1=NA, sd2=NA, n1=NA, n2=NA  ),
-  lRR_fun( m1 = adult_avg$mean_adult[adult_avg$sex == "male"], m2 = d$x, sd1=NA, sd2=NA, n1=NA, n2=NA  )
+  lRR_fun( m2 = adult_avg$mean_adult[adult_avg$sex == "female"], m1 = d$x, sd1=NA, sd2=NA, n1=NA, n2=NA  ),
+  lRR_fun( m2 = adult_avg$mean_adult[adult_avg$sex == "male"], m1 = d$x, sd1=NA, sd2=NA, n1=NA, n2=NA  )
 )
 
 d$lRR_sd <- NA
@@ -84,7 +87,7 @@ d_fin$timescale <- "hr" # whether the rate is per hour (hr), per day, or other
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

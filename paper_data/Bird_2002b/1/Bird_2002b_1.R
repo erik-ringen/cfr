@@ -25,7 +25,7 @@ d_wide <- d %>%
 d_wide <- d_wide[complete.cases(d_wide),]
 ##################################
 #### Step 2: Calculate standardized effect sizes 
-# calculate log returns ratio
+# calculate returns ratio
 lRR_fun <- function( m1, m2, sd1, sd2, n1, n2, value="mean" ) {
   
   lRR_mean <- log( m1/m2 )
@@ -37,22 +37,22 @@ lRR_fun <- function( m1, m2, sd1, sd2, n1, n2, value="mean" ) {
 
 # Calculate log return ratio for each foraging age difference
 d_wide$lRR_mean <- lRR_fun(
-  m1 = d_wide$`Mean e/h_adult`,
-  m2 = d_wide$`Mean e/h_child`, 
-  sd1 = sqrt(d_wide$SE_adult),
-  sd2 = sqrt(d_wide$SE_child),
-  n1 = d_wide$`n (loads processed)_adult`,
-  n2 = d_wide$`n (loads processed)_child`,
+  m2 = d_wide$`Mean e/h_adult`,
+  m1 = d_wide$`Mean e/h_child`, 
+  sd2 = sqrt(d_wide$SE_adult),
+  sd1 = sqrt(d_wide$SE_child),
+  n2 = d_wide$`n (loads processed)_adult`,
+  n1 = d_wide$`n (loads processed)_child`,
   value = "mean"
   )
 
 d_wide$lRR_sd <- lRR_fun(
-  m1 = d_wide$`Mean e/h_adult`,
-  m2 = d_wide$`Mean e/h_child`, 
-  sd1 = sqrt(d_wide$SE_adult),
-  sd2 = sqrt(d_wide$SE_child),
-  n1 = d_wide$`n (loads processed)_adult`,
-  n2 = d_wide$`n (loads processed)_child`,
+  m2 = d_wide$`Mean e/h_adult`,
+  m1 = d_wide$`Mean e/h_child`, 
+  sd2 = sqrt(d_wide$SE_adult),
+  sd1 = sqrt(d_wide$SE_child),
+  n2 = d_wide$`n (loads processed)_adult`,
+  n1 = d_wide$`n (loads processed)_child`,
   value = "sd"
 )
 
@@ -63,6 +63,7 @@ d_fin$study <- paper_name # paper id
 d_fin$outcome <- paste(d_fin$study, 1:7, sep="_") # 7 outcomes in total, different shellfish
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- "both" # "female", "male", or "both"
+d_fin$age <- NA # no mean age given
 d_fin$age_error <- "interval" # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- 5 # only if interval ages given
@@ -72,7 +73,7 @@ d_fin$timescale <- "hr" # whether the rate is per hour (hr), per day, or other
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

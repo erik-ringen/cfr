@@ -1,0 +1,20 @@
+﻿variable,caloric return rate,caloric return rate,caloric return rate,caloric return rate by event,caloric return rate by event,caloric return rate by event
+,parameter estimate,p,difference in return rate (age 10-40),parameter estimate,p,difference in return rate (age 10-40)
+Univariate regressions,,,,,,
+Age,101.6571,0.002,1244,106.9,0.0004,1266
+Age2,-1.2037,0.006,,-1.2942,0.001,
+Strength,7.6236,0.22,435,13.1839,0.01,751
+Weight,29.3807,0.0005,1058,35.5427,0.0003,1280
+Height,22.2987,0.0005,803,29.87,0.0009,1075
+Multivariate regression of age and strength,,,,,,
+Age,101.4757,0.12,1171,104.1,0.07,1171
+Age2,-1.249,0.14,,-1.3013,0.08,
+Strength,-3.1296,0.74,-178,-0.8513,0.91,-49
+Multivariate regression of age and height,,,,,,
+Age,52.8814,0.36,604,66.708,0.24,714
+Age2,-0.6547,0.34,,-0.8584,0.2,
+Height,12.9949,0.32,468,15.1833,0.38,547
+Multivariate regression of age and weight,,,,,,
+Age,48.0871,0.43,527,54.9975,0.33,556
+Age2,-0.6102,0.4,,-0.7294,0.28,
+Weight,18.7467,0.31,675,20.9413,0.25,754

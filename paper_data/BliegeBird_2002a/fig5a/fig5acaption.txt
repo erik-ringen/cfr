@@ -1,0 +1,1 @@
+Top (women and girls): y -- 6.974 + .293 x; r2 = .177, p = .0256. 

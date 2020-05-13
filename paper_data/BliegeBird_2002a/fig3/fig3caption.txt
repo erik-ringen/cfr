@@ -1,0 +1,1 @@
+Age effects on spearfishing efficiency. Simple linear regression of raw re- turn rates (kcal/hr) on age for 15 foragers over 32 bouts, upper and lower 95% confidence intervals for the mean, y = 255 x x, r = .157, R2 = .025, p = .5763. 

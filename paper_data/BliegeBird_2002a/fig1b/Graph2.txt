@@ -1,0 +1,1 @@
+Graph 2: Linear regression of residual return rates between ages 5 and 20. Y=-554.154 + 28345 x X; R2=0.111, =0.2451.

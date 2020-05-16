@@ -1,0 +1,7 @@
+INFORMATION CORREDATING THE TABLE
+t and p = SQ difference from 1 LambdaC vs LambdaE 2-tailed, unpaired
+LambdaC = observed number of specimens collected per hour of search (all RFC follows)
+LambdaE = predicted number of specimens encountered (based on all survey transects) per
+hour of search at 2.86 km/hr for adults and 1.43 km/hr for children
+SQ = selectivity quotient O.c/Le)
+Tridacna spp. includes T. maxima and T. squamosa,

@@ -9,7 +9,7 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Tucker_2005/1" # temporarily set directory
+temp_dir <- "paper_data/Tucker_2005/1997_returns" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 # metaDigitise(temp_dir)
@@ -30,7 +30,7 @@ d_list <- readRDS("1997_returns.rds")
 d <- bind_rows( d_list$scatterplot$`1997_returns.png`, d_list$scatterplot$`1997_returns - male.png`  ) %>% select(id, x, y)
 
 # A couple of obs ~0 were registered as negative, drop zero returns?
-d <- filter(d, x > 0)
+d$x <- ifelse(abs(d$x - 0) < 10, 0, d$x)
 
 # Get sex labels
 d$sex <- ifelse(substr(d$id, 1, 1) == "f", "female", "male")
@@ -83,11 +83,11 @@ d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
 d_fin$resource <- "tubers;small_game;marine" # what type of foraging resource
-d_fin$timescale <- "hr" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "kcal/hr" # whether the rate is per hour (hr), per day, or other
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, lRR_mean, lRR_sd)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

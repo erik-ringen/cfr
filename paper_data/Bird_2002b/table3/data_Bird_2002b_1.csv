@@ -1,8 +1,0 @@
-study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,timescale,lRR_mean,lRR_sd
-Bird_2002b,Bird_2002b_1,NA,both,NA,interval,NA,5,15,shellfish,hr,-0.7921469648723805,0.002537464505506276
-Bird_2002b,Bird_2002b_2,NA,both,NA,interval,NA,5,15,shellfish,hr,-1.0096619871738057,0.0028030390679494505
-Bird_2002b,Bird_2002b_3,NA,both,NA,interval,NA,5,15,shellfish,hr,-0.8679763834632014,0.008861405612512755
-Bird_2002b,Bird_2002b_4,NA,both,NA,interval,NA,5,15,shellfish,hr,-1.337642378357742,0.003339470341791673
-Bird_2002b,Bird_2002b_5,NA,both,NA,interval,NA,5,15,shellfish,hr,-0.9547981878950985,0.011937193994819214
-Bird_2002b,Bird_2002b_6,NA,both,NA,interval,NA,5,15,shellfish,hr,-1.08793232260664,0.02659446012136869
-Bird_2002b,Bird_2002b_7,NA,both,NA,interval,NA,5,15,shellfish,hr,0.3356167588381947,0.01579159588470696

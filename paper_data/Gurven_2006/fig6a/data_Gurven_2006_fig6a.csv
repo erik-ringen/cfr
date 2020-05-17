@@ -1,0 +1,13 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,timescale,lRR_mean,lRR_sd
+Gurven_2006,Gurven_2006_fig6a,NA,male,6.74285714285714,none,NA,NA,NA,meat,hr,-Inf,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,10.971428571428572,none,NA,NA,NA,meat,hr,-1.2631883029745932,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,11.885714285714279,none,NA,NA,NA,meat,hr,-1.9769547707372754,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,12.79999999999999,none,NA,NA,NA,meat,hr,-0.28747415062963644,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,12.914285714285707,none,NA,NA,NA,meat,hr,-Inf,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,13.828571428571419,none,NA,NA,NA,meat,hr,-0.9961255177255475,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,15.885714285714283,none,NA,NA,NA,meat,hr,0.9041145944965778,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,16.914285714285707,none,NA,NA,NA,meat,hr,-0.013345044582559296,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,17.828571428571433,none,NA,NA,NA,meat,hr,-1.2631883029745932,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,18.85714285714285,none,NA,NA,NA,meat,hr,-0.3843239766195544,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,19.885714285714283,none,NA,NA,NA,meat,hr,-0.3509875563519623,NA
+Gurven_2006,Gurven_2006_fig6a,NA,male,19.885714285714283,none,NA,NA,NA,meat,hr,-2.1104861633617973,NA

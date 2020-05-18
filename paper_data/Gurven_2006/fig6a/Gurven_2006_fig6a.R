@@ -74,11 +74,11 @@ d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
 d_fin$resource <- "meat" # what type of foraging resource
-d_fin$timescale <- "hr" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "kcal/hr"
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, lRR_mean, lRR_sd)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

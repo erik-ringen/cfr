@@ -40,7 +40,7 @@ d$sex <- "male"
 adult_avg <- d %>% 
   filter(age > 20) %>% 
   group_by(sex) %>%
-    summarise(mean_adult=mean(y))
+    summarise(mean_adult=mean(y), sd_adult=sd(y))
 
 # bring in age to main df
 d <- left_join(d, adult_avg)
@@ -49,18 +49,6 @@ d <- left_join(d, adult_avg)
 d <- filter(d, age <= 20)
 
 ##################################
-#### Step 2: Calculate standardized effect sizes 
-# calculate log returns ratio
-lRR_fun <- function( m1, m2, sd1, sd2, n1, n2, value="mean" ) {
-  lRR_mean <- log( m1/m2 )
-  lRR_sd <- sqrt(  (sd1^2 / (n1*m1^2)) + (sd2^2 / (n2*m2^2)) )
-  
-  if  (value == "mean") return( lRR_mean )
-  if  (value == "sd") return( lRR_sd )
-}
-
-d$lRR_mean <- lRR_fun(m1=d$y, m2=d$mean_adult, sd1=NA, sd2=NA, n1=NA, n2=NA)
-d$lRR_sd <- NA
 
 d_fin <- d
 ##################################
@@ -75,10 +63,14 @@ d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
 d_fin$resource <- "meat" # what type of foraging resource
 d_fin$units <- "kcal/hr"
+d_fin$raw_return <- d$y
+d_fin$raw_sd <- NA
+d_fin$adult_return <- d$mean_adult
+d_fin$adult_sd <- d$sd_adult
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, lRR_mean, lRR_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, raw_return, raw_sd, adult_return, adult_sd)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

@@ -34,10 +34,7 @@ parameters{
   vector[N_outcomes] a_p; // prob zero-return, intercept
   vector[max(sex_diff)] a_p_d; // male prob zero-return
   
-  vector[max(outcome_var)] sd_outcome; // lognormal sd of outcome
-  
-  real a_mu; // expected value intercept
-  real a_sigma; // sd intercept, log scale
+  vector<lower=0>[max(outcome_var)] sd_outcome; // lognormal sd of outcome
   
   // k random effects
   matrix[2,N_outcomes] outcome_k_z;
@@ -63,9 +60,10 @@ parameters{
   cholesky_factor_corr[2] L_eta_outcome;
   cholesky_factor_corr[2] L_eta_study;
   
-  // alpha random effects
-  vector[N_id] id_a_z; // make sure to set outcome-specific sds
-  vector<lower=0>[max(id_diff)] sigma_a_id;
+  // linear model random effects
+  matrix[2,N_id] id_z; // make sure to set outcome-specific sds
+  matrix<lower=0>[max(id_diff),2] sigma_id;
+  cholesky_factor_corr[2] L_id;
   
   // Age meausrement error
   vector<lower=0,upper=1>[N] age_me; // measurement error on age, constraints will be rescaled in transformed parameter block
@@ -76,6 +74,8 @@ transformed parameters{
   vector[N] sd_merged; // known and unknown variances
   matrix[N,2] mu_p; // mean vector for prob of non-zero return
   matrix[N,2] mu_r; // mean vector for quantity of returns 
+  
+  matrix[N_id,2] id_v;
   
   matrix[N_outcomes,2] outcome_k_v;
   matrix[N_studies,2] study_k_v;
@@ -98,6 +98,8 @@ transformed parameters{
   
   outcome_eta_v = (diag_pre_multiply(sigma_eta_outcome, L_eta_outcome) * outcome_eta_z[,])';
   study_eta_v = (diag_pre_multiply(sigma_eta_study, L_eta_study) * study_eta_z[,])';
+  
+  id_v = (L_id * id_z)';
 
   // contraints on age will depend on whether the error is gaussian or interval
   for (i in 1:N) {
@@ -128,6 +130,10 @@ transformed parameters{
       a_return_merged[i,2] = a_return_d[sex_diff[i]];
       a_p_merged[i,2] = a_p_d[sex_diff[i]];
     }
+    else { // if not possible to estimate sex diffs, fill with 0
+      a_return_merged[i,2] = 0;
+      a_p_merged[i,2] = 0;
+  }
   }
   ////////////////////////////////////////
   // Model loop /////////////////////////
@@ -143,16 +149,27 @@ transformed parameters{
     real alpha;
     
     for (q in 1:2) {
-    k[q] = exp( a_k[s,q] + study_k_v[outcome[i],s] + study_k_v[outcome[i],s]*(q-1) + outcome_k_v[outcome[i],s] + outcome_k_v[outcome[i],s]*(q-1) );
+    k[q] = exp( a_k[s,q] + study_k_v[study[i],1] + study_k_v[study[i],2]*(q-1) + outcome_k_v[outcome[i],1] + outcome_k_v[outcome[i],2]*(q-1) );
     
-    b[q] = exp( a_k[s,q] + study_b_v[outcome[i],s] + study_b_v[outcome[i],s]*(q-1) + outcome_b_v[outcome[i],s] + outcome_b_v[outcome[i],s]*(q-1) );
+    b[q] = exp( a_k[s,q] + study_b_v[study[i],1] + study_b_v[study[i],2]*(q-1) + outcome_b_v[outcome[i],1] + outcome_b_v[outcome[i],2]*(q-1) );
     
-    eta[q] = exp( a_k[s,q] + study_k_v[outcome[i],s] + study_k_v[outcome[i],1]*(q-1) );
+    eta[q] = exp( a_k[s,q] + study_k_v[study[i],1] + study_k_v[study[i],2]*(q-1) );
     
     S[q] = pow( 1 - exp(-k[q] * age_merged[i]), b[q] );
     
-    p = exp( a_p[outcome[i]] + a_p_d[outcome[i]]*(q-1) );
-    alpha = exp( a_return[outcome[i]] + a_return_d[outcome[i]] + id_a_z[id[i]]*sigma_a_id[id_diff[i]] );
+    // add individual random effects, where appropriate
+    if (id[i] > 0 ) {
+    p = exp( a_p_merged[i,1] + a_p_merged[i,2]*(q-1) + id_v[id[i],1]*sigma_id[id_diff[i],1] );
+    
+    alpha = exp(a_return_merged[i,1] + a_return_merged[i,2]*(q-1) + id_v[id[i],2]*sigma_id[id_diff[i],2] );
+    }
+    
+    else {
+    p = exp( a_p_merged[i,1] + a_p_merged[i,2]*(q-1) );
+    
+    alpha = exp( a_return_merged[i,1] + a_return_merged[i,2]*(q-1) );
+    }
+    
     }
     
     mu_p[i,s] = pow(S[1],eta[1]) * p; 
@@ -165,7 +182,8 @@ model{
   to_vector(a_k) ~ std_normal();
   to_vector(a_b) ~ std_normal();
   to_vector(a_eta) ~ std_normal();
-  to_vector(a_p) ~ std_normal();
+  a_p ~ std_normal();
+  a_p_d ~ std_normal();
   a_return ~ std_normal();
   a_return_d ~ std_normal();
   sd_outcome ~ exponential(1);
@@ -176,7 +194,7 @@ model{
   to_vector(study_b_z) ~ std_normal();
   to_vector(outcome_eta_z) ~ std_normal();
   to_vector(study_eta_z) ~ std_normal();
-  id_a_z ~ std_normal();
+  to_vector(id_z) ~ std_normal();
   
   sigma_k_study ~ exponential(1);
   sigma_k_outcome ~ exponential(1);
@@ -184,7 +202,7 @@ model{
   sigma_b_outcome ~ exponential(1);
   sigma_eta_study ~ exponential(1);
   sigma_eta_outcome ~ exponential(1);
-  sigma_a_id ~ exponential(1);
+  to_vector(sigma_id) ~ exponential(1);
   
   L_k_outcome ~ lkj_corr_cholesky(2);
   L_k_study ~ lkj_corr_cholesky(2);
@@ -192,6 +210,7 @@ model{
   L_b_study ~ lkj_corr_cholesky(2);
   L_eta_outcome ~ lkj_corr_cholesky(2);
   L_eta_study ~ lkj_corr_cholesky(2);
+  L_id ~ lkj_corr_cholesky(2);
   //////////////////////////////////////
   
   // priors on age, depending on error structure
@@ -204,6 +223,7 @@ model{
   /////////////////////////////////////
   // model likelihood ////////////////
   for (i in 1:N) {
+    
   // If sex unknown, need to mix over the possibilites
   if (male[i] == 2) {
   vector[2] lp_p; // log prob for foraging success
@@ -218,24 +238,39 @@ model{
     lp_p[1] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
     lp_p[2] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
     
-    lp_r[1] = lognormal_lpdf( returns[i] | mu_r[i,1],   )
+    lp_r[1] = lognormal_lpdf( returns[i] | mu_r[i,1], sd_merged[i] );
+    lp_r[2] = lognormal_lpdf( returns[i] | mu_r[i,2], sd_merged[i] );
   }
   
+  // Mix over male or female with equal prob
+  target += log_mix( 0.5, lp_p[1], lp_p[2] );
+  target += log_mix( 0.5, lp_r[1], lp_r[2] );
   }
   
-  
-  
-  
-  
-  // calculate alpha for each obs (mu/scale)
-  mu[i] = a_mu + outcome_z[outcome[i]]*sigma_outcome + study_z[study[i]]*sigma_study;
-  if (id[i] != -99) mu[i] = mu[i] + id_z[id[i]]*sigma_id;  // adding individual random effect where appropriate
-  
-  // likelihood, zero-augmented lognormal
-  if (returns[i] == 0) 
-  
-  // likelihood for the returns
-  returns[i] ~ lognormal( mu_r[i], sigma[i] );
+  // If sex female
+  else if (male[i] == 0) {
+    
+    if (returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5 ) );
+    else if (returns[i] > 0) {
+    
+    1 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5   ));
+    returns[i] ~ lognormal( mu_r[i,1], sd_merged[i] );
+    }
   }
-}
+  
+    // If sex male
+  else if (male[i] == 1) {
+    
+    if (returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
+    else if (returns[i] > 0) {
+      
+    1 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5   ));
+    returns[i] ~ lognormal( mu_r[i,2], sd_merged[i] );
+    }
+  }
+  
+} // end likelihood loop
+
+} // end model block
+
 

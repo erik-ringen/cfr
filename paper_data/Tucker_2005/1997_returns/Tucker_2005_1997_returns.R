@@ -70,7 +70,7 @@ d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
 d_fin$resource <- "tubers;small_game;marine" # what type of foraging resource
 d_fin$units <- "net kcal/hr" # whether the rate is per hour (hr), per day, or other
-d_fin$raw_return <- d$y
+d_fin$raw_return <- d$x
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult
 d_fin$adult_sd <- d$sd_adult

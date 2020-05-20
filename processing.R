@@ -91,7 +91,7 @@ data_list <- list(
   id_diff = d$id_diff
 )
 
-fit <- stan( file="stan_models/model_nl3.stan", data=data_list, chains=4, cores=4, iter=1000, init="0", control=list(adapt_delta=0.95) )
+fit <- stan( file="stan_models/meta_analysis.stan", data=data_list, chains=4, cores=4, iter=1000, init="0", control=list(adapt_delta=0.95) )
 
 post <- extract.samples(fit)
 n_samps <- length(post$lp__)
@@ -100,7 +100,7 @@ n_samps <- length(post$lp__)
 pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
   
   if (!is.na(outcome)) sd <- post$sd_merged[,match(outcome, data_list$outcome)]
-  else sd <- median(post$sd_merged)
+  else sd <- median(post$sd_outcome)
   
   if (!is.na(outcome)) outcome_v <- post$outcome_v[,outcome,]
   else outcome_v <- matrix(0, nrow=n_samps, ncol=16)
@@ -118,17 +118,24 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
     mu_r <- mu_p
     
     for (q in 1:2) {
-      k[,q] = exp( post$a_k[,male+1,q] + outcome_v[,(1 + q - 1)] + outcome_v[,(3 + q - 1)]*male );
+      ticker <- 0
       
-      b[,q] = exp( post$a_b[,male+1,q] + outcome_v[,(1 + q - 1)] + outcome_v[,(3 + q - 1)]*male );
+      k[,q] = exp( post$a_k[,male+1,q] + outcome_v[,(ticker + 1 + q - 1)] + outcome_v[,(ticker + 3 + q - 1)]*male );
+      ticker <- ticker + 4 # update index position
       
-      eta[,q] = exp( post$a_eta[,male+1,q] + outcome_v[,(1 + q - 1)] + outcome_v[,(3 + q - 1)]*male );
+      b[,q] = exp( post$a_b[,male+1,q] + outcome_v[,(ticker + 1 + q - 1)] + outcome_v[,(ticker + 3 + q - 1)]*male );
+      ticker <- ticker + 4
+      
+      eta[,q] = exp( post$a_eta[,male+1,q] + outcome_v[,(ticker + 1 + q - 1)] + outcome_v[,(ticker + 3 + q - 1)]*male );
+      ticker <- ticker + 4
       
       for (n in 1:n_preds) S[,n,q] = ( 1 - exp(-k[,q] * (age[n]/20) ))^b[,q];
-    }
     
-    p = exp( post$a_p[,1] + post$a_p[,2]*male + id_v[,1] + outcome_v[,1] + outcome_v[,2]*male );
-    alpha = exp( post$a_alpha[,1] + post$a_alpha[,2]*male + id_v[,2] + outcome_v[,1] + outcome_v[,2]*male );
+    p = exp( post$a_p[,1] + post$a_p[,2]*male + id_v[,1] + outcome_v[,ticker + 1] + outcome_v[,ticker + 2]*male );
+    ticker <- ticker + 2
+    
+    alpha = exp( post$a_alpha[,1] + post$a_alpha[,2]*male + id_v[,2] + outcome_v[,ticker + 1] + outcome_v[,ticker + 2]*male );
+    }
     
     for (n in 1:n_preds) {
     mu_p[,n] = (S[,n,1]^eta[,1]) * p; 
@@ -136,13 +143,13 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
     }
     
     if (resp == "S_returns") return( S[,,2] )
-    if (resp == "returns") return( mu_r/alpha )
+    if (resp == "returns") return( mu_r )
 }
 
-age_seq <- seq(from=0,to=20)
+age_seq <- seq(from=0,to=20, length.out = 50)
 preds <- pred_fun(age=age_seq, resp="S_returns")
 
-plot(x=age_seq, y=apply(preds, 2, median), ylim=c(min(preds),max(preds)), type="l", col="black", lwd=2)
+plot(x=age_seq, y=apply(preds, 2, median), ylim=c(0,max(preds)), type="l", col="black", lwd=2)
 
 shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("black", 0.1))
 shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("black", 0.1))

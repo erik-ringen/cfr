@@ -36,29 +36,31 @@ parameters{
   
   vector<lower=0>[max(outcome_var)] sd_outcome; // lognormal sd of outcome
   
+  vector<lower=0>[N] adult_returns;  // avg adult return, parameterized to carry forward uncertainty
+  
   // k random effects
-  matrix[2,N_outcomes] outcome_k_z;
-  matrix[2,N_studies] study_k_z;
-  vector<lower=0>[2] sigma_k_study;
-  vector<lower=0>[2] sigma_k_outcome;
-  cholesky_factor_corr[2] L_k_outcome;
-  cholesky_factor_corr[2] L_k_study;
+  matrix[4,N_outcomes] outcome_k_z;
+  matrix[4,N_studies] study_k_z;
+  vector<lower=0>[4] sigma_k_study;
+  vector<lower=0>[4] sigma_k_outcome;
+  cholesky_factor_corr[4] L_k_outcome;
+  cholesky_factor_corr[4] L_k_study;
   
   // b random effects
-  matrix[2,N_outcomes] outcome_b_z;
-  matrix[2,N_studies] study_b_z;
-  vector<lower=0>[2] sigma_b_study;
-  vector<lower=0>[2] sigma_b_outcome;
-  cholesky_factor_corr[2] L_b_outcome;
-  cholesky_factor_corr[2] L_b_study;
+  matrix[4,N_outcomes] outcome_b_z;
+  matrix[4,N_studies] study_b_z;
+  vector<lower=0>[4] sigma_b_study;
+  vector<lower=0>[4] sigma_b_outcome;
+  cholesky_factor_corr[4] L_b_outcome;
+  cholesky_factor_corr[4] L_b_study;
   
   // eta random effects
-  matrix[2,N_outcomes] outcome_eta_z;
-  matrix[2,N_studies] study_eta_z;
-  vector<lower=0>[2] sigma_eta_study;
-  vector<lower=0>[2] sigma_eta_outcome;
-  cholesky_factor_corr[2] L_eta_outcome;
-  cholesky_factor_corr[2] L_eta_study;
+  matrix[4,N_outcomes] outcome_eta_z;
+  matrix[4,N_studies] study_eta_z;
+  vector<lower=0>[4] sigma_eta_study;
+  vector<lower=0>[4] sigma_eta_outcome;
+  cholesky_factor_corr[4] L_eta_outcome;
+  cholesky_factor_corr[4] L_eta_study;
   
   // linear model random effects
   matrix[2,N_id] id_z; // make sure to set outcome-specific sds
@@ -71,33 +73,32 @@ parameters{
 
 transformed parameters{
   vector[N] age_merged; // all age values
-  vector[N] sd_merged; // known and unknown variances
   matrix[N,2] mu_p; // mean vector for prob of non-zero return
   matrix[N,2] mu_r; // mean vector for quantity of returns 
   
   matrix[N_id,2] id_v;
   
-  matrix[N_outcomes,2] outcome_k_v;
-  matrix[N_studies,2] study_k_v;
+  matrix[N_outcomes,4] outcome_k_v;
+  matrix[N_studies,4] study_k_v;
   
-  matrix[N_outcomes,2] outcome_b_v;
-  matrix[N_studies,2] study_b_v;
+  matrix[N_outcomes,4] outcome_b_v;
+  matrix[N_studies,4] study_b_v;
   
-  matrix[N_outcomes,2] outcome_eta_v;
-  matrix[N_studies,2] study_eta_v;
+  matrix[N_outcomes,4] outcome_eta_v;
+  matrix[N_studies,4] study_eta_v;
   
   matrix[N,2] a_return_merged; // sex-specific means for linear model
   matrix[N,2] a_p_merged; // sex-specific zero return prob for linear model
 
   // scaling and correlating random effects
-  outcome_k_v = (diag_pre_multiply(sigma_k_outcome, L_k_outcome) * outcome_k_z[,])';
-  study_k_v = (diag_pre_multiply(sigma_k_study, L_k_study) * study_k_z[,])';
+  outcome_k_v = (diag_pre_multiply(sigma_k_outcome, L_k_outcome) * outcome_k_z)';
+  study_k_v = (diag_pre_multiply(sigma_k_study, L_k_study) * study_k_z)';
   
-    outcome_b_v = (diag_pre_multiply(sigma_b_outcome, L_b_outcome) * outcome_b_z[,])';
-  study_b_v = (diag_pre_multiply(sigma_b_study, L_b_study) * study_b_z[,])';
+  outcome_b_v = (diag_pre_multiply(sigma_b_outcome, L_b_outcome) * outcome_b_z)';
+  study_b_v = (diag_pre_multiply(sigma_b_study, L_b_study) * study_b_z)';
   
-  outcome_eta_v = (diag_pre_multiply(sigma_eta_outcome, L_eta_outcome) * outcome_eta_z[,])';
-  study_eta_v = (diag_pre_multiply(sigma_eta_study, L_eta_study) * study_eta_z[,])';
+  outcome_eta_v = (diag_pre_multiply(sigma_eta_outcome, L_eta_outcome) * outcome_eta_z)';
+  study_eta_v = (diag_pre_multiply(sigma_eta_study, L_eta_study) * study_eta_z)';
   
   id_v = (L_id * id_z)';
 
@@ -111,14 +112,6 @@ transformed parameters{
     else {
       age_merged[i] = age_me[i];
     }
-  }
-  
-  // Piece together observed and unknown variances
-  for (i in 1:N) {
-    if (outcome_var[i] > 0) {
-      sd_merged[i] = sd_outcome[outcome_var[i]];
-    }
-    else sd_merged[i] = lsd_child[i];
   }
   
   // Sex-specific means, where appropriate
@@ -149,27 +142,31 @@ transformed parameters{
     real alpha;
     
     for (q in 1:2) {
-    k[q] = exp( a_k[s,q] + study_k_v[study[i],1] + study_k_v[study[i],2]*(q-1) + outcome_k_v[outcome[i],1] + outcome_k_v[outcome[i],2]*(q-1) );
+    // growth rate k
+    k[q] = exp( a_k[s,q] + study_k_v[study[i],(1 + q - 1)] + study_k_v[study[i],(3 + q - 1)]*(s-1) + outcome_k_v[outcome[i],(1 + q - 1)] + outcome_k_v[outcome[i],(3 + q - 1)]*(s-1) );
     
-    b[q] = exp( a_k[s,q] + study_b_v[study[i],1] + study_b_v[study[i],2]*(q-1) + outcome_b_v[outcome[i],1] + outcome_b_v[outcome[i],2]*(q-1) );
+    // elasticity of growth
+    b[q] = exp( a_b[s,q] + study_b_v[study[i],(1 + q - 1)] + study_b_v[study[i],(3 + q - 1)]*(s-1) + outcome_b_v[outcome[i],(1 + q - 1)] + outcome_b_v[outcome[i],(3 + q - 1)]*(s-1) );
     
-    eta[q] = exp( a_k[s,q] + study_k_v[study[i],1] + study_k_v[study[i],2]*(q-1) );
+    // elasticity of skill
+    eta[q] = exp( a_eta[s,q] + study_eta_v[study[i],(1 + q - 1)] + study_eta_v[study[i],(3 + q - 1)]*(s-1) + outcome_eta_v[outcome[i],(1 + q - 1)] + outcome_eta_v[outcome[i],(3 + q - 1)]*(s-1) );
     
+    // Skill
     S[q] = pow( 1 - exp(-k[q] * age_merged[i]), b[q] );
+    }
     
-    // add individual random effects, where appropriate
-    if (id[i] > 0 ) {
-    p = exp( a_p_merged[i,1] + a_p_merged[i,2]*(q-1) + id_v[id[i],1]*sigma_id[id_diff[i],1] );
+    // Linear models (prob success and expected return) ///
+    if (id[i] > 0 ) { // add individual random effects, where appropriate
+    // prob foraging success
+    p = exp( a_p_merged[i,1] + a_p_merged[i,2]*(s-1) + id_v[id[i],1]*sigma_id[id_diff[i],1] );
     
-    alpha = exp(a_return_merged[i,1] + a_return_merged[i,2]*(q-1) + id_v[id[i],2]*sigma_id[id_diff[i],2] );
+    // expected yield
+    alpha = exp( a_return_merged[i,1] + a_return_merged[i,2]*(s-1) + id_v[id[i],2]*sigma_id[id_diff[i],2] );
     }
     
     else {
-    p = exp( a_p_merged[i,1] + a_p_merged[i,2]*(q-1) );
-    
-    alpha = exp( a_return_merged[i,1] + a_return_merged[i,2]*(q-1) );
-    }
-    
+    p = exp( a_p_merged[i,1] + a_p_merged[i,2]*(s-1) );
+    alpha = exp( a_return_merged[i,1] + a_return_merged[i,2]*(s-1) );
     }
     
     mu_p[i,s] = pow(S[1],eta[1]) * p; 
@@ -178,6 +175,16 @@ transformed parameters{
 }
 
 model{
+  vector[N] sd_merged;
+  
+  // Piece together observed and unknown variances
+  for (i in 1:N) {
+    if (outcome_var[i] > 0) {
+      sd_merged[i] = sd_outcome[outcome_var[i]];
+    }
+    else sd_merged[i] = lsd_child[i];
+  }
+  
   // Priors ///////////////////////////
   to_vector(a_k) ~ std_normal();
   to_vector(a_b) ~ std_normal();
@@ -215,7 +222,7 @@ model{
   
   // priors on age, depending on error structure
   for (i in 1:N) {
-    if (age_lower[i] != -99) age_merged[i] ~ uniform(age_lower[i], age_upper[i]);
+    if (age_lower[i] != -99) age_merged[i] ~ normal(age[i], 1);
     else if (age_sd[i] != -99) age_merged[i] ~ normal(age[i], age_sd[i]);
     else age_merged[i] ~ normal(age[i], 0.5/20); // generic age error when no other info available
   }
@@ -270,7 +277,16 @@ model{
   }
   
 } // end likelihood loop
+////////////////////////////////////////////////////////
+//// Adult returns model //////////////////////////////
+  adult_returns ~ lognormal(lmu_adult, lsd_adult);
 
 } // end model block
 
-
+generated quantities{
+  vector[N] return_ratio;
+  
+  for (i in 1:N) {
+    return_ratio[i] = (returns[i]*mu_adult[i])/adult_returns[i];
+  }
+}

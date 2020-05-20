@@ -40,9 +40,9 @@ d_fin$age_upper <- 15 # only if interval ages given
 d_fin$resource <- "shellfish" # what type of foraging resource
 d_fin$units <- "kcal/hr" # whether the rate is per hour (hr), per day, or other
 d_fin$raw_return <- d_wide$`Mean e/h_child`
-d_fin$raw_sd <- d_wide$SE_child
+d_fin$raw_sd <- d_wide$SE_child * sqrt(d_wide$`n (loads processed)_child`)
 d_fin$adult_return <- d_wide$`Mean e/h_adult`
-d_fin$adult_sd <- d_wide$SE_adult
+d_fin$adult_sd <- d_wide$SE_adult * sqrt(d_wide$`n (loads processed)_adult`)
 
 ##################################
 #### Step 4: Export outcome csv for further processing 

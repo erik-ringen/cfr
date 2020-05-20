@@ -9,7 +9,7 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Tucker_2017/1" # temporarily set directory
+temp_dir <- "paper_data/Tucker_2005/1997_returns" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 # metaDigitise(temp_dir)
@@ -29,8 +29,9 @@ d_list <- readRDS("1997_returns.rds")
 #### Step 1: Wrangle data ########
 d <- bind_rows( d_list$scatterplot$`1997_returns.png`, d_list$scatterplot$`1997_returns - male.png`  ) %>% select(id, x, y)
 
-# A couple of obs ~0 were registered as negative, drop zero returns?
-d <- filter(d, x > 0)
+# A couple of obs ~0 were registered as negative
+d$x <- ifelse(abs(d$x - 0) < 10, 0, d$x)
+d$x <- ifelse(d$x < 0, 0, d$x)
 
 # Get sex labels
 d$sex <- ifelse(substr(d$id, 1, 1) == "f", "female", "male")
@@ -44,32 +45,17 @@ age_avg <- d %>%
 adult_avg <- d %>% 
   filter(y >= 20) %>% 
   group_by(sex) %>%
-    summarise(mean_adult=mean(x))
+    summarise(mean_adult=mean(x), sd_adult=sd(x), n_adult=n())
 
 # bring in age to main df
 d <- left_join(d, age_avg)
+
+d <- left_join(d, adult_avg)
 
 # filter out individuals above age 20
 d <- filter(d, age <= 20)
 
 ##################################
-#### Step 2: Calculate standardized effect sizes 
-# calculate log returns ratio
-lRR_fun <- function( m1, m2, sd1, sd2, n1, n2, value="mean" ) {
-  
-  lRR_mean <- log( m1/m2 )
-  lRR_sd <- sqrt(  (sd1^2 / (n1*m1^2)) + (sd2^2 / (n2*m2^2)) )
-  
-  if  (value == "mean") return( lRR_mean )
-  if  (value == "sd") return( lRR_sd )
-}
-
-d$lRR_mean <- ifelse(   d$sex == "female",
-  lRR_fun( m2 = adult_avg$mean_adult[adult_avg$sex == "female"], m1 = d$x, sd1=NA, sd2=NA, n1=NA, n2=NA  ),
-  lRR_fun( m2 = adult_avg$mean_adult[adult_avg$sex == "male"], m1 = d$x, sd1=NA, sd2=NA, n1=NA, n2=NA  )
-)
-
-d$lRR_sd <- NA
 
 d_fin <- d
 ##################################
@@ -83,11 +69,16 @@ d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
 d_fin$resource <- "tubers;small_game;marine" # what type of foraging resource
-d_fin$timescale <- "hr" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "net kcal/hr" # whether the rate is per hour (hr), per day, or other
+d_fin$raw_return <- d$x
+d_fin$raw_sd <- NA
+d_fin$adult_return <- d$mean_adult
+d_fin$adult_sd <- d$sd_adult
+d_fin$adult_se <- d$sd_adult / sqrt(d$n_adult)
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, timescale, lRR_mean, lRR_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

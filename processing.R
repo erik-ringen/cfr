@@ -63,9 +63,6 @@ returns <- d$raw_return /  d$adult_return # scaling by adult mean
 lmu_child <- ifelse( is.na(d$raw_sd), -99, ln_MM(returns, d$raw_sd/d$adult_return, stat="mu") )
 lsd_child <- ifelse( is.na(d$raw_sd), -99, ln_MM(returns, d$raw_sd/d$adult_return, stat="sd") )
 
-lmu_adult <- ifelse( is.na(d$adult_sd), -99, ln_MM(d$adult_return, d$adult_sd, stat="mu") )
-lsd_adult <- ifelse( is.na(d$adult_sd), -99, ln_MM(d$adult_return, d$adult_sd, stat="sd") )
-
 # Index unique outcomes with unknown variance
 d$outcome_var <- coerce_index( ifelse(is.na(d$raw_sd), d$outcome, NA) )
 d$outcome_var <- ifelse( is.na(d$outcome_var), -99, d$outcome_var)
@@ -87,17 +84,16 @@ data_list <- list(
   returns = returns,
   lmu_child = lmu_child,
   lsd_child = lsd_child,
-  lmu_adult = lmu_adult,
-  lsd_adult = lsd_adult,
   mu_adult = d$adult_return,
+  se_adult = d$adult_se,
   male = d$male,
   sex_diff = d$sex_diff,
   id_diff = d$id_diff
 )
 
-fit0 <- stan( file="stan_models/model_nl3.stan", data=data_list, chains=4, cores=4, iter=1000, init="0", control=list(adapt_delta=0.95) )
+fit <- stan( file="stan_models/model_nl3.stan", data=data_list, chains=4, cores=4, iter=1000, init="0", control=list(adapt_delta=0.95) )
 
-post <- extract.samples(fit0)
+post <- extract.samples(fit)
 n_samps <- length(post$lp__)
 
 #### Convienience function to plot predictions

@@ -45,7 +45,7 @@ age_avg <- d %>%
 adult_avg <- d %>% 
   filter(y >= 20) %>% 
   group_by(sex) %>%
-    summarise(mean_adult=mean(x), sd_adult=sd(x))
+    summarise(mean_adult=mean(x), sd_adult=sd(x), n_adult=n())
 
 # bring in age to main df
 d <- left_join(d, age_avg)
@@ -74,10 +74,11 @@ d_fin$raw_return <- d$x
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult
 d_fin$adult_sd <- d$sd_adult
+d_fin$adult_se <- d$sd_adult / sqrt(d$n_adult)
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

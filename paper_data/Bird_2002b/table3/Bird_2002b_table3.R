@@ -43,10 +43,11 @@ d_fin$raw_return <- d_wide$`Mean e/h_child`
 d_fin$raw_sd <- d_wide$SE_child * sqrt(d_wide$`n (loads processed)_child`)
 d_fin$adult_return <- d_wide$`Mean e/h_adult`
 d_fin$adult_sd <- d_wide$SE_adult * sqrt(d_wide$`n (loads processed)_adult`)
+d_fin$adult_se <- d_wide$SE_adult
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

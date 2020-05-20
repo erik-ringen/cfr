@@ -147,7 +147,7 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
 }
 
 age_seq <- seq(from=0,to=20, length.out = 50)
-preds <- pred_fun(age=age_seq, resp="S_returns")
+preds <- pred_fun(age=age_seq, resp="returns")
 
 plot(x=age_seq, y=apply(preds, 2, median), ylim=c(0,max(preds)), type="l", col="black", lwd=2)
 

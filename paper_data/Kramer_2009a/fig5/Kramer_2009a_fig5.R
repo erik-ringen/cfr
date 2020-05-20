@@ -17,7 +17,7 @@ temp_dir <- "paper_data/Kramer_2009a/fig5" # temporarily set directory
 # workflow: extract group*resource one at a time. Because sample sizes not given for specific ages, divide resource-specific sample sizes by number of age groups (n_group = 5)
 # sr = 15, lr = 25, m = 29.8
 
-# saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/fig5.rds"))
+# saveRDS(metaDigitise(temp_dir, summary=T), paste0(temp_dir, "/fig5.rds"))
 
 #################################
 setwd(temp_dir)
@@ -28,26 +28,28 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS(paste0(paper_section, ".rds"))
 
 #### Step 1: Wrangle data ########
-d <- bind_rows(d_list$scatterplot) %>% select(x,y)
-colnames(d)[1] <- "age"
+d <- d_list %>% select(group_id, mean, sd, se)
+d$resource <- sapply( strsplit( as.character(d$group_id), "_" ), "[", 1 )
+d$age_upper <- as.numeric( sapply( strsplit( as.character(d$group_id), "_" ), "[", 2 ) )
+d$age_lower <- rep( c(6, 15, 25, 35, 45), each=3 )
 
-# Returns that are within small margin of 0 are actually zero-return
-d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
+# All are female
+d$sex <- "female"
 
-# All are male
-d$sex <- "male"
-
-# Get average returns of adults, sex-specific
+# Get average returns of adults for each resource. Need to estimate pooled SD
 adult_avg <- d %>% 
-  filter(age > 20) %>% 
-  group_by(sex) %>%
-    summarise(mean_adult=mean(y), sd_adult=sd(y))
+  filter(age_lower > 20) %>% 
+  group_by(resource) %>%
+    summarise( mean_adult=mean(mean), sd_adult=sqrt( sum(sd^2)/3 ) )
+
+adult_avg$n_adult <- c( (125/5)*3, (149/5)*3, (75/5)*3 )
+adult_avg$se_adult <- adult_avg$sd_adult / sqrt(adult_avg$n_adult)
 
 # bring in age to main df
 d <- left_join(d, adult_avg)
 
 # filter out individuals above age 20
-d <- filter(d, age <= 20)
+d <- filter(d, age_upper <= 20)
 
 ##################################
 
@@ -55,23 +57,25 @@ d_fin <- d
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_")
+d_fin$outcome <- paste(d_fin$study, d_fin$resource, sep="_")
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d$sex # "female", "male", or "both"
-d_fin$age_error <- "none" # information on distribution of ages (sd), or just a range (interval)? 
+d_fin$age <- NA
+d_fin$age_error <- "interval" # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "meat" # what type of foraging resource
-d_fin$units <- "kcal/hr"
-d_fin$raw_return <- d$y
-d_fin$raw_sd <- NA
+d_fin$age_lower <- d_fin$age_lower # only if interval ages given
+d_fin$age_upper <- d_fin$age_upper # only if interval ages given
+d_fin$resource <- c("roots", "roots", "fruit") # what type of foraging resource
+d_fin$units <- "kilos/hr"
+d_fin$raw_return <- d_fin$mean
+d_fin$raw_sd <- d_fin$sd
 d_fin$adult_return <- d$mean_adult
 d_fin$adult_sd <- d$sd_adult
+d_fin$adult_se <- d_fin$se_adult
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

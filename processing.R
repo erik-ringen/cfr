@@ -20,7 +20,7 @@ d$male <- ifelse(d$sex == "male", 1, 0)
 
 outcome_sex_diff <- d %>% group_by(outcome) %>% summarise(sex_diff = ifelse(var(male)==0 | is.na(var(male)), 0, 1))
 
-d$male <- ifelse(d$sex == "both", 2, d$male)
+d$male <- ifelse(d$sex == "both", 0.5, d$male)
 
 d <- left_join(d, outcome_sex_diff)
 
@@ -147,12 +147,17 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
 }
 
 age_seq <- seq(from=0,to=20, length.out = 50)
-preds <- pred_fun(age=age_seq, resp="returns")
 
-plot(x=age_seq, y=apply(preds, 2, median), ylim=c(0,max(preds)), type="l", col="black", lwd=2)
+preds <- pred_fun(age=age_seq, resp="S_returns", male=0)
+plot(x=age_seq, y=apply(preds, 2, median), ylim=c(0,max(preds)), type="l", col="slategray", lwd=2)
 
-shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("black", 0.1))
-shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("black", 0.1))
-shade(apply(preds, 2, PI, prob=0.3), age_seq, col=col.alpha("black", 0.1))
+shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray", 0.15))
+#shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray", 0.1))
+#shade(apply(preds, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray", 0.1))
 
+preds <- pred_fun(age=age_seq, resp="S_returns", male=1)
+lines(x=age_seq, y=apply(preds, 2, median), col="orange", lwd=2)
+shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("orange", 0.15))
+#shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("orange", 0.1))
+#shade(apply(preds, 2, PI, prob=0.3), age_seq, col=col.alpha("orange", 0.1))
 

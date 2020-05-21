@@ -12,8 +12,8 @@ data{
   vector[N] age_lower; // low-end of age, if given as interval
   vector[N] age_upper; // high-end of age, if given as interval
   vector[N] age_sd; // std. dev of age, if given
-  vector[N] returns; // return value, scaled by adult means
-  vector[N] lsd_child; // log-normal sd, where appropriate
+  vector[N] returns; // return value, raw
+  vector[N] sd_child; // log-normal sd, where appropriate
   vector[N] mu_adult; // adult mean, observation scale
   vector[N] se_adult; // SEM adult, observation sacle
 }
@@ -47,12 +47,16 @@ parameters{
 }
 
 transformed parameters{
+  vector[N] returns_scaled; // return values, divided by adult avg
   vector[N] age_merged; // all age values
+  vector[N] sd_merged;
   matrix[N,2] mu_p; // mean vector for prob of non-zero return
   matrix[N,2] mu_r; // mean vector for quantity of returns 
   
   matrix[N_id,2] id_v;
-  matrix[N_outcomes,16] outcome_v;
+  matrix[N_outcomes,16] outcome_v; 
+
+  returns_scaled = returns ./ adult_returns; // element-wise division
 
   // scaling and correlating random effects
   outcome_v = (diag_pre_multiply(sigma_outcome, L_outcome) * outcome_z)';
@@ -68,6 +72,19 @@ transformed parameters{
     else {
       age_merged[i] = age_me[i];
     }
+  }
+  
+  // Piece together observed and unknown variances
+  for (i in 1:N) {
+    if (outcome_var[i] > 0) {
+      sd_merged[i] = sd_outcome[outcome_var[i]];
+    }
+  // Method of moments to approximate log-normal sd
+    else {
+      real scaled_sd = sd_child[i] / adult_returns[i];
+      real lvar = log( (square(scaled_sd) /square(returns_scaled[i])) + 1 );
+      sd_merged[i] = sqrt(lvar);
+  }
   }
   
   ////////////////////////////////////////
@@ -116,7 +133,7 @@ transformed parameters{
     ticker = ticker + 2;
     
     // expected yield
-    alpha = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],ticker + 1] + outcome_v[outcome[i],ticker + 2]*(s-1) );
+    alpha = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],ticker + 1] + outcome_v[outcome[i],ticker + 2]*(s-1)     );
     }
     
     }
@@ -127,15 +144,8 @@ transformed parameters{
 }
 
 model{
-  vector[N] sd_merged;
-  
-  // Piece together observed and unknown variances
-  for (i in 1:N) {
-    if (outcome_var[i] > 0) {
-      sd_merged[i] = sd_outcome[outcome_var[i]];
-    }
-    else sd_merged[i] = lsd_child[i];
-  }
+  //// Adult returns meausrement error model //////////////////////////////
+  adult_returns ~ normal(mu_adult, se_adult);
   
   // Priors ///////////////////////////
   to_vector(a_k) ~ std_normal();
@@ -171,17 +181,17 @@ model{
   vector[2] lp_p; // log prob for foraging success
   vector[2] lp_r; // log prob for foraging return
     
-  if (returns[i] == 0) {
+  if (returns_scaled[i] == 0) {
     lp_p[1] = bernoulli_lpmf( 0 | 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
     lp_p[2] = bernoulli_lpmf( 0 | 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
   }
   
-  else if (returns[i] > 0) {
+  else if (returns_scaled[i] > 0) {
     lp_p[1] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
     lp_p[2] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
     
-    lp_r[1] = lognormal_lpdf( returns[i] | log(mu_r[i,1]), sd_merged[i] );
-    lp_r[2] = lognormal_lpdf( returns[i] | log(mu_r[i,2]), sd_merged[i] );
+    lp_r[1] = lognormal_lpdf( returns_scaled[i] | log(mu_r[i,1]), sd_merged[i] );
+    lp_r[2] = lognormal_lpdf( returns_scaled[i] | log(mu_r[i,2]), sd_merged[i] );
   }
   
   // Mix over male or female in proportion to their probability
@@ -192,29 +202,27 @@ model{
   // If sex female
   else if (male[i] == 0) {
     
-    if (returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5 ) );
-    else if (returns[i] > 0) {
+    if (returns_scaled[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5 ) );
+    else if (returns_scaled[i] > 0) {
     
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5   ));
-    returns[i] ~ lognormal( log(mu_r[i,1]), sd_merged[i] );
+    returns_scaled[i] ~ lognormal( log(mu_r[i,1]), sd_merged[i] );
     }
   }
   
     // If sex male
   else if (male[i] == 1) {
     
-    if (returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
-    else if (returns[i] > 0) {
+    if (returns_scaled[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
+    else if (returns_scaled[i] > 0) {
       
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5   ));
-    returns[i] ~ lognormal( log(mu_r[i,2]), sd_merged[i] );
+    returns_scaled[i] ~ lognormal( log(mu_r[i,2]), sd_merged[i] );
     }
   }
   
 } // end likelihood loop
 ////////////////////////////////////////////////////////
-//// Adult returns model //////////////////////////////
-  adult_returns ~ normal(mu_adult, se_adult);
 
 } // end model block
 
@@ -222,6 +230,6 @@ generated quantities{
   vector[N] return_ratio;
   
   for (i in 1:N) {
-    return_ratio[i] = (returns[i]*mu_adult[i])/adult_returns[i];
+    return_ratio[i] = (returns[i]/adult_returns[i]);
   }
 }

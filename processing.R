@@ -49,23 +49,12 @@ age_lower <- ifelse(is.na(d$age_lower), -99, d$age_lower / 20)
 age_upper <- ifelse(is.na(d$age_upper), -99, d$age_upper / 20)
 age_sd <- ifelse(is.na(d$age_sd), -99, d$age_sd / 20 )
 
-# when data are given as summaries, estimate log-normal parameters using method of moments
-ln_MM <- function( mean, sd, stat="mu" ) {
-  mu = log( (mean^2)/(sqrt(sd^2 + mean^2)))
-  var = log( (sd^2)/(mean^2) + 1 )
-  
-  if (stat == "mu") return(mu)
-  if (stat == "sd") return(sqrt(var))
-}
-
-returns <- d$raw_return /  d$adult_return # scaling by adult mean
-
-lmu_child <- ifelse( is.na(d$raw_sd), -99, ln_MM(returns, d$raw_sd/d$adult_return, stat="mu") )
-lsd_child <- ifelse( is.na(d$raw_sd), -99, ln_MM(returns, d$raw_sd/d$adult_return, stat="sd") )
 
 # Index unique outcomes with unknown variance
 d$outcome_var <- coerce_index( ifelse(is.na(d$raw_sd), d$outcome, NA) )
 d$outcome_var <- ifelse( is.na(d$outcome_var), -99, d$outcome_var)
+
+sd_child <- ifelse(is.na(d$raw_sd), -99, d$raw_sd)
 
 # Organize into a list for Stan
 data_list <- list(
@@ -81,9 +70,8 @@ data_list <- list(
   age_lower = age_lower,
   age_upper = age_upper,
   age_sd = age_sd,
-  returns = returns,
-  lmu_child = lmu_child,
-  lsd_child = lsd_child,
+  returns = d$raw_return,
+  sd_child = sd_child,
   mu_adult = d$adult_return,
   se_adult = d$adult_se,
   male = d$male,
@@ -148,14 +136,14 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
 
 age_seq <- seq(from=0,to=20, length.out = 50)
 
-preds <- pred_fun(age=age_seq, resp="S_returns", male=0)
+preds <- pred_fun(age=age_seq, resp="returns", male=0)
 plot(x=age_seq, y=apply(preds, 2, median), ylim=c(0,max(preds)), type="l", col="slategray", lwd=2)
 
 shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray", 0.15))
 #shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray", 0.1))
 #shade(apply(preds, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray", 0.1))
 
-preds <- pred_fun(age=age_seq, resp="S_returns", male=1)
+preds <- pred_fun(age=age_seq, resp="returns", male=1)
 lines(x=age_seq, y=apply(preds, 2, median), col="orange", lwd=2)
 shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("orange", 0.15))
 #shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("orange", 0.1))

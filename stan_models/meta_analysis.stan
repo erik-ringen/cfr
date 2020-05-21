@@ -5,7 +5,7 @@ data{
   int outcome[N]; // index of which outcome
   int outcome_var[N]; // index, whether outcome has known variance
   int sex_diff[N]; // index, whether it is possible to estiamte sex diff
-  int male[N]; // indicator whether forager is female (0), male (1), or unknown (2 for unknown proportion)
+  real male[N]; // probability male forager
   int id_diff[N]; // index, whether it is possible to estimate individual diff
   int id[N]; // index of individual id
   vector[N] age; // mean age
@@ -84,14 +84,19 @@ transformed parameters{
     real alpha;
     
     for (q in 1:2) {
+      
+    int ticker = 0;
     // growth rate k
-    k[q] = exp( a_k[s,q] + outcome_v[outcome[i],(1 + q - 1)] + outcome_v[outcome[i],(3 + q - 1)]*(s-1) );
+    k[q] = exp( a_k[s,q] + outcome_v[outcome[i],(ticker + 1 + q - 1)] + outcome_v[outcome[i],(ticker + 3 + q - 1)]*(s-1) );
+    ticker = ticker + 4; // update index position
     
     // elasticity of growth
-    b[q] = exp( a_b[s,q] + outcome_v[outcome[i],(1 + q - 1)] + outcome_v[outcome[i],(3 + q - 1)]*(s-1) );
+    b[q] = exp( a_b[s,q] + outcome_v[outcome[i],(ticker + 1 + q - 1)] + outcome_v[outcome[i],(ticker + 3 + q - 1)]*(s-1) );
+    ticker = ticker + 4; // update index position
     
     // elasticity of skill
-    eta[q] = exp( a_eta[s,q] + outcome_v[outcome[i],(1 + q - 1)] + outcome_v[outcome[i],(3 + q - 1)]*(s-1) );
+    eta[q] = exp( a_eta[s,q] + outcome_v[outcome[i],(ticker + 1 + q - 1)] + outcome_v[outcome[i],(ticker + 3 + q - 1)]*(s-1) );
+    ticker = ticker + 4;
     
     // Skill
     S[q] = pow( 1 - exp(-k[q] * age_merged[i]), b[q] );
@@ -99,17 +104,19 @@ transformed parameters{
     // add individual random effects, where appropriate
     if (id[i] > 0 ) {
     // prob foraging success
-    p = exp( a_p[1] + a_p[2]*(s-1) + id_v[id[i],1] + outcome_v[outcome[i],1] + outcome_v[outcome[i],2]*(s-1) );
+    p = exp( a_p[1] + a_p[2]*(s-1) + id_v[id[i],1] + outcome_v[outcome[i],ticker + 1] + outcome_v[outcome[i],ticker + 2]*(s-1) );
+    ticker = ticker + 2;
     
     // expected yield
-    alpha = exp( a_alpha[1] + a_alpha[2]*(s-1) + id_v[id[i],2] + outcome_v[outcome[i],1] + outcome_v[outcome[i],2]*(s-1) );
+    alpha = exp( a_alpha[1] + a_alpha[2]*(s-1) + id_v[id[i],2] + outcome_v[outcome[i],ticker + 1] + outcome_v[outcome[i],ticker + 2]*(s-1) );
     }
     
     else {
-    p = exp( a_p[1] + a_p[2]*(s-1) + outcome_v[outcome[i],1] + outcome_v[outcome[i],2]*(s-1) );
+    p = exp( a_p[1] + a_p[2]*(s-1) + outcome_v[outcome[i],ticker + 1] + outcome_v[outcome[i],ticker + 2]*(s-1) );
+    ticker = ticker + 2;
     
     // expected yield
-    alpha = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],1] + outcome_v[outcome[i],2]*(s-1) );
+    alpha = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],ticker + 1] + outcome_v[outcome[i],ticker + 2]*(s-1) );
     }
     
     }
@@ -160,7 +167,7 @@ model{
   for (i in 1:N) {
     
   // If sex unknown, need to mix over the possibilites
-  if (male[i] == 2) {
+  if (male[i] > 0 && male[i] < 1) {
   vector[2] lp_p; // log prob for foraging success
   vector[2] lp_r; // log prob for foraging return
     
@@ -173,13 +180,13 @@ model{
     lp_p[1] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
     lp_p[2] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
     
-    lp_r[1] = lognormal_lpdf( returns[i] | mu_r[i,1], sd_merged[i] );
-    lp_r[2] = lognormal_lpdf( returns[i] | mu_r[i,2], sd_merged[i] );
+    lp_r[1] = lognormal_lpdf( returns[i] | log(mu_r[i,1]), sd_merged[i] );
+    lp_r[2] = lognormal_lpdf( returns[i] | log(mu_r[i,2]), sd_merged[i] );
   }
   
-  // Mix over male or female with equal prob
-  target += log_mix( 0.5, lp_p[1], lp_p[2] );
-  target += log_mix( 0.5, lp_r[1], lp_r[2] );
+  // Mix over male or female in proportion to their probability
+  target += log_mix( 1 - male[i], lp_p[1], lp_p[2] );
+  target += log_mix( 1 - male[i], lp_r[1], lp_r[2] );
   }
   
   // If sex female
@@ -189,7 +196,7 @@ model{
     else if (returns[i] > 0) {
     
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5   ));
-    returns[i] ~ lognormal( mu_r[i,1], sd_merged[i] );
+    returns[i] ~ lognormal( log(mu_r[i,1]), sd_merged[i] );
     }
   }
   
@@ -200,7 +207,7 @@ model{
     else if (returns[i] > 0) {
       
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5   ));
-    returns[i] ~ lognormal( mu_r[i,2], sd_merged[i] );
+    returns[i] ~ lognormal( log(mu_r[i,2]), sd_merged[i] );
     }
   }
   

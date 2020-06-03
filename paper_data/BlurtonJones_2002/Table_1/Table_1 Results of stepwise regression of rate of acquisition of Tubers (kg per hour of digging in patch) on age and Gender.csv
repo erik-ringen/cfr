@@ -1,0 +1,6 @@
+Step,DependentVariable,n,Variable entered,DeltaR^2,DeltaF,df_1,df_2,pDeltaF,StBetaCoefficients,t,p,95%CIbeta_low,95%CIbeta_high
+A.,kg/hr,68,Age+Age^2,0.275,12.34,2,65,0,1.83,4.2,0,0.064,0.18
+,,,,,,,,,-1.51,-3.44,0.001,-0.002,-0.001
+A.,kg/hr,68,Gender,0.01,0.875,1,64,0.353,-0.104,-0.936,0.353,-0.717,0.26
+B.,kg/hr,46,Age,0.226,12.84,1,44,0.001,0.477,3.59,0.001,0.032,0.113
+B.,kg/hr,46,Gender,0.015,0.872,1,43,0.356,-0.124,-0.934,0.356,-0.733,0.258

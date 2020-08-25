@@ -1,4 +1,4 @@
-﻿ID,Sex,Age,intertidal foraging time (min),fruit foraging time (min),eggs foraging time (min),Number of episodes,intertidal total weight (g),fruit total weight (g),eggs total weight (g),average returns (g)
+ID,Sex,Age,intertidal foraging time (min),fruit foraging time (min),eggs foraging time (min),Number of episodes,intertidal total weight (g),fruit total weight (g),eggs total weight (g),average returns (kcal/observation day)
 1,m,14,255,,39,2,1402,,0,600
 2,m,13,498,85,28,4,1047,2244,7350,3750
 3,m,12,433,,,3,750,,1200,950

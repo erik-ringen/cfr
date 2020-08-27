@@ -9,14 +9,14 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Gurven_2006/fig6a" # temporarily set directory
+temp_dir <- "paper_data/BliegeBird_2002a/fig1a" # temporarily set directory
 
 ### Pre-lim: digitize figure data
-# metaDigitise(temp_dir)
+#metaDigitise(temp_dir)
 
-# workflow: no groups needed, simply select all points
+# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
 
-# saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/fig6a.rds"))
+#saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/fig1a.rds"))
 
 #################################
 setwd(temp_dir)
@@ -24,49 +24,48 @@ setwd(temp_dir)
 paper_name <- strsplit(temp_dir, split="/", fixed=T)[[1]][2]
 paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 
-d_list <- readRDS(paste0(paper_section, ".rds"))
+d_list <- readRDS("fig1a.rds")
 
 #### Step 1: Wrangle data ########
-d <- bind_rows(d_list$scatterplot) %>% select(x,y)
-colnames(d)[1] <- "age"
+d <- bind_rows( d_list$scatterplot$`fig1a. age effects on large hook beach fishing efficiency.png`  ) %>% select(x, y)
+
+colnames(d)[1] <- unique(d_list$scatterplot$`fig1a. age effects on large hook beach fishing efficiency.png`$x_variable)
+#colnames(d)[2] <- unique(d_list$scatterplot$`fig1a. age effects on large hook beach fishing efficiency.png`$y_variable)
+
+# Get sex labels
+d$sex <- NA
 
 #create ids
 d$id <- 1:nrow(d)
 
-# Returns that are within small margin of 0 are actually zero-return
-d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
-
-# All are male
-d$sex <- "male"
-
 # Get average returns of adults, sex-specific
 adult_avg <- d %>% 
-  filter(age > 20) %>% 
-  group_by(sex) %>%
-    summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
+  filter(Age >= 20) %>% 
+  summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
+
+
 
 # bring in age to main df
-d <- left_join(d, adult_avg)
+d [, 5:7] <- adult_avg
 
 # filter out individuals above age 20
-d <- filter(d, age <= 20)
+d <- filter(d, Age <= 20)
 
 ##################################
 
-d_fin <- data.frame(study = rep( paper_name, nrow(d)))
 ##################################
 #### Step 3: Add meta-data and additional covariate information
-#d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_")
+d_fin <- data.frame(study = rep( paper_name, nrow(d)))
+d_fin$outcome <- paste(d_fin$study, 1, sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d$sex # "female", "male", or "both"
-d_fin$age <- d$age 
+d_fin$age <- d$Age 
 d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "meat" # what type of foraging resource
-d_fin$units <- "kcal/hr"
+d_fin$resource <- "shellfish" # what type of foraging resource
+d_fin$units <- "net kcal/hr" # whether the rate is per hour (hr), per day, or other
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

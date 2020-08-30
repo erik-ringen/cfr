@@ -20,3 +20,8 @@ ISSUES
 -BliegeBird_2002a Fig2 and table
 	Error reported as CI98. SD calculated as SD = sqr(N) * (upper limit - lower limit)/3.92. This is a reliable calculation for sample sizes above 100 per group, hence not in this case. But we can compare the measure with the one in the table.
 	Hence, better to use the data presented in the associated table (and the r script for those) instead of the figure
+
+-BliegeBird_2002a Fig5c
+	Subset of figures 5a and b for children and teenagers, so probably redundant.
+	Declared sample size is 15, but only 13 data points found.
+	Adult averages and sd can be constructed from fig 5a and b, but probably not worth it, because data are repeated.

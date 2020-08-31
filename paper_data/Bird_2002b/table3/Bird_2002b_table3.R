@@ -29,7 +29,7 @@ d_fin <- d_wide
 ##################################
 #### Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, d_fin$`Prey Type`, sep="_") # 7 outcomes in total, different shellfish
+d_fin$outcome <- paste(d_fin$study, 3, d_fin$`Prey Type`, sep="_") # 7 outcomes in total, different shellfish
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- "both" # "female", "male", or "both"
 d_fin$age <- NA # no mean age given

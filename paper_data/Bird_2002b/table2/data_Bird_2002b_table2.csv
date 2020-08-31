@@ -1,10 +1,10 @@
 study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
-Bird_2002b,Bird_2002b_Hippopus,NA,both,NA,interval,NA,5,15,shellfish,item/hr,1.02,1.3606983501129117,6.73,11.037603906645682,1.61
-Bird_2002b,Bird_2002b_Tridacna spp.,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.8,1.6565023392678926,2.15,3.564940392208543,0.52
-Bird_2002b,Bird_2002b_Trochus (lg),NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.2,0.7099295739719539,0.2,3.564940392208543,0.52
-Bird_2002b,Bird_2002b_Lambis,NA,both,NA,interval,NA,5,15,shellfish,item/hr,7.24,6.685170154902566,19.6,18.990163243110892,2.77
-Bird_2002b,Bird_2002b_Cypraea,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.71,3.4313262741977772,2.65,9.32369025654542,1.36
-Bird_2002b,Bird_2002b_Trochus (sm),NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.61,1.4198591479439078,0,0,0
-Bird_2002b,Bird_2002b_Strombus,NA,both,NA,interval,NA,5,15,shellfish,item/hr,4,6.034401378761609,1.56,4.250505852248647,0.62
-Bird_2002b,Bird_2002b_Trid. crocea,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.08,0.2958039891549808,0.02,0.13711309200802088,0.02
-Bird_2002b,Bird_2002b_Trid. gigas,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0,0,0.34,1.3025743740761984,0.19
+Bird_2002b,Bird_2002b_2_Hippopus,NA,both,NA,interval,NA,5,15,shellfish,item/hr,1.02,1.3606983501129117,6.73,11.037603906645682,1.61
+Bird_2002b,Bird_2002b_2_Tridacna spp.,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.8,1.6565023392678926,2.15,3.564940392208543,0.52
+Bird_2002b,Bird_2002b_2_Trochus (lg),NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.2,0.7099295739719539,0.2,3.564940392208543,0.52
+Bird_2002b,Bird_2002b_2_Lambis,NA,both,NA,interval,NA,5,15,shellfish,item/hr,7.24,6.685170154902566,19.6,18.990163243110892,2.77
+Bird_2002b,Bird_2002b_2_Cypraea,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.71,3.4313262741977772,2.65,9.32369025654542,1.36
+Bird_2002b,Bird_2002b_2_Trochus (sm),NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.61,1.4198591479439078,0,0,0
+Bird_2002b,Bird_2002b_2_Strombus,NA,both,NA,interval,NA,5,15,shellfish,item/hr,4,6.034401378761609,1.56,4.250505852248647,0.62
+Bird_2002b,Bird_2002b_2_Trid. crocea,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0.08,0.2958039891549808,0.02,0.13711309200802088,0.02
+Bird_2002b,Bird_2002b_2_Trid. gigas,NA,both,NA,interval,NA,5,15,shellfish,item/hr,0,0,0.34,1.3025743740761984,0.19

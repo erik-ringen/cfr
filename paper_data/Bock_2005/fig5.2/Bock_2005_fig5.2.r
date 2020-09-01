@@ -9,44 +9,53 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Crittenden_2013/Table_1/" # temporarily set directory
+temp_dir <- "paper_data/Bock_2005/fig5.2" # temporarily set directory
 
+### Pre-lim: digitize figure data
+#metaDigitise(temp_dir)
+
+# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
+
+#saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/fig5.2.rds"))
+
+#################################
 setwd(temp_dir)
 
 paper_name <- strsplit(temp_dir, split="/", fixed=T)[[1]][2]
 paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 
-d_raw <- read.csv("Table_1 Average daily returns for individual foragers.csv")
+d_list <- readRDS("fig5.2.rds")
 
 #### Step 1: Wrangle data ########
-d <- select(d_raw, Forager)
+d <- bind_rows( d_list$'fig5.2.fishing returns by age for girls. Each point represents the average return rate for a girl over the study period. n=16, R2=0.5468.png'  ) %>% select( x, y)
 
-d$age <- d_raw$Age
-d$sex <- ifelse (d_raw$Sex..1...male..2...female == 1, "male", "female")
-d$return <- d_raw$Average.kcal.collected.per.foraging.day
+colnames(d)[1] <-  c ( "age")
 
-#make ID
-d$id <- ifelse (d$sex == "female", 
-                paste( "f", d$Forager, sep = ""),
-                paste( "m", d$Forager, sep = ""))
 
-##################################
-#rearrange columns
-d_fin <- d [, c(5, 2, 3, 4)]
+#IDs
+d$id <- 1:nrow(d)
+
+
+#negative and very low value as zero
+d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
+
+#round ages (as ages are all close to round numbers, I assume variation comes from errors in clicking on the dots)
+d$age <- round(d$age)
 
 ##################################
 #### Step 3: Add meta-data and additional covariate information
-d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, 3, sep="_") # total kcal/hr outcome, 1997 data
+d_fin <- data.frame(study = rep( paper_name, nrow(d)))
+d_fin$outcome <- paste(d_fin$study, "f5.2", sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
+d_fin$sex <- "female" # "female", "male", or "both"
+d_fin$age <- d$age 
 d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "fruit;birds;tubers;honey;small_game;vegetables" # what type of foraging resource
-d_fin$units <- "tot kcal/day" # whether the rate is per hour (hr), per day, or other
-d_fin$raw_return <- d$return
+d_fin$resource <- "fish" # what type of foraging resource
+d_fin$units <- "kcal/h" # whether the rate is per hour (hr), per day, or other
+d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- NA
 d_fin$adult_sd <- NA
@@ -59,3 +68,4 @@ d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 
 setwd(home)
+#################################

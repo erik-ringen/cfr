@@ -42,4 +42,15 @@ ISSUES ILARIA
 -BlurtonJones_1989 table2
 	makalita and //ekwa tubers have been summed into tubers
 	adult values only for fruits, maybe for tubers can be obtained from table4?
-	
+
+-BlurtonJones_1997 
+	figure 1 and 2 have data from multiple years. Some individuals are repeated, but no info is given, so they are treated as independent data
+
+-Bock_2005
+	extracted data from fig 5.2 only, I don't know how to deal with the regressions :/
+
+-Froehle_2018
+	data extracted only from fig 5b and table4, as the rest did seem redundant. Actually, probably fig5b is also redundant, as the most detailed, trip-level data are presented in table 4
+
+-Hagino_2016
+	data are quite poor: no error given, data are total weight over 6 days, either children or adults have zero returns in every item. Seems to suggest that children and adults hunt different things, more than difference in efficiency/success

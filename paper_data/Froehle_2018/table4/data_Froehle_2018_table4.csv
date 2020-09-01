@@ -1,0 +1,14 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M1,Male,14,NA,NA,NA,NA,NA,kcal/h,744.7619047619047,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M2,Male,12,NA,NA,NA,NA,NA,kcal/h,3236.363636363636,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M3,Male,10,NA,NA,NA,NA,NA,kcal/h,368.75,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M3,Male,10,NA,NA,NA,NA,NA,kcal/h,1635.7692307692307,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M3,Male,10,NA,NA,NA,NA,NA,kcal/h,876.6666666666667,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M4,Male,10,NA,NA,NA,NA,NA,kcal/h,250,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_M4,Male,10,NA,NA,NA,NA,NA,kcal/h,508.94736842105266,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_F1,Female,10,NA,NA,NA,NA,NA,kcal/h,468.71794871794873,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_F1,Female,10,NA,NA,NA,NA,NA,kcal/h,230.35714285714286,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_F2,Female,9,NA,NA,NA,NA,NA,kcal/h,760.3030303030304,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_F3,Female,9,NA,NA,NA,NA,NA,kcal/h,316,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_F4,Female,6,NA,NA,NA,NA,NA,kcal/h,371,NA,NA,NA,NA
+Froehle_2018,Froehle_2018_t4,Froehle_2018_t4_F5,Female,5,NA,NA,NA,NA,NA,kcal/h,76,NA,NA,NA,NA

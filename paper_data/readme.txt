@@ -54,3 +54,7 @@ ISSUES ILARIA
 
 -Hagino_2016
 	data are quite poor: no error given, data are total weight over 6 days, either children or adults have zero returns in every item. Seems to suggest that children and adults hunt different things, more than difference in efficiency/success
+
+-Walker_2002 fig1_a and b
+	average adult return separate by decade of data collection
+	fig 2b has same data as 2a, but for connected individual across decades. Subsetting to age<20 hides the connections, of course. Average adult values calculated for the whole sample

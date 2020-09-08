@@ -58,3 +58,17 @@ ISSUES ILARIA
 -Walker_2002 fig1_a and b
 	average adult return separate by decade of data collection
 	fig 2b has same data as 2a, but for connected individual across decades. Subsetting to age<20 hides the connections, of course. Average adult values calculated for the whole sample
+
+-Hawkes_1995 Table 2 and 4
+	combined together to use age and sex information per child from the first, and returns from the other
+	resources not combined. Each type of fruit or tuber is treated separately
+
+-Hawkes_1995 table 5 
+	assumed age composition from table 2 - so age interval, mean and sd entered from that table
+
+-Hawkes_1995 table 6
+	all the measures are for tafabe, a berry
+	presents several correlated measures- to decide whether to bring them all on or chose only one (e.g. calories picked in a certain amount of time (tin measured), calories remaining in the stash even after people eat the berries while picking, consumed calories, proportion of picked berries stashed, insted of being eaten)
+	also assumed age composition from table 2 - so age interval, mean and sd entered from that table
+	check that the way I combined standard errors of adults to compare children values is correct
+

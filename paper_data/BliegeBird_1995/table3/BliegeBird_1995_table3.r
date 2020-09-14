@@ -17,6 +17,10 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d <- read_csv("table3. summary of total foraging returns by individual.csv")
 
 #### Step 1: Wrangle data ########
+d$Sex <- ifelse( d$Sex == "f", "female", "male")
+
+#recalculate weights per hour
+d_recal <- d
 
 #ATTENTION: Notes on time from Caption: Foraging time includes travel, search and handling (harvesting and field processing)
 #Egg time does not include travel time to the patch, which was shared with travel to the intertidal patch
@@ -27,8 +31,6 @@ d <- read_csv("table3. summary of total foraging returns by individual.csv")
 add_times <- c(161, 161, NA, NA, 103, NA, NA, 58, NA, NA, NA, NA)
 d_recal [, 6] <- d_recal [, 6] + add_times
 
-#recalculate weights per hour
-d_recal <- d
 d_recal [, 4:6] <- d_recal [, 4:6] / 60 #duration of trips in hours
 d_recal <- d_recal %>% 
   rename( `intertidal foraging time (h)` = `intertidal foraging time (min)`,
@@ -69,6 +71,8 @@ d_long <- d_recal %>%
 #extract units
 d_long$units <- str_extract(string = d_long$data_type,
                             pattern = "(?<=\\().*(?=\\))")
+d_long$units <- gsub("kcal/observation day", "kcal/day", d_long$units )
+
 #extract resource type
 d_long$resource <- word(d_long$data_type, 1)
 d_long$resource <- gsub("intertidal", "shellfish", d_long$resource )
@@ -81,8 +85,8 @@ d_fin <- data.frame(study = rep( paper_name, nrow(d_long)))
 ##################################
 #### Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, d_long$`data_type`, sep="_") # 7 outcomes in total, different shellfish
-d_fin$id <- paste(d_fin$outcome, d_long$ID, sep="_") # study *  outcome * individual, if data are individual rather than group-level
+d_fin$outcome <- paste(d_fin$study, paper_section, d_long$`data_type`, sep="_") # 7 outcomes in total, different shellfish
+d_fin$id <- paste(d_fin$study, paper_section, d_long$ID, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d_long$Sex # "female", "male", or "both"
 d_fin$age <- d_long$Age # no mean age given
 d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 

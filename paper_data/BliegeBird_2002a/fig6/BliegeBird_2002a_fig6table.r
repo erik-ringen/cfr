@@ -58,9 +58,9 @@ d_select <- d[ 1:3, ]
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d_select)))
-d_fin$outcome <- paste(d_fin$study, 6, sep="_") # total kcal/hr outcome, 1997 data
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- NA # "female", "male", or "both"
+d_fin$sex <- "both" # "female", "male", or "both"
 d_fin$age <- NA 
 d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given

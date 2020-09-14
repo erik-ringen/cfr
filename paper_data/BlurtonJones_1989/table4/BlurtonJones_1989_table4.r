@@ -39,7 +39,7 @@ d$Age <- str_extract(string = d$ID,
 # Get average returns of adults
 adult_avg <- d %>% 
   filter(Age >= 20 | is.na(Age)) %>% 
-  summarise(mean_adults=mean(kg.h), sd_adults=sd(kg.h), n_adults=n())
+  summarise(mean_adults=mean(g.h), sd_adults=sd(g.h), n_adults=n())
 
 # bring in age to main df
 
@@ -53,7 +53,7 @@ d <- filter(d, Age <= 20)
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, 2, sep="_") #
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") #
 d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- "female" # "female", "male", or "both"
 d_fin$age <- d$Age

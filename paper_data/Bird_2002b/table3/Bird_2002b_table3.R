@@ -29,16 +29,16 @@ d_fin <- d_wide
 ##################################
 #### Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, 3, d_fin$`Prey Type`, sep="_") # 7 outcomes in total, different shellfish
+d_fin$outcome <- paste(d_fin$study, paper_section, d_fin$`Prey Type`, sep="_") # 7 outcomes in total, different shellfish
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- "both" # "female", "male", or "both"
+d_fin$sex <- 16/(16+19) # 16 males, 19 females
 d_fin$age <- NA # no mean age given
 d_fin$age_error <- "interval" # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- 5 # only if interval ages given
 d_fin$age_upper <- 15 # only if interval ages given
 d_fin$resource <- "shellfish" # what type of foraging resource
-d_fin$units <- "kcal/hr" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "kcal/h" # whether the rate is per hour (hr), per day, or other
 d_fin$raw_return <- d_wide$`Mean e/h_child`
 d_fin$raw_sd <- d_wide$SE_child * sqrt(d_wide$`n (loads processed)_child`)
 d_fin$adult_return <- d_wide$`Mean e/h_adult`

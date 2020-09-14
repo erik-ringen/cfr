@@ -41,8 +41,8 @@ d$sex <- NA
 d$id <- NA
 
 #add age bounds
-d$age_lower <- c (0, 15) # only if interval ages given
-d$age_upper <- c (14, 65) # only if interval ages given
+d$age_lower <- c (5, 16) # only if interval ages given
+d$age_upper <- c (15, 65) # only if interval ages given
 
 ##################################
 #calculate SD from confidence intervals
@@ -53,7 +53,7 @@ d$sd <- sqrt(d[,"n"]) * ( d[,"error"]/ c(5.552, 4.612))
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study =  paper_name)
-d_fin$outcome <- paste(d_fin$study, 4, sep="_") # total kcal/hr outcome, 1997 data
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- "both" # "female", "male", or "both"
 d_fin$age <- NA 
@@ -61,8 +61,8 @@ d_fin$age_error <- NA # information on distribution of ages (sd), or just a rang
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- d$age_lower[1] # only if interval ages given
 d_fin$age_upper <- d$age_upper[1] # only if interval ages given
-d_fin$resource <- "shellfish" # what type of foraging resource
-d_fin$units <- "net kcal/hr" # whether the rate is per hour (hr), per day, or other
+d_fin$resource <- "fish" # what type of foraging resource
+d_fin$units <- "net kcal/h" # all data in paper defined as "efficiency", hence net
 d_fin$raw_return <- d$mean[1]
 d_fin$raw_sd <- d$sd[1] 
 d_fin$adult_return <- d$mean[2]

@@ -1,33 +1,33 @@
 study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_1,m,14,NA,NA,NA,NA,shellfish,g/h,329.88235294117646,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_eggs total weight (g/h),BliegeBird_1995_eggs total weight (g/h)_1,m,14,NA,NA,NA,NA,eggs,g/h,0,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_1,m,14,NA,NA,NA,NA,mixed,kcal/observation day,600,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_2,m,13,NA,NA,NA,NA,shellfish,g/h,126.144578313253,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_2,m,13,NA,NA,NA,NA,fruit,g/h,1584,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_eggs total weight (g/h),BliegeBird_1995_eggs total weight (g/h)_2,m,13,NA,NA,NA,NA,eggs,g/h,15750,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_2,m,13,NA,NA,NA,NA,mixed,kcal/observation day,3750,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_3,m,12,NA,NA,NA,NA,shellfish,g/h,103.92609699769054,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_3,m,12,NA,NA,NA,NA,mixed,kcal/observation day,950,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_4,m,11,NA,NA,NA,NA,shellfish,g/h,357.98507462686564,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_4,m,11,NA,NA,NA,NA,fruit,g/h,1261.5384615384614,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_4,m,11,NA,NA,NA,NA,mixed,kcal/observation day,704,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_5,m,7,NA,NA,NA,NA,shellfish,g/h,187.33333333333334,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_5,m,7,NA,NA,NA,NA,fruit,g/h,204.70588235294116,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_eggs total weight (g/h),BliegeBird_1995_eggs total weight (g/h)_5,m,7,NA,NA,NA,NA,eggs,g/h,4615.384615384615,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_5,m,7,NA,NA,NA,NA,mixed,kcal/observation day,771,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_6,m,9,NA,NA,NA,NA,mixed,kcal/observation day,495,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_7,m,6,NA,NA,NA,NA,shellfish,g/h,19.736842105263158,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_7,m,6,NA,NA,NA,NA,mixed,kcal/observation day,20,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_8,f,11,NA,NA,NA,NA,shellfish,g/h,421.7142857142857,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_8,f,11,NA,NA,NA,NA,fruit,g/h,3309.176470588235,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_eggs total weight (g/h),BliegeBird_1995_eggs total weight (g/h)_8,f,11,NA,NA,NA,NA,eggs,g/h,0,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_8,f,11,NA,NA,NA,NA,mixed,kcal/observation day,1130,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_9,f,10,NA,NA,NA,NA,shellfish,g/h,179.4186046511628,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_9,f,10,NA,NA,NA,NA,mixed,kcal/observation day,655,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_10,f,7,NA,NA,NA,NA,fruit,g/h,964.4171779141104,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_10,f,7,NA,NA,NA,NA,mixed,kcal/observation day,655,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_intertidal total weight (g/h),BliegeBird_1995_intertidal total weight (g/h)_11,f,6,NA,NA,NA,NA,shellfish,g/h,5.172413793103448,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_11,f,6,NA,NA,NA,NA,fruit,g/h,384.6153846153846,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_11,f,6,NA,NA,NA,NA,mixed,kcal/observation day,125,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_fruit total weight (g/h),BliegeBird_1995_fruit total weight (g/h)_12,f,3,NA,NA,NA,NA,fruit,g/h,630.7692307692307,NA,NA,NA,NA
-BliegeBird_1995,BliegeBird_1995_average returns (kcal/observation day),BliegeBird_1995_average returns (kcal/observation day)_12,f,3,NA,NA,NA,NA,mixed,kcal/observation day,400,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_1,male,14,NA,NA,NA,NA,shellfish,g/h,329.88235294117646,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_eggs total weight (g/h),BliegeBird_1995_table3_1,male,14,NA,NA,NA,NA,eggs,g/h,0,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_1,male,14,NA,NA,NA,NA,mixed,kcal/day,600,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_2,male,13,NA,NA,NA,NA,shellfish,g/h,126.144578313253,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_2,male,13,NA,NA,NA,NA,fruit,g/h,1584,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_eggs total weight (g/h),BliegeBird_1995_table3_2,male,13,NA,NA,NA,NA,eggs,g/h,2333.3333333333335,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_2,male,13,NA,NA,NA,NA,mixed,kcal/day,3750,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_3,male,12,NA,NA,NA,NA,shellfish,g/h,103.92609699769054,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_3,male,12,NA,NA,NA,NA,mixed,kcal/day,950,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_4,male,11,NA,NA,NA,NA,shellfish,g/h,357.98507462686564,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_4,male,11,NA,NA,NA,NA,fruit,g/h,1261.5384615384614,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_4,male,11,NA,NA,NA,NA,mixed,kcal/day,704,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_5,male,7,NA,NA,NA,NA,shellfish,g/h,187.33333333333334,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_5,male,7,NA,NA,NA,NA,fruit,g/h,204.70588235294116,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_eggs total weight (g/h),BliegeBird_1995_table3_5,male,7,NA,NA,NA,NA,eggs,g/h,517.2413793103448,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_5,male,7,NA,NA,NA,NA,mixed,kcal/day,771,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_6,male,9,NA,NA,NA,NA,mixed,kcal/day,495,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_7,male,6,NA,NA,NA,NA,shellfish,g/h,19.736842105263158,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_7,male,6,NA,NA,NA,NA,mixed,kcal/day,20,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_8,female,11,NA,NA,NA,NA,shellfish,g/h,421.7142857142857,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_8,female,11,NA,NA,NA,NA,fruit,g/h,3309.176470588235,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_eggs total weight (g/h),BliegeBird_1995_table3_8,female,11,NA,NA,NA,NA,eggs,g/h,0,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_8,female,11,NA,NA,NA,NA,mixed,kcal/day,1130,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_9,female,10,NA,NA,NA,NA,shellfish,g/h,179.4186046511628,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_9,female,10,NA,NA,NA,NA,mixed,kcal/day,655,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_10,female,7,NA,NA,NA,NA,fruit,g/h,964.4171779141104,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_10,female,7,NA,NA,NA,NA,mixed,kcal/day,655,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_intertidal total weight (g/h),BliegeBird_1995_table3_11,female,6,NA,NA,NA,NA,shellfish,g/h,5.172413793103448,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_11,female,6,NA,NA,NA,NA,fruit,g/h,384.6153846153846,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_11,female,6,NA,NA,NA,NA,mixed,kcal/day,125,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_fruit total weight (g/h),BliegeBird_1995_table3_12,female,3,NA,NA,NA,NA,fruit,g/h,630.7692307692307,NA,NA,NA,NA
+BliegeBird_1995,BliegeBird_1995_table3_average returns (kcal/observation day),BliegeBird_1995_table3_12,female,3,NA,NA,NA,NA,mixed,kcal/day,400,NA,NA,NA,NA

@@ -36,6 +36,10 @@ d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
 # Round ages to get rid of clicking-variance
 d$age <- round(d$age)
 
+#add ID
+
+d$id <- 1:nrow(d)
+
 ##################################
 
 d_fin <- d
@@ -43,14 +47,14 @@ d_fin <- d
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
 d_fin$outcome <- paste(d_fin$study, paper_section, sep="_")
-d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- 12/26 # 12/26 kids were male
 d_fin$age_error <- "none" # information on distribution of ages (sd), or just a range (interval)? 
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "lizards" # what type of foraging resource
-d_fin$units <- "kcal/hr"
+d_fin$resource <- "game" # lizards
+d_fin$units <- "kcal/h"
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- 1102.1 # adult avg 1102.1 +- 276.5

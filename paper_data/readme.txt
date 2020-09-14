@@ -11,8 +11,12 @@ ISSUES ILARIA
 	103 to boy 5, 58 to girl 8
 
 -BliegeBird_2002a 
-	Many figures show the same data. Attention to repeated samples.
 	I bypassed Tables 2, 3, 5. Can we extract data from these to compare with the raw data from other papers?
+	Many figures show the same data. Attention to repeated samples.
+	in detail:
+		-Fig 1a, 1b and 2 all report beach fishing efficiency.  Not clear what's the difference among them. Maybe worth using only fig 1a?
+		-fig 3 and 4 both report spearfishing efficiency. suggest to use fig 3 with data points
+		-fig 5 a, b, c all are shellfishing efficiency. a and b are divided by sex, while c is a subset of the children and I think can be ignored
 
 -BliegeBird_2002a Fig1a 
 	y values are Residual overall returns (Kcal/hr+travel)
@@ -41,7 +45,7 @@ ISSUES ILARIA
 
 -BlurtonJones_1989 table2
 	makalita and //ekwa tubers have been summed into tubers
-	adult values only for fruits, maybe for tubers can be obtained from table4?
+	adult values only for fruits, but added for tubers can be obtained from table4. Check whether it's ok
 
 -BlurtonJones_1997 
 	figure 1 and 2 have data from multiple years. Some individuals are repeated, but no info is given, so they are treated as independent data

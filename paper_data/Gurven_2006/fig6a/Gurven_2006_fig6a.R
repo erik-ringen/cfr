@@ -65,8 +65,8 @@ d_fin$age_error <- NA # information on distribution of ages (sd), or just a rang
 d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "meat" # what type of foraging resource
-d_fin$units <- "kcal/hr"
+d_fin$resource <- "game" # what type of foraging resource
+d_fin$units <- "kcal/h"
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

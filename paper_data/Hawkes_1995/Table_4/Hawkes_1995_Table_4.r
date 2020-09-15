@@ -14,9 +14,10 @@ setwd(temp_dir)
 paper_name <- strsplit(temp_dir, split="/", fixed=T)[[1]][2]
 paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 
-dd <- read.csv("../Table_2/Table_2 Time allocation to food acqiusition and processing in or near camp by focal child.csv")
+#load tables
 d <- read.csv("Table_4 Children's acquisition and stashing rates.csv")
-
+dd <- read.csv("../Table_2/Table_2 Time allocation to food acqiusition and processing in or near camp by focal child.csv")
+d_a <- read.csv("../Table_5/data_Hawkes_1995_Table_5.csv")
 #### Step 1: Wrangle data ########
 
 dd <- dd[ 1:nrow(dd)-1,]
@@ -38,11 +39,21 @@ d_all$resource_type <- ifelse(grepl( "Makalita" ,d_all$resource),'tubers',
 ##################################
 
 d_all <- d_all[!is.na(d_all$mean),]
+
+
+#####################################
+#add adult values for tafabe and ondishibe
+d_all[ which (d_all$resource == "tin_measured_Ondishibe_rates_g.h" & d_all$Sex == "female"), 9:11] <- d_a[ 1, 14:16]
+d_all[ which (d_all$resource == "tin_measured_Ondishibe_rates_g.h" & d_all$Sex == "male"), 9:11] <- d_a[ 2, 14:16]
+d_all[ which (d_all$resource == "tin_measured_Tafabe_rates_g.h" & d_all$Sex == "female"), 9:11] <- d_a[ 4, 14:16]
+d_all[ which (d_all$resource == "tin_measured_Tafabe_rates_g.h" & d_all$Sex == "male"), 9:11] <- d_a[ 5, 14:16]
+
+
 ##################################
 #### Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d_all)))
-d_fin$outcome <- paste(d_fin$study,  d_all$resource, sep="_") # 
-d_fin$id <-  paste(d_fin$outcome, d_all$Child, sep="_") # study *  outcome * individual, if data are individual rather than group-level
+d_fin$outcome <- paste(d_fin$study, paper_section, d_all$resource, sep="_") # 
+d_fin$id <-  paste(d_fin$study, d_all$Child, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d_all$Sex # "female", "male", or "both"
 d_fin$age <- d_all$Estimated_age # no mean age given
 d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
@@ -53,9 +64,9 @@ d_fin$resource <- d_all$resource_type # what type of foraging resource
 d_fin$units <- "g/h" # whether the rate is per hour (hr), per day, or other
 d_fin$raw_return <- d_all$mean
 d_fin$raw_sd <- d_all$S.E. * sqrt(d_all$n)
-d_fin$adult_return <- NA 
-d_fin$adult_sd <- NA
-d_fin$adult_se <- NA
+d_fin$adult_return <- d_all$adult_return
+d_fin$adult_sd <- d_all$adult_sd
+d_fin$adult_se <- d_all$adult_se
 
 ##################################
 #### Step 4: Export outcome csv for further processing 

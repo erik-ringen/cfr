@@ -1,14 +1,14 @@
 study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b1,0.46153846153846156,5,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,90110.18251665037,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b2,0.46153846153846156,9,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,49945.051158551505,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b3,0.46153846153846156,6,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,415040.47578504897,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b4,0.46153846153846156,10,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,2049074.6898158544,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b5,0.46153846153846156,10,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,16446761.779946694,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b6,0.46153846153846156,10,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,65931882.713335685,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b7,0.46153846153846156,9,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,46595256.68664706,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b8,0.46153846153846156,14,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,78428220.61337714,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b9,0.46153846153846156,10,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,114895100.01873156,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b10,0.46153846153846156,10,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,132008840.08314276,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b11,0.46153846153846156,10,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,361234269.97094524,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b12,0.46153846153846156,14,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,629498899.0221914,NA,NA,NA,NA
-Crittenden_2013,Crittenden_2013_f2,Crittenden_2013_f2_b13,0.46153846153846156,6,NA,NA,NA,NA,fruit;birds;tubers;honey;small_game;vegetables,tot kcal/day,400880.6328898481,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b1,0.46153846153846156,5,NA,NA,NA,NA,mixed,kcal/day,90110.18251665037,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b2,0.46153846153846156,9,NA,NA,NA,NA,mixed,kcal/day,49945.051158551505,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b3,0.46153846153846156,6,NA,NA,NA,NA,mixed,kcal/day,415040.47578504897,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b4,0.46153846153846156,10,NA,NA,NA,NA,mixed,kcal/day,2049074.6898158544,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b5,0.46153846153846156,10,NA,NA,NA,NA,mixed,kcal/day,16446761.779946694,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b6,0.46153846153846156,10,NA,NA,NA,NA,mixed,kcal/day,65931882.713335685,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b7,0.46153846153846156,9,NA,NA,NA,NA,mixed,kcal/day,46595256.68664706,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b8,0.46153846153846156,14,NA,NA,NA,NA,mixed,kcal/day,78428220.61337714,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b9,0.46153846153846156,10,NA,NA,NA,NA,mixed,kcal/day,114895100.01873156,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b10,0.46153846153846156,10,NA,NA,NA,NA,mixed,kcal/day,132008840.08314276,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b11,0.46153846153846156,10,NA,NA,NA,NA,mixed,kcal/day,361234269.97094524,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b12,0.46153846153846156,14,NA,NA,NA,NA,mixed,kcal/day,629498899.0221914,NA,NA,NA,NA
+Crittenden_2013,Crittenden_2013_Fig_2,Crittenden_2013_Fig_2_b13,0.46153846153846156,6,NA,NA,NA,NA,mixed,kcal/day,400880.6328898481,NA,NA,NA,NA

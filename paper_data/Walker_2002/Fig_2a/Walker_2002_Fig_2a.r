@@ -58,7 +58,7 @@ d <- filter(d, age <= 20)
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, 1, sep="_") # total kcal/hr outcome, 1997 data
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- paste(d_fin$outcome, d$decade, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- "male" # "female", "male", or "both"
 d_fin$age <- d$age 

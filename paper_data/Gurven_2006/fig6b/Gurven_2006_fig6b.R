@@ -44,10 +44,10 @@ adult_avg <- d %>%
   filter(x >= 20) %>% 
     summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
 
-# bring in age to main df
+# bring in age and adult values to main df
 d <- left_join(d, age_avg)
 
-d <- left_join(d, adult_avg)
+d [ ,6:8] <- adult_avg
 
 # filter out individuals above age 20
 d <- filter(d, age <= 20)
@@ -58,7 +58,7 @@ d_fin <- d
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, 2, sep="_") # total kcal/hr outcome, 1997 data
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d$sex # "female", "male", or "both"
 d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
@@ -66,7 +66,7 @@ d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- NA # only if interval ages given
 d_fin$age_upper <- NA # only if interval ages given
 d_fin$resource <- "game" # what type of foraging resource
-d_fin$units <- "cal/hr" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "kcal/h" # written in data as cal/h but assumed to be a mistake
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

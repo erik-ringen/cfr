@@ -36,6 +36,9 @@ d$age_lower <- rep( c(6, 15, 25, 35, 45), each=3 )
 # All are female
 d$sex <- "female"
 
+#transform kg into grams for comparability
+d[ ,2:4] <- d[ ,2:4]*1000
+
 # Get average returns of adults for each resource. Need to estimate pooled SD
 adult_avg <- d %>% 
   filter(age_lower > 20) %>% 
@@ -57,7 +60,7 @@ d_fin <- d
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, d_fin$resource, sep="_")
+d_fin$outcome <- paste(d_fin$study, paper_section, d_fin$resource, sep="_")
 d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d$sex # "female", "male", or "both"
 d_fin$age <- NA
@@ -66,7 +69,7 @@ d_fin$age_sd <- NA  # only if sd of ages is given
 d_fin$age_lower <- d_fin$age_lower # only if interval ages given
 d_fin$age_upper <- d_fin$age_upper # only if interval ages given
 d_fin$resource <- c("roots", "roots", "fruit") # what type of foraging resource
-d_fin$units <- "kilos/hr"
+d_fin$units <- "g/h"
 d_fin$raw_return <- d_fin$mean
 d_fin$raw_sd <- d_fin$sd
 d_fin$adult_return <- d$mean_adult

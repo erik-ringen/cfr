@@ -106,7 +106,7 @@ d_all <- d_all[ which(is.na(d_all$estimated)), ]#removes estimated proportion of
 ##################################
 #### Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d_all)))
-d_fin$outcome <- paste(d_fin$study,  6, d_all$resource, sep="_") # 
+d_fin$outcome <- paste(d_fin$study,  paper_section, d_all$resource, sep="_") # 
 d_fin$id <-  NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d_all$sex # "female", "male", or "both"
 d_fin$age <- d_all$age_mean # no mean age given

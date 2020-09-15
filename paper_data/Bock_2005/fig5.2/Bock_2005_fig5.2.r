@@ -45,7 +45,7 @@ d$age <- round(d$age)
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, "f5.2", sep="_") # total kcal/hr outcome, 1997 data
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
 d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- "female" # "female", "male", or "both"
 d_fin$age <- d$age 

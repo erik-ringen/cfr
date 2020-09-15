@@ -69,7 +69,7 @@ d_all$age_lower <- rep (
 ##################################
 #### Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d_all)))
-d_fin$outcome <- paste(d_fin$study,  5, d_all$food, sep="_") # 
+d_fin$outcome <- paste(d_fin$study,  paper_section, d_all$food, sep="_") # 
 d_fin$id <-  NA # study *  outcome * individual, if data are individual rather than group-level
 d_fin$sex <- d_all$sex # "female", "male", or "both"
 d_fin$age <- d_all$age_mean # no mean age given

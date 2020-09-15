@@ -17,40 +17,36 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d <- read_csv("table3. summary of total foraging returns by individual.csv")
 
 #### Step 1: Wrangle data ########
+#refine sex
 d$Sex <- ifelse( d$Sex == "f", "female", "male")
 
+#########
 #recalculate weights per hour
-d_recal <- d
-
 #ATTENTION: Notes on time from Caption: Foraging time includes travel, search and handling (harvesting and field processing)
 #Egg time does not include travel time to the patch, which was shared with travel to the intertidal patch
 #since egg collecting occurred within an intertidal foraging episode. To obtain total egg time, add 161 minutes to boy 1 and 2,
 #103 to boy 5, 58 to girl 8.
+d_recal <- d
+
 
 #add travel time to have total egg time, as indicated in caption
 add_times <- c(161, 161, NA, NA, 103, NA, NA, 58, NA, NA, NA, NA)
 d_recal [, 6] <- d_recal [, 6] + add_times
 
-d_recal [, 4:6] <- d_recal [, 4:6] / 60 #duration of trips in hours
+#calclualte duration of trips in hours
+d_recal [, 4:6] <- d_recal [, 4:6] / 60 
 d_recal <- d_recal %>% 
   rename( `intertidal foraging time (h)` = `intertidal foraging time (min)`,
           `fruit foraging time (h)` = `fruit foraging time (min)`,
           `eggs foraging time (h)` = `eggs foraging time (min)`) 
 
-d_recal [, 8:10] <- d_recal [, 8:10] / d_recal [, 4:6] #duration of trips in hours
+#divide returns per time
+d_recal [, 8:10] <- d_recal [, 8:10] / d_recal [, 4:6]
 d_recal <- d_recal %>% 
   rename( `intertidal total weight (g/h)` = `intertidal total weight (g)`,
           `fruit total weight (g/h)` = `fruit total weight (g)`,
           `eggs total weight (g/h)` = `eggs total weight (g)`) 
 
-d_recal <- d_recal %>% 
-  select( "ID" ,
-          "Sex",                                   
-          "Age",
-          "intertidal total weight (g/h)",   
-          "fruit total weight (g/h)",
-          "eggs total weight (g/h)",         
-          "average returns (kcal/observation day)" )
 
 #long data frame
 d_long <- d_recal %>%
@@ -84,17 +80,17 @@ d_long <- d_long[complete.cases(d_long),]
 d_fin <- data.frame(study = rep( paper_name, nrow(d_long)))
 ##################################
 #### Add meta-data and additional covariate information
-d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, paper_section, d_long$`data_type`, sep="_") # 7 outcomes in total, different shellfish
-d_fin$id <- paste(d_fin$study, paper_section, d_long$ID, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d_long$Sex # "female", "male", or "both"
-d_fin$age <- d_long$Age # no mean age given
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- d_long$resource # what type of foraging resource
-d_fin$units <- d_long$units # whether the rate is per hour (hr), per day, or other
+d_fin$study <- paper_name # 
+d_fin$outcome <- paste(d_fin$study, paper_section, d_long$`data_type`, sep="_") # 
+d_fin$id <- paste(d_fin$study, paper_section, d_long$ID, sep="_") # 
+d_fin$sex <- d_long$Sex # 
+d_fin$age <- d_long$Age #
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- d_long$resource # 
+d_fin$units <- d_long$units # rate recalculated for non mixed resources from total g versus total time to g/h
 d_fin$raw_return <- d_long$raw_returns
 d_fin$raw_sd <- NA
 d_fin$adult_return <- NA

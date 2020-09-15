@@ -47,7 +47,7 @@ adult_avg <- d %>%
   group_by(sex) %>%
     summarise(mean_adult=mean(x), sd_adult=sd(x), n_adult=n())
 
-# bring in age to main df
+# bring in age and adult values to main df
 d <- left_join(d, age_avg)
 
 d <- left_join(d, adult_avg)
@@ -62,14 +62,14 @@ d_fin <- d
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
 d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- d$sex # 
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # to check ages, as age is given as rank and not actual age
+d_fin$age_upper <- NA # 
 d_fin$resource <- "mixed" # tubers;small_game;marine
-d_fin$units <- "net kcal/h" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "net kcal/h" # 
 d_fin$raw_return <- d$x
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

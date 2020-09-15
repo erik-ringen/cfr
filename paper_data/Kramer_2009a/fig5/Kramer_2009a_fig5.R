@@ -61,18 +61,18 @@ d_fin <- d
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
 d_fin$outcome <- paste(d_fin$study, paper_section, d_fin$resource, sep="_")
-d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
+d_fin$id <- NA #
+d_fin$sex <- d$sex                                  # all female
 d_fin$age <- NA
-d_fin$age_error <- "interval" # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- d_fin$age_lower # only if interval ages given
-d_fin$age_upper <- d_fin$age_upper # only if interval ages given
-d_fin$resource <- c("roots", "roots", "fruit") # what type of foraging resource
-d_fin$units <- "g/h"
+d_fin$age_error <- "interval" # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- d_fin$age_lower # 
+d_fin$age_upper <- d_fin$age_upper # 
+d_fin$resource <- c("roots", "roots", "fruit") # 
+d_fin$units <- "g/h"                                #transformed from kg
 d_fin$raw_return <- d_fin$mean
 d_fin$raw_sd <- d_fin$sd
-d_fin$adult_return <- d$mean_adult
+d_fin$adult_return <- d$mean_adult                  #adult values include age class with upper limits >20, hence with lower limit <20. to check for consistency with other tables
 d_fin$adult_sd <- d$sd_adult
 d_fin$adult_se <- d_fin$se_adult
 

@@ -17,34 +17,39 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d <- read_csv("Table 2. Collecting Rates, Encounter Rates, and the Selectivity Quotient.csv")
 
 #### Step 1: Wrangle data ########
+
+#rename variables
+## ATTENTION: value reported as plusminus in the table are interpreted as SE, given that is the measure used in the other tables, although this is not stated
 d <- d %>% 
-  rename( SE = LambdaCplusminus ) ## ATTENTION: value reported as plusminus in the table are interpreted as SE, given that is the measure used in the other tables, although this is not stated
+  rename( SE = LambdaCplusminus ) 
 
 d_select <- d %>% 
   select( `Prey Type`, LambdaC, n_follows_LambdaC, SE, age)
 
+#make wide
 d_wide <- d_select %>%
   group_by(`Prey Type`) %>% 
   pivot_wider(names_from = age, values_from = c(`LambdaC`,  n_follows_LambdaC, SE))
 
 # drop prey where there isn't data for both adults and children, no comparison to be made
 d_wide <- d_wide[complete.cases(d_wide),]
+
 ##################################
 
 d_fin <- d_wide
 ##################################
 #### Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, paper_section,  d_fin$`Prey Type`, sep="_") # 7 outcomes in total, different shellfish
+d_fin$outcome <- paste(d_fin$study, paper_section,  d_fin$`Prey Type`, sep="_") # 9 outcomes in total, different shellfish
 d_fin$id <- NA # children are presented as a single group
 d_fin$sex <- 16/(16+19) # 16 male and 19 female;
 d_fin$age <- NA # no mean age given
-d_fin$age_error <- "interval" # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- 5 # only if interval ages given
-d_fin$age_upper <- 15 # only if interval ages given
-d_fin$resource <- "shellfish" # what type of foraging resource
-d_fin$units <- "item/h" # whether the rate is per hour (hr), per day, or other
+d_fin$age_error <- "interval" # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- 5 # 
+d_fin$age_upper <- 15 # 
+d_fin$resource <- "shellfish" # w
+d_fin$units <- "item/h" # 
 d_fin$raw_return <- d_wide$`LambdaC_children`
 d_fin$raw_sd <- d_wide$SE_children * sqrt(d_wide$`n_follows_LambdaC_children`)
 d_fin$adult_return <- d_wide$`LambdaC_adults`

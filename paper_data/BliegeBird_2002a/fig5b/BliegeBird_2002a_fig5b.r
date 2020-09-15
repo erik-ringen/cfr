@@ -29,13 +29,13 @@ d_list <- readRDS("fig5b.rds")
 #### Step 1: Wrangle data ########
 d <- bind_rows( d_list$`Fig5b. Age effects on shellfish collecting efficiency. Middle (men and boys).png`  ) %>% select(x, y)
 
+#rename column
 colnames(d)[1] <- "age"
-
 
 #create ids
 d$id <- 1:nrow(d)
 
-# Get average returns of adults, sex-specific
+# Get average returns of adults
 adult_avg <- d %>% 
   filter(age >= 20) %>% 
   summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
@@ -50,15 +50,15 @@ d <- filter(d, age <= 20)
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- "male" # "female", "male", or "both"
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # 
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- "male" # 
 d_fin$age <- d$age 
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "shellfish" # what type of foraging resource
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "shellfish" # 
 d_fin$units <- "net kcal/hr" # all figures in paper presented as efficiency, hence net
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA

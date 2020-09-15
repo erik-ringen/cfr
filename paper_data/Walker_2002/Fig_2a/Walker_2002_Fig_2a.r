@@ -35,6 +35,7 @@ d$y <- d$y *1000
 # A couple of obs ~0 were registered as negative
 d$y <- ifelse(abs(d$y - 0) < 20, 0, d$y)
 
+#rename variables
 colnames(d)[1:2] <- c("decade", "age")
 
 #get ID column
@@ -47,8 +48,7 @@ adult_avg <- d %>%
   group_by(decade) %>%
     summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
 
-# bring in 
-
+# bring in adult values
 d <- left_join(d, adult_avg)
 
 # filter out individuals above age 20
@@ -58,16 +58,16 @@ d <- filter(d, age <= 20)
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$decade, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- "male" # "female", "male", or "both"
-d_fin$age <- d$age 
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "game" # what type of foraging resource
-d_fin$units <- "g/h" # whether the rate is per hour (hr), per day, or other
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") #
+d_fin$id <- paste(d_fin$outcome, d$decade, d$id, sep="_") # 
+d_fin$sex <- "male" # 
+d_fin$age <- d$age #
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "game" # 
+d_fin$units <- "g/h" # 
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

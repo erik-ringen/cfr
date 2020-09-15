@@ -28,6 +28,8 @@ d_list <- readRDS(paste0(paper_section, ".rds"))
 
 #### Step 1: Wrangle data ########
 d <- bind_rows(d_list$scatterplot) %>% select(x,y)
+
+#rename columns
 colnames(d)[1] <- "age"
 
 #create ids
@@ -45,7 +47,7 @@ adult_avg <- d %>%
   group_by(sex) %>%
     summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
 
-# bring in age to main df
+# bring in adult values to main df
 d <- left_join(d, adult_avg)
 
 # filter out individuals above age 20
@@ -53,20 +55,21 @@ d <- filter(d, age <= 20)
 
 ##################################
 
-d_fin <- data.frame(study = rep( paper_name, nrow(d)))
+
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 #d_fin$study <- paper_name # paper id
+d_fin <- data.frame(study = rep( paper_name, nrow(d)))
 d_fin$outcome <- paste(d_fin$study, paper_section, sep="_")
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- d$sex # "all male
 d_fin$age <- d$age 
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "game" # what type of foraging resource
-d_fin$units <- "kcal/h"
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "game" # 
+d_fin$units <- "kcal/h"     #reported as cal/h but seems on the kcal scale.
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

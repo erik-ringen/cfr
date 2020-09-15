@@ -26,8 +26,11 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 
 d_list <- readRDS("fig6b.rds")
 
+##################################
+#### Step 1: Wrangle data
 d <- bind_rows( d_list$'fig6b.png'  ) %>% select(  id,  mean, error, n)
 
+#give age limits from text
 d$age_lower <- c( 10, 5)
 d$age_upper <- c( 14, 10)
 

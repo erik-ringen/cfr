@@ -28,6 +28,7 @@ d <- read.csv("fig6table.csv")
 
 #### Step 1: Wrangle data ########
 
+#rename columns
 colnames(d)[1:3] <- c ("age_group", "n", "mean_kcal/h")
 
 #add age bounds
@@ -46,28 +47,23 @@ grand.sd   <- function(S, M, N) {sqrt(weighted.mean(S^2 + M^2, N) -
 d_a$adult_return <- grand.mean (d_a$`mean_kcal/h`, d_a$n)
 d_a$adult_sd <- grand.sd (d_a$s.d. , d_a$`mean_kcal/h`, d_a$n)
 
-
-
-##################################
 #select age groups
-
 d_select <- d[ 1:3, ]
 
-##################################
 
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d_select)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- NA # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- "both" # "female", "male", or "both"
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # 
+d_fin$id <- NA # 
+d_fin$sex <- "both" # 
 d_fin$age <- NA 
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- d_select$age_lower # only if interval ages given
-d_fin$age_upper <- d_select$age_upper # only if interval ages given
-d_fin$resource <- "shellfish" # what type of foraging resource
-d_fin$units <- "net kcal/hr" # whether the rate is per hour (hr), per day, or other
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  #
+d_fin$age_lower <- d_select$age_lower # 
+d_fin$age_upper <- d_select$age_upper # 
+d_fin$resource <- "shellfish" # 
+d_fin$units <- "net kcal/hr" # all figures in paper presented as efficiency, hence net
 d_fin$raw_return <- d_select$mean
 d_fin$raw_sd <- d_select$s.d. 
 d_fin$adult_return <- d_a$adult_return[1]

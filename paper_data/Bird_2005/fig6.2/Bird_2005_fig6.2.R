@@ -28,6 +28,8 @@ d_list <- readRDS(paste0(paper_section, ".rds"))
 
 #### Step 1: Wrangle data ########
 d <- bind_rows(d_list$scatterplot) %>% select(x,y)
+
+#rename column
 colnames(d)[1] <- "age"
 
 # Returns that are within small margin of 0 are actually zero-return
@@ -37,7 +39,6 @@ d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
 d$age <- round(d$age)
 
 #add ID
-
 d$id <- 1:nrow(d)
 
 ##################################
@@ -47,18 +48,18 @@ d_fin <- d
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
 d_fin$outcome <- paste(d_fin$study, paper_section, sep="_")
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- 12/26 # 12/26 kids were male
-d_fin$age_error <- "none" # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "game" # lizards
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- 12/26                    # 12/26 kids were male
+d_fin$age_error <- "none" # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "game"              # lizards
 d_fin$units <- "kcal/h"
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
-d_fin$adult_return <- 1102.1 # adult avg 1102.1 +- 276.5
-d_fin$adult_sd <- sqrt(131)*276.5 # 131 adults in sample
+d_fin$adult_return <- 1102.1          # adult avg 1102.1 +- 276.5
+d_fin$adult_sd <- sqrt(131)*276.5     # 131 adults in sample
 d_fin$adult_se <- 276.5
 
 ##################################

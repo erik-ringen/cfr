@@ -21,6 +21,7 @@ d_raw <- read.csv("Table_1 Average daily returns for individual foragers.csv")
 #### Step 1: Wrangle data ########
 d <- select(d_raw, Forager)
 
+#extract data from table
 d$age <- d_raw$Age
 d$sex <- ifelse (d_raw$Sex..1...male..2...female == 1, "male", "female")
 d$return <- d_raw$Average.kcal.collected.per.foraging.day
@@ -37,13 +38,13 @@ d_fin <- d [, c(5, 2, 3, 4)]
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") #
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- d$sex # "
+d_fin$age_error <- NA #  
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA #
+d_fin$age_upper <- NA # 
 d_fin$resource <- "mixed" # fruit;birds;tubers;honey;small_game;vegetables
 d_fin$units <- "kcal/day" # total kcal day
 d_fin$raw_return <- d$return

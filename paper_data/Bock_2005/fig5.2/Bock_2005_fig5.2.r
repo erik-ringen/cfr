@@ -29,12 +29,11 @@ d_list <- readRDS("fig5.2.rds")
 #### Step 1: Wrangle data ########
 d <- bind_rows( d_list$'fig5.2.fishing returns by age for girls. Each point represents the average return rate for a girl over the study period. n=16, R2=0.5468.png'  ) %>% select( x, y)
 
+#rename columns
 colnames(d)[1] <-  c ( "age")
-
 
 #IDs
 d$id <- 1:nrow(d)
-
 
 #negative and very low value as zero
 d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
@@ -45,16 +44,16 @@ d$age <- round(d$age)
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- "female" # "female", "male", or "both"
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # 
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- "female" # all female
 d_fin$age <- d$age 
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "fish" # what type of foraging resource
-d_fin$units <- "kcal/h" # whether the rate is per hour (hr), per day, or other
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "fish" # 
+d_fin$units <- "kcal/h" # 
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- NA

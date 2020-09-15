@@ -51,11 +51,12 @@ adult_avg <- d %>%
 
 d <- left_join(d, adult_avg)
 
-# filter out individuals above age 20
+# filter out adults
 d <- filter(d, !age_group == "adult")
 
-d$age_upper <- ifelse (d$age_group == "child", 12, 19 ) #age group limits to be checked
-d$age_lower <- ifelse (d$age_group == "child", 4, 13 ) #Children (olo kely): Children who are weaned and prepubescent, are
+#give age group range
+d$age_upper <- ifelse (d$age_group == "child", 11, 19 ) #age group from bram's contribution to TBHG data 
+d$age_lower <- ifelse (d$age_group == "child", 6, 12 ) #Children (olo kely): Children who are weaned and prepubescent, are
                                                           #mobile enough to leave camp and travel/work with others in the environs
                                                           #of the camp, but are not old enough to travel alone.
                                                         #Adolescents (olo be-be; kidabo lahy): Young people nearing, experiencing,
@@ -70,16 +71,16 @@ d$age_lower <- ifelse (d$age_group == "child", 4, 13 ) #Children (olo kely): Chi
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") #
 d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
-d_fin$age <- NA #info is only age rank
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- d$age_lower # only if interval ages given
-d_fin$age_upper <- d$age_upper # only if interval ages given
+d_fin$sex <- d$sex # 
+d_fin$age <- NA #
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- d$age_lower # age interval from definitions in TBHG data
+d_fin$age_upper <- d$age_upper # age interval from definitions in TBHG data
 d_fin$resource <- "mixed" # tubers;small_game;marine
-d_fin$units <- "net kcal/h" # whether the rate is per hour (hr), per day, or other
+d_fin$units <- "net kcal/h" # 
 d_fin$raw_return <- d$x
 d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult

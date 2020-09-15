@@ -58,14 +58,14 @@ d_fin <- d
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin$study <- paper_name # paper id
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$sex # "female", "male", or "both"
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "game" # what type of foraging resource
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # 
+d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+d_fin$sex <- d$sex # males only
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "game" # 
 d_fin$units <- "kcal/h" # written in data as cal/h but assumed to be a mistake
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA

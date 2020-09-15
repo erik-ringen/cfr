@@ -29,6 +29,7 @@ d_list <- readRDS("Figure_2.rds")
 #### Step 1: Wrangle data ########
 d <- bind_rows( d_list$'Figure_2 Returns (kcal acquired per hour of searching and digging) for ekwa roots by age of forager..png'  ) %>% select(id, x, y)
 
+#rename columns
 colnames(d)[1:2] <- c ("sample", "age")
 
 #negative and very low value as zero
@@ -37,21 +38,19 @@ d$y <- ifelse(abs(d$y - 0) < 21, 0, d$y)
 #IDs
 d$id <- 1:nrow(d)
 
-
-
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$sample, d$id, sep="_") # study *  outcome * individual, if data are individual rather than group-level
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # 
+d_fin$id <- paste(d_fin$outcome, d$sample, d$id, sep="_") # 
 d_fin$sex <-  0.3709677 # calculated from figure 5, same paper
 d_fin$age <- d$age 
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- "tubers" # what type of foraging resource
-d_fin$units <- "kcal/h" # whether the rate is per hour (hr), per day, or other
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- "tubers" # 
+d_fin$units <- "kcal/h" # 
 d_fin$raw_return <- d$y
 d_fin$raw_sd <- NA
 d_fin$adult_return <- NA

@@ -26,25 +26,27 @@ d <- read.csv("table 4. Focal follow energy expenditure data.csv")
 
 #### Step 1: Wrangle data ########
 
+#extract column names from first row and remove first row
 colnames(d) <-  d[1,]
 d <- d[-1,]
 
+#calculate returns as food brought to camp/ time spent in trip
 d$trip_returns <- as.numeric(d$`Food returns to camp (kcal)`)/ as.numeric(d$`Duration (houe)`)
 
 
 ##################################
 #### Step 3: Add meta-data and additional covariate information
 d_fin <- data.frame(study = rep( paper_name, nrow(d)))
-d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
-d_fin$id <- paste(d_fin$outcome, d$ID, sep="_") # study *  outcome * individual, if data are individual rather than group-level
-d_fin$sex <- d$Sex # "female", "male", or "both"
-d_fin$age <- as.numeric(d$`Age (year)`)
-d_fin$age_error <- NA # information on distribution of ages (sd), or just a range (interval)? 
-d_fin$age_sd <- NA  # only if sd of ages is given
-d_fin$age_lower <- NA # only if interval ages given
-d_fin$age_upper <- NA # only if interval ages given
-d_fin$resource <- NA # what type of foraging resource
-d_fin$units <- "kcal/h" # whether the rate is per hour (hr), per day, or other
+d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # 
+d_fin$id <- paste(d_fin$outcome, d$ID, sep="_") # 
+d_fin$sex <- d$Sex # 
+d_fin$age <- as.numeric(d$`Age (year)`) 
+d_fin$age_error <- NA # 
+d_fin$age_sd <- NA  # 
+d_fin$age_lower <- NA # 
+d_fin$age_upper <- NA # 
+d_fin$resource <- NA # non specified. COnsider wether to input mixed
+d_fin$units <- "kcal/h" # 
 d_fin$raw_return <- d$trip_returns
 d_fin$raw_sd <- NA
 d_fin$adult_return <- NA

@@ -1,0 +1,14 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_1,both,5.990243902439023,NA,NA,NA,NA,shellfish,net kcal/hr,977.6,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_2,both,8.214634146341462,NA,NA,NA,NA,shellfish,net kcal/hr,406.4000000000001,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_3,both,10.478048780487804,NA,NA,NA,NA,shellfish,net kcal/hr,291.20000000000005,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_4,both,10.946341463414633,NA,NA,NA,NA,shellfish,net kcal/hr,252.80000000000013,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_5,both,10.985365853658534,NA,NA,NA,NA,shellfish,net kcal/hr,291.20000000000005,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_6,both,11.02439024390244,NA,NA,NA,NA,shellfish,net kcal/hr,401.60000000000014,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_7,both,12.975609756097562,NA,NA,NA,NA,shellfish,net kcal/hr,459.20000000000005,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_8,both,13.990243902439024,NA,NA,NA,NA,shellfish,net kcal/hr,286.40000000000003,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_9,both,18.985365853658536,NA,NA,NA,NA,shellfish,net kcal/hr,579.2000000000002,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_10,both,11.9609756097561,NA,NA,NA,NA,shellfish,net kcal/hr,790.4,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_11,both,12.039024390243904,NA,NA,NA,NA,shellfish,net kcal/hr,1078.4,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_12,both,12.546341463414633,NA,NA,NA,NA,shellfish,net kcal/hr,1174.4,NA,NA,NA,NA
+BliegeBird_2002a,BliegeBird_2002a_fig5c,BliegeBird_2002a_fig5c_13,both,7.043902439024389,NA,NA,NA,NA,shellfish,net kcal/hr,521.6,NA,NA,NA,NA

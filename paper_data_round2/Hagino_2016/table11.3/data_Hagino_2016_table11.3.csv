@@ -1,0 +1,7 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+Hagino_2016,Hagino_2016_Gaboon viper (Bitis gabonica),NA,both,NA,interval,NA,10,16,small_game,g/6days,0,NA,6800,NA,NA
+Hagino_2016,Hagino_2016_Giant pouched rat (Cricetomys emini),NA,both,NA,interval,NA,10,16,small_game,g/6days,2551,NA,0,NA,NA
+Hagino_2016,Hagino_2016_Common tortoise (Kinixys erosa),NA,both,NA,interval,NA,10,16,small_game,g/6days,0,NA,5472,NA,NA
+Hagino_2016,Hagino_2016_African snail (Achatina fulica),NA,both,NA,interval,NA,10,16,small_game,g/6days,0,NA,137,NA,NA
+Hagino_2016,Hagino_2016_Thomasâ€™s dwarf galago (Galagoides thomasi) ,NA,both,NA,interval,NA,10,16,small_game,g/6days,236,NA,0,NA,NA
+Hagino_2016,Hagino_2016_Wild yam (D. mangenotiana Mie Ìge),NA,both,NA,interval,NA,10,16,small_game,g/6days,0,NA,3300,NA,NA

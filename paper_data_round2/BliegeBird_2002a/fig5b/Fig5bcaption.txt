@@ -1,0 +1,1 @@
+Middle (men and boys): y = -1694.867 + 979.533 x ln(x); R2 = .255, p = 9149 

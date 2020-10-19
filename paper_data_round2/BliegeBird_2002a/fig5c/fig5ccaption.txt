@@ -1,0 +1,1 @@
+Bottom (children and teenagers): y = 156 9 + 154.542 x In(x); R2 = .158, p = .5733. 

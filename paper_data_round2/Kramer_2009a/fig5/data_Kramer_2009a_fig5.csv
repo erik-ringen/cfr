@@ -1,0 +1,4 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+Kramer_2009a,Kramer_2009a_fig5_sr,NA,female,NA,interval,NA,6,14,roots,g/h,663.3064516129031,655.9084699222259,1797.0430107526872,742.7732384563383,110.72609687040222
+Kramer_2009a,Kramer_2009a_fig5_lr,NA,female,NA,interval,NA,6,14,roots,g/h,762.0967741935481,1481.8548387096753,2893.145161290322,1736.6136253894565,200.5268688193949
+Kramer_2009a,Kramer_2009a_fig5_m,NA,female,NA,interval,NA,6,14,fruit,g/h,1834.6774193548372,1468.6915352457145,3650.537634408602,1238.4022320916308,130.97637509401775

@@ -1,0 +1,2 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+BliegeBird_2002a,BliegeBird_2002a_fig4,NA,both,NA,NA,NA,5,15,fish,net kcal/h,716.5048543689327,361.3019381120082,110.67961165048564,98.51884909775268,32.83961636591756

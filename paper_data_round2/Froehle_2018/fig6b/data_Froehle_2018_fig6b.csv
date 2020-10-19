@@ -1,0 +1,3 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+Froehle_2018,Froehle_2018_fig6b,NA,male,NA,NA,NA,10,14,NA,kcal/h,1083.269961977186,1053.9923954372625,NA,NA,NA
+Froehle_2018,Froehle_2018_fig6b,NA,female,NA,NA,NA,5,10,NA,kcal/h,368.060836501901,234.22053231939162,NA,NA,NA

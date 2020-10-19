@@ -1,0 +1,8 @@
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
+Bird_2002b,Bird_2002b_table3_Hippopus,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,3106.2,2466.0939398165674,6858.9,2705.5616792082196,464
+Bird_2002b,Bird_2002b_table3_Tridacna spp.,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,1652,427.5,4534.2,2704.4,676.1
+Bird_2002b,Bird_2002b_table3_Trochus (lg),NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,1638.9,538.3911031954373,3904,933.6,466.8
+Bird_2002b,Bird_2002b_table3_Lambis,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,895.5,303.8028307965546,3411.9,986.02296119309506,205.6
+Bird_2002b,Bird_2002b_table3_Cypraea,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,852.3,259.36676733922565,2214.4,414.3065531704754,239.2
+Bird_2002b,Bird_2002b_table3_Tridacna crocea,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,257.3,221.18288812654563,763.7,106.06601717798213,75
+Bird_2002b,Bird_2002b_table3_Strombus,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,kcal/h,747.8,322.33465528856806,534.6,205.59443085842574,118.7

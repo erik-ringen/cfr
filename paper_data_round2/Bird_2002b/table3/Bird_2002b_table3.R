@@ -8,7 +8,7 @@ usePackage("tidyverse")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Bird_2002b/table3" # temporarily set directory
+temp_dir <- "paper_data_round2/Bird_2002b/table3" # temporarily set directory
 setwd(temp_dir)
 
 paper_name <- strsplit(temp_dir, split="/", fixed=T)[[1]][2]

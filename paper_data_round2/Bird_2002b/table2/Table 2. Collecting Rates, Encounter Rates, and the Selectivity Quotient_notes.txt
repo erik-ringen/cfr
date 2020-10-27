@@ -5,3 +5,7 @@ LambdaE = predicted number of specimens encountered (based on all survey transec
 hour of search at 2.86 km/hr for adults and 1.43 km/hr for children
 SQ = selectivity quotient O.c/Le)
 Tridacna spp. includes T. maxima and T. squamosa,
+
+###### Round 2 Notes ##########################
+Table 2, SE for adult Trochus (lg) should be 0.10, but was entered as 0.52 (looks like it was copied from the row above). 
+SE for child Lambis should be 1.35, but was entered as 1.13

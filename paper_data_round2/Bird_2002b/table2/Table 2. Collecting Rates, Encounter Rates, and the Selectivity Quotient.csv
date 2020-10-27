@@ -1,7 +1,7 @@
 Prey Type,n_follows_LambdaC,LambdaC,LambdaCplusminus,n_follows_LambdaE,LambdaE,LambdaEplusminus,SQ,t,p,age
 Hippopus,47,6.73,1.61,17,4.03,0.72,1.67,0.99,0.326,adults
 Tridacna spp.,47,2.15,0.52,17,2.94,0.8,0.73,-0.79,0.431,adults
-Trochus (lg),47,0.2,0.52,17,0.26,0.21,0.76,-0.29,0.775,adults
+Trochus (lg),47,0.2,0.1,17,0.26,0.21,0.76,-0.29,0.775,adults
 Lambis,47,19.6,2.77,17,24.04,5.43,0.81,-0.79,0.434,adults
 Cypraea,47,2.65,1.36,17,4.71,1.84,0.56,-0.82,0.418,adults
 Trochus (sm),47,0,0,17,2.07,1.39,0,-2.07,0.015,adults
@@ -11,7 +11,7 @@ Trid. gigas,47,0.34,0.19,17,0,0,~1,na,na,adults
 Hippopus,35,1.02,0.23,17,2.01,0.36,0.51,-2.39,0.021,children
 Tridacna spp.,35,0.8,0.28,17,1.47,0.4,0.54,-1.38,0.174,children
 Trochus (lg),35,0.2,0.12,17,0.13,0.1,1.54,0.32,0.749,children
-Lambis,35,7.24,1.13,17,12.03,2.72,0.6,-1.77,0.082,children
+Lambis,35,7.24,1.35,17,12.03,2.72,0.6,-1.77,0.082,children
 Cypraea,35,0.71,0.58,17,2.36,0.92,0.3,-1.58,0.121,children
 Trochus (sm),35,0.61,0.24,17,1.04,0.7,0.59,-0.72,0.471,children
 Strombus,35,4,1.02,17,8.96,3.83,0.45,-1.64,0.11,children

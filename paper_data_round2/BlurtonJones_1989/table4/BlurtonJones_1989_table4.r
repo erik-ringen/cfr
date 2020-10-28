@@ -5,18 +5,10 @@ usePackage <- function(p) {
 }
 
 usePackage("tidyverse")
-usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/BlurtonJones_1989/table4" # temporarily set directory
-
-### Pre-lim: digitize figure data
-#metaDigitise(temp_dir)
-
-# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
-
-#saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/fig2.rds"))
+temp_dir <- "paper_data_round2/BlurtonJones_1989/table4" # temporarily set directory
 
 #################################
 setwd(temp_dir)

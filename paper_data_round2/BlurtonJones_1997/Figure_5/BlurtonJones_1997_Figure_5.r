@@ -9,12 +9,12 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/BlurtonJones_1997/Figure_5" # temporarily set directory
+temp_dir <- "paper_data_round2/BlurtonJones_1997/Figure_5" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 #metaDigitise(temp_dir)
 
-# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
+# workflow: different group for each sex in the scatterplot
 
 #saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/Figure_5.rds"))
 
@@ -27,7 +27,7 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("Figure_5.rds")
 
 #### Step 1: Wrangle data ########
-d <- bind_rows( d_list$'Figure_5.png'  ) %>% select(id, x, y)
+d <- bind_rows( d_list$scatterplot ) %>% select(id, x, y)
 
 colnames(d)[1:2] <- c ( "sex", "age")
 

@@ -1,38 +1,40 @@
 study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_1,0.3709677,2.9622641509433953,NA,NA,NA,NA,tubers,kcal/h,276.7624020887728,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_2,0.3709677,4.999999999999999,NA,NA,NA,NA,tubers,kcal/h,145.16971279373354,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_3,0.3709677,4.981132075471697,NA,NA,NA,NA,tubers,kcal/h,93.99477806788491,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_4,0.3709677,4.981132075471697,NA,NA,NA,NA,tubers,kcal/h,390.0783289817231,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_5,0.3709677,5.999999999999998,NA,NA,NA,NA,tubers,kcal/h,225.58746736292403,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_6,0.3709677,7.018867924528301,NA,NA,NA,NA,tubers,kcal/h,565.5352480417754,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_7,0.3709677,7,NA,NA,NA,NA,tubers,kcal/h,368.14621409921654,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_8,0.3709677,11.962264150943398,NA,NA,NA,NA,tubers,kcal/h,594.7780678851176,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_9,0.3709677,11.962264150943398,NA,NA,NA,NA,tubers,kcal/h,744.6475195822453,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_10,0.3709677,12.924528301886793,NA,NA,NA,NA,tubers,kcal/h,788.5117493472584,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_11,0.3709677,12.943396226415093,NA,NA,NA,NA,tubers,kcal/h,923.7597911227155,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_12,0.3709677,14.924528301886792,NA,NA,NA,NA,tubers,kcal/h,1026.1096605744128,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_13,0.3709677,14.943396226415095,NA,NA,NA,NA,tubers,kcal/h,704.4386422976501,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_14,0.3709677,14.943396226415095,NA,NA,NA,NA,tubers,kcal/h,276.7624020887728,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_feb-mar '89_15,0.3709677,15.943396226415095,NA,NA,NA,NA,tubers,kcal/h,1483.0287206266316,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_16,0.3709677,1.9622641509433953,NA,NA,NA,NA,tubers,kcal/h,0,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_17,0.3709677,5.490566037735848,NA,NA,NA,NA,tubers,kcal/h,148.82506527415126,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_18,0.3709677,7,NA,NA,NA,NA,tubers,kcal/h,108.61618798955578,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_19,0.3709677,7.999999999999998,NA,NA,NA,NA,tubers,kcal/h,148.82506527415126,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_20,0.3709677,7.999999999999998,NA,NA,NA,NA,tubers,kcal/h,276.7624020887728,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_21,0.3709677,9.999999999999998,NA,NA,NA,NA,tubers,kcal/h,295.0391644908615,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_22,0.3709677,9.981132075471699,NA,NA,NA,NA,tubers,kcal/h,247.51958224543057,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_23,0.3709677,13.924528301886792,NA,NA,NA,NA,tubers,kcal/h,1022.4543080939947,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_24,0.3709677,14.943396226415095,NA,NA,NA,NA,tubers,kcal/h,733.681462140992,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '86_25,0.3709677,14.962264150943396,NA,NA,NA,NA,tubers,kcal/h,569.1906005221932,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_26,0.3709677,3.490566037735848,NA,NA,NA,NA,tubers,kcal/h,28.198433420365404,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_27,0.3709677,3.981132075471697,NA,NA,NA,NA,tubers,kcal/h,50.13054830287183,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_28,0.3709677,3.981132075471697,NA,NA,NA,NA,tubers,kcal/h,254.83028720626623,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_29,0.3709677,6.509433962264151,NA,NA,NA,NA,tubers,kcal/h,181.72323759791118,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_30,0.3709677,6.509433962264151,NA,NA,NA,NA,tubers,kcal/h,152.48041775456898,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_31,0.3709677,8.20754716981132,NA,NA,NA,NA,tubers,kcal/h,342.55874673629216,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_32,0.3709677,8.188679245283017,NA,NA,NA,NA,tubers,kcal/h,262.1409921671017,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_33,0.3709677,8.188679245283017,NA,NA,NA,NA,tubers,kcal/h,832.3759791122715,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_34,0.3709677,10.962264150943396,NA,NA,NA,NA,tubers,kcal/h,430.2872062663183,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_35,0.3709677,13.547169811320755,NA,NA,NA,NA,tubers,kcal/h,788.5117493472584,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_36,0.3709677,4.981132075471697,NA,NA,NA,NA,tubers,kcal/h,185.37859007832878,NA,NA,NA,NA
-BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1_sep-nov '88_37,0.3709677,1.9622641509433953,NA,NA,NA,NA,tubers,kcal/h,0,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,2.000000000000001,NA,NA,NA,NA,tubers,kcal/h,0,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,1.9534883720930245,NA,NA,NA,NA,tubers,kcal/h,22.408963585434208,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,2.976744186046513,NA,NA,NA,NA,tubers,kcal/h,273.38935574229686,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,3.465116279069769,NA,NA,NA,NA,tubers,kcal/h,22.408963585434208,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,3.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,31.372549019607845,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,4.000000000000001,NA,NA,NA,NA,tubers,kcal/h,44.81792717086819,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,3.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,255.46218487394935,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,4.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,385.4341736694678,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,4.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,183.75350140056003,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,4.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,138.93557422969172,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,4.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,98.59943977591024,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,5.488372093023256,NA,NA,NA,NA,tubers,kcal/h,147.89915966386536,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,6.000000000000002,NA,NA,NA,NA,tubers,kcal/h,224.08963585434162,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,6.511627906976745,NA,NA,NA,NA,tubers,kcal/h,152.38095238095252,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,6.511627906976745,NA,NA,NA,NA,tubers,kcal/h,183.75350140056003,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,7.02325581395349,NA,NA,NA,NA,tubers,kcal/h,103.08123249299729,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,7.000000000000001,NA,NA,NA,NA,tubers,kcal/h,367.5070028011205,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,6.9767441860465125,NA,NA,NA,NA,tubers,kcal/h,560.2240896358542,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,8.186046511627907,NA,NA,NA,NA,tubers,kcal/h,829.1316526610644,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,8.186046511627907,NA,NA,NA,NA,tubers,kcal/h,331.65266106442573,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,8.209302325581397,NA,NA,NA,NA,tubers,kcal/h,259.9439775910364,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,7.976744186046513,NA,NA,NA,NA,tubers,kcal/h,273.38935574229686,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,7.976744186046513,NA,NA,NA,NA,tubers,kcal/h,152.38095238095252,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,9.953488372093025,NA,NA,NA,NA,tubers,kcal/h,237.53501400560208,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,9.953488372093025,NA,NA,NA,NA,tubers,kcal/h,255.46218487394935,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,9.953488372093025,NA,NA,NA,NA,tubers,kcal/h,291.31652661064436,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,10.976744186046513,NA,NA,NA,NA,tubers,kcal/h,430.2521008403362,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,11.953488372093023,NA,NA,NA,NA,tubers,kcal/h,596.078431372549,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,11.953488372093023,NA,NA,NA,NA,tubers,kcal/h,743.9775910364144,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,12.953488372093025,NA,NA,NA,NA,tubers,kcal/h,918.7675070028013,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,12.930232558139537,NA,NA,NA,NA,tubers,kcal/h,784.313725490196,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,13.558139534883722,NA,NA,NA,NA,tubers,kcal/h,779.831932773109,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,13.953488372093023,NA,NA,NA,NA,tubers,kcal/h,1021.8487394957981,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,14.953488372093025,NA,NA,NA,NA,tubers,kcal/h,273.38935574229686,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,15,NA,NA,NA,NA,tubers,kcal/h,564.705882352941,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,14.953488372093025,NA,NA,NA,NA,tubers,kcal/h,699.1596638655462,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,14.953488372093025,NA,NA,NA,NA,tubers,kcal/h,730.5322128851537,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,14.953488372093025,NA,NA,NA,NA,tubers,kcal/h,1017.3669467787115,NA,NA,NA,NA
+BlurtonJones_1997,BlurtonJones_1997_Figure_1,BlurtonJones_1997_Figure_1__,0.3709677,16,NA,NA,NA,NA,tubers,kcal/h,1474.5098039215688,NA,NA,NA,NA

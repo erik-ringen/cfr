@@ -9,12 +9,12 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/BlurtonJones_2002/Figure_5" # temporarily set directory
+temp_dir <- "paper_data_round2/BlurtonJones_2002/Figure_5" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 #metaDigitise(temp_dir)
 
-# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
+# workflow: no group needed, select all points
 
 #saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/Figure_5.rds"))
 
@@ -27,10 +27,10 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("Figure_5.rds")
 
 #### Step 1: Wrangle data ########
-d <- bind_rows( d_list$'Figure_5 Kg of tuber of any species acuired by hour of digging by individuals aged under 30..png'  ) %>% select(  id,  x, y)
+d <- bind_rows( d_list$scatterplot  ) %>% select(  x, y)
 
 #rename columns
-colnames(d)[1:2] <-  c ("school", "age")
+colnames(d)[1] <-  c ("age")
 
 #IDs
 d$id <- 1:nrow(d)
@@ -47,7 +47,7 @@ adult_avg <- d %>%
   summarise(mean_adult=mean(y), sd_adult=sd(y), n_adult=n())
 
 # bring in adult values to main df
-d[,5:7] <- adult_avg
+d[,4:6] <- adult_avg
 
 # filter out individuals above age 20
 d <- filter(d, age <= 20)

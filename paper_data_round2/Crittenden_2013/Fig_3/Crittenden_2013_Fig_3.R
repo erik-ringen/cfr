@@ -9,12 +9,12 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Crittenden_2013/Fig_3/" # temporarily set directory
+temp_dir <- "paper_data_round2/Crittenden_2013/Fig_3/" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 # metaDigitise(temp_dir)
 
-# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
+# workflow: make groups for each sex
 
 # saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/Fig_3.rds"))
 
@@ -27,13 +27,13 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("Fig_3.rds")
 
 #### Step 1: Wrangle data ########
-d <- select(d_list$scatterplot$`Fig_3 Individual foraging returns across all foraging trips (n_1 = 14 males, n_2 = 20 females).png`, id, x, y)
+d <- bind_rows(d_list$scatterplot) %>% select(id,x,y)
 
 # Round off age as it is presented as integer
 d$age <- round(d$x)
 
 #sex
-d$sex <- ifelse( d$id == "f", "female", "male")
+d$sex <- ifelse( d$id == "female", "female", "male")
 
 #make ID
 d$id <- ifelse (d$sex == "female", 

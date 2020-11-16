@@ -9,12 +9,12 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Bock_2005/fig5.2" # temporarily set directory
+temp_dir <- "paper_data_round2/Bock_2005/fig5.2" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 #metaDigitise(temp_dir)
 
-# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
+# workflow: extract all points, no groups
 
 #saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/fig5.2.rds"))
 
@@ -27,7 +27,7 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("fig5.2.rds")
 
 #### Step 1: Wrangle data ########
-d <- bind_rows( d_list$'fig5.2.fishing returns by age for girls. Each point represents the average return rate for a girl over the study period. n=16, R2=0.5468.png'  ) %>% select( x, y)
+d <- bind_rows( d_list$scatterplot ) %>% select( x, y)
 
 #rename columns
 colnames(d)[1] <-  c ( "age")
@@ -36,7 +36,7 @@ colnames(d)[1] <-  c ( "age")
 d$id <- 1:nrow(d)
 
 #negative and very low value as zero
-d$y <- ifelse(abs(d$y - 0) < 10, 0, d$y)
+d$y <- ifelse(abs(d$y - 0) < 5, 0, d$y)
 
 #round ages (as ages are all close to round numbers, I assume variation comes from errors in clicking on the dots)
 d$age <- round(d$age)

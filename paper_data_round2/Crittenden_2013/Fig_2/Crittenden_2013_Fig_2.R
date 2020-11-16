@@ -9,12 +9,12 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Crittenden_2013/Fig_2/" # temporarily set directory
+temp_dir <- "paper_data_round2/Crittenden_2013/Fig_2/" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 #metaDigitise(temp_dir)
 
-# workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
+# workflow: get all points, no groups. y axis is on the natural log scale (we think)
 
 #saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "Fig_2.rds"))
 
@@ -27,10 +27,10 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("Fig_2.rds")
 
 #### Step 1: Wrangle data ########
-d <- select( d_list$scatterplot$`Fig_2 Kilocalories collected during focal follow foragign trips (amount consumed plus amount collected) (n_1 = 6 males, n_2 = 7 females).png`, x, y)
+d <- bind_rows(d_list$scatterplot) %>% select(x,y)
 
 #add IDs 
-d$id <- paste("b", 1:nrow(d), sep = '')
+d$id <- NA
 
 # Sex of individual unknown, although 6 males and 7 females
 d$sex <- 6/(6+7)

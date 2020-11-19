@@ -51,3 +51,6 @@ data_list <- list(
 fit0 <- stan( file="stan_models/model0.stan", data=data_list, chains=4, cores=4, iter=2000, init="0", control=list(adapt_delta=0.95) )
 
 post <- extract.samples(fit0)
+
+#save data for text
+write.csv(d, "text/data/d_all_data.csv")

@@ -14,8 +14,9 @@
 \maketitle
 \linenumbers
 
-
 \import{text/sections/}{0_abstract.tex}
+\tableofcontents{}
+
 \import{text/sections/}{1_introduction.tex}
 \import{text/sections/}{2_review.tex}
 \import{text/sections/}{3_data_selection_and_extraction.tex}

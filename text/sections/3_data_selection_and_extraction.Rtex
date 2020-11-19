@@ -1,15 +1,18 @@
 \section{Comparing children foraging returns: a meta-analysis}
-%Describe meta-analysis
-<<>>=
-data <- read.csv("../")
-str(data)
-# Create a sequence of numbers
-X = 2:10
 
-# Display basic statistical measures
-summary(X)
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%load all data to inform the text from "text/data/"
+<<echo=FALSE, cache=TRUE>>=
+
+library(tidyverse)
+
+d <- read.csv("../data/d_all_data.csv")
+metadata <- read.csv("../data/papers_metadata.csv")
 
 @
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Describe meta-analysis
 
 \subsection{Data selection and extraction}
 To obtain appropriate data to compare foraging returns in children and teenagers we proceeded with several steps, proceeding to discard works which did not satisfy our requirements from a large corpus of papers. The kind of data viable for this analysis needs to: 
@@ -41,11 +44,12 @@ The associated library can be found at the OSF page of the project.
 
 \subsubsection{Data selection}
 Methods, population of provenance and other metadata were extracted from the texts of the papers to highlight repeated datasets, unclear methodologies and other problems that would make the data presented unfit for our analysis. For example, \cite{kawabe_development_1983} was excluded from the analysis since the data on hunting from children and teenagers are presented as total number (1 to 5 or more than 5) of animals killed in the lifetime of each individual, which is not comparable to rates such as kcal/day or gr/h, the main measure type in the other papers. 
-This round of selection halved the papers presenting data that could fit our model to a total of XX papers.
+This round of selection halved the papers presenting data that could fit our model to a total of \Sexpr{nrow(unique(d[,"study"]))} papers.
 %If manage to enter R code put number, dammit
 
 The data presented come from a total of XX populations, in three continents, 
 %describe data with some r script, dammit
+
 
 % Of the papers containing data, we extracted the metadata from the text
 % This allowed to check for repeated data sets and for quality of data, for example the Kawabe paper was not adequate.

@@ -4,6 +4,10 @@
 \usepackage{subfiles}                       % File import
 \usepackage{natbib}
  \bibliographystyle{unsrtnat}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+ 
 
 \title{Children foraging returns: a meta-analysis}
 \author{Ilaria Pretelli, Erik Ringen, Sheina Lew-Levy}

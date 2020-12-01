@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%load all data to inform the text from "text/data/"
+<<echo=FALSE, cache=TRUE>>=
+metadata <- read.csv("../data/papers_metadata.csv")
+
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+All around the globe, children search their environment looking for and collecting food. 
+They can be berry picking on summers, or consistently collect half their caloric needs: no matter how much their diet is composed of wild food, children forage. 
+Information on how, when and how much young individuals forage is a contribution to different disciplines studying human behavior.
+
+For instance, if we want to understand how humans make foraging decisions over cost-benefit trade offs in terms of energy, time, social status, etc., the specific constraints and needs of children and teenagers can offer a variety of case studies (\cite{bliege_bird_children_1995, bird_ethnoarchaeology_2000, bird_children_2002}).
+Or, in a more general application, the study of nutritional status and requirements in various ecological settings needs to take into account what food children and adolescents produce, as this can be an important component not only of their diet (\cite{pollom_changes_2020, pollom_effects_2020, mcgarry_children_2009}),
+but also of that of their families (\cite{fouts_who_2009}). 
+
+The fact that young individuals have a double role as producers, as well as consumers, has obvious implications for household economies, which can count on incoming food from each child, as well as for reproductive decisions of their parents, which can rely on their offspring feeding their siblings when performing childcare duties (\cite{kramer_variation_2002, kramer_maya_2005, kramer_childrens_2005, kramer_does_2009, crittenden_juvenile_2013}). 
+As a consequence of being interrelated at these multiple levels with human behavior, children foraging activities have probably contributed to the evolution of several modern humans life history traits. In order to learn the complex set of skills required to reach full foraging potential, natural selection might have promoted an extension of the pre-reproductive period in a prolonged condition of at least partial dependency (\cite{kaplan_theory_2000}) and collecting data on children foraging in fundamental to test this hypothesis.
+At the same time, the fact that in most cases the dependency of children is not complete, as they procure part of their own food and contribute to household workload, but decreases in time, is important to permit the evolution of the characteristically human trait of having overlapping dependent offspring (\cite{kramer_childrens_2005}). Crucially, this allows humans to reach incredibly high fertility rates for an ape.%cite
+
+Finally, as foraging children carry on traditional subsistence practices while their parents engage in market labor elsewhere,
+they can engage in the acquisition, and thus preservation, of traditional ecological knowledge (\cite{setalaphruk_childrens_2007}).
+
+Given the applied nature of these information, tracking how knowledge is acquired and used can give important insight on learning and teaching strategies in traditional societies, as well as on psychological mechanisms underlying these processes (\cite{lew-levy_who_2019}).
+
+%INPUT
+%Did I forget anything fundamental?
+%More on psychology, archaeology or on diet, or environmental change, effect of schooling?
+%of course we could go on forever, but feel free to signal if I missed something you deem relevant.
+
+Despite the relevance of this behavior for different fields, relatively few researchers have collected return data from children foraging. Comparative works are especially lacking and, as a result, little can be said on general trends. 
+
+\vspace{0.5cm}
+With this paper, we aim, first, at providing an historical and thematic overview of researches describing children foraging activities. 
+Specifically, we review how the perception of children foraging changed since the phenomenon has been first described quantitatively; we summarize the main contributions of research on children foraging results and describe some of the main papers that report this kind of data.
+
+Second, we provide a comparative analysis of foraging returns across \Sexpr{nlevels(unique(metadata[,"Population"]))} different societies, tapping on previously published data available in the literature. 
+We analyse how trajectories of foraging returns change with age, and compare different resource types. To do so, we developed a Bayesian model inspired by \cite{koster_life_2020} which allows to understand how the factors determining increasing returns with age contribute to the total variation. 
+To address the difficulties of comparing different data sets, within we focus on the change of foraging returns of children and adolescents (with an arbitrary cut off at 20 years of age), relative to comparable adult values.
+
+Finally, we focus on one hypothesis tested in several of the analyzed papers, that human early life history has been modeled to allow for learning of complex skills \cite{kaplan_theory_2000}, and look for correspondences on both the data and the conclusions drawn from them across papers.  

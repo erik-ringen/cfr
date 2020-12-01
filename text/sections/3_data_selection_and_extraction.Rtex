@@ -1,5 +1,3 @@
-\section{Comparing children foraging returns: a meta-analysis}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %load all data to inform the text from "text/data/"
 <<echo=FALSE, cache=TRUE>>=
@@ -9,7 +7,9 @@ metadata <- read.csv("../data/papers_metadata.csv")
 @
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Describe meta-analysis
+\section{Comparing children foraging returns: a meta-analysis}
+
+%Describe and ground meta-analysis
 
 \subsection{Data selection and extraction}
 To obtain appropriate data to compare foraging returns in children and teenagers we proceeded with several steps, proceeding to discard works which did not satisfy our requirements from a large corpus of papers. The kind of data viable for this analysis needs to: 
@@ -18,8 +18,7 @@ To obtain appropriate data to compare foraging returns in children and teenagers
     \item Be original data on foraging returns from children and/or teenagers (no time allocations).
     \item Give information about age: ideally, individual returns with individual age, but also age class or comparison child-adult.
     \item Report mean and variance, if data are not individual.
-
-    %what else???
+    %INPUT what else?
 \end{itemize}
 
 \subsubsection{Paper selection}
@@ -29,20 +28,12 @@ We then manually screened each abstract and selected a subset of 133 papers whic
 Every paper was then read by two independent coders, to identify papers with potentially relevant data on children foraging returns.
 This process yielded a first list of 35 papers containing return data from juvenile individuals. To ensure that our list contained all papers with relevant data, we searched the bibliographies and CV of first authors of all these papers. Then the preceding steps were repeated for 34 more papers, until we did not find any unknown relevant paper. With these steps, we reached a total of 40 papers containing data that could match our criteria for selection. To our knowledge, this is a complete list of papers containing data on children foraging returns.
 
-
 The associated library can be found at the OSF page of the project.
 %add link
 
-% Searched the scopus, wiley, science direct, google scholar and some other with keywords "children"&"foraging"&"returns“
-% Read all abstracts and selected a subset that had info on children or foraging
-% These read more in detail, by two different people, to see if there are data
-% Of those with data, scanned bibliographies and CVs of first authors to see if there are relevant papers
-% A selection of papers containing some sort of data on foraging returns was made (To our knowledge, an exhaustive list )
-
 \subsubsection{Data selection}
 Methods, population of provenance and other metadata were extracted from the texts of the papers to highlight repeated datasets, unclear methodologies and other problems that would make the data presented unfit for our analysis. For example, \cite{kawabe_development_1983} was excluded from the analysis since the data on hunting from children and teenagers are presented as total number (1 to 5 or more than 5) of animals killed in the lifetime of each individual, which is not comparable to rates such as kcal/day or gr/h, the main measure type in the other papers. 
-This round of selection halved the papers presenting data that could fit our model to a total of \Sexpr{nlevels(unique(d[,"study"]))} papers.
-%If manage to enter R code put number, dammit
+This round of selection halved the number of papers presenting data that could fit our model to a total of \Sexpr{nlevels(unique(d[,"study"]))} papers.
 
 The data presented come from a total of \Sexpr{nlevels(unique(metadata[,"Population"]))} populations, in three continents, with some populations originating more than one paper (see Figure \ref{world_pop}). 
 
@@ -52,17 +43,11 @@ The data presented come from a total of \Sexpr{nlevels(unique(metadata[,"Populat
     \caption{World map with sites of populations originating the data. The size of the dot is proportional to the number of datasets from each populations. The most represented people, the Hadza, appear in                 \Sexpr{unique(metadata[which(metadata[,"Population"] == "Hadza"), "N_studies_per_population"])} studies.}
 \end{figure}
 
-% Of the papers containing data, we extracted the metadata from the text
-% This allowed to check for repeated data sets and for quality of data, for example the Kawabe paper was not adequate.
-% At the moment we have 20 papers, with data from populations (size of the dot is number of studies from it, with Hadza data present in 7 studies from 1988 to this year)
-
 \subsubsection{Data extraction}
-The selected papers contain one or more source of data, i.e. a table or a figure with return data. Data from each source has been first extracted by either copying the values, for tables, or using the \texttt{metadigitalize} R package (\cite{pick_reproducible_2019}), to extract data from figures. The data extraction has been completed twice by two different coders and the data compared/averaged, to reduce error due to the extraction procedure. The extracted data have been wrangled with a tailored r script to produce comparable data to fit the model.
-%copied dataframes, used package for images, obtained some original data
+The selected papers contain one or more source of data, i.e. a table or a figure with return data. Data from each source has been first extracted by either transcribing the values, for tables, or using the \texttt{metadigitalize} R package (\cite{pick_reproducible_2019}), to extract data from figures. The data extraction has been completed twice by two different coders and the data compared/averaged, to reduce error due to the extraction procedure. The extracted data have been wrangled with a tailored r script to produce comparable data to fit the model.
 
 \subsubsection{Finding comparable adult values}
-In order to ensure comparability between data collected with different methods, units of measure and  resource types, we did not compare the raw returns per age across studies, but rather the proportion to the average adult return, collected with the same procedure. Some datasets reported comparisons between children and adult data or contained data across adult ages. In these cases, data from individuals above 20 years old was averaged to produce the adult value. For the datasets which did not include adults, we 
-%searched associated literature with relevant data?
+In order to ensure comparability between data collected with different methods, units of measure and  resource types, we did not compare the raw returns per age across studies, but rather the proportion to the average adult return, collected with the same procedure. Some datasets reported comparisons between children and adult data or contained data across adult ages. In these cases, data from individuals above 20 years old was averaged to produce the adult value. For the datasets which did not include adults, we (to be continued...) 
 
 \subsubsection{Problematics}
 % Data are different

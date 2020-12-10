@@ -26,7 +26,7 @@ populations <- unique(metadata[,c("Population",
 world_pop <- ggplot() +
   geom_polygon(data = world, aes(x = long, y = lat, group = group), fill = rgb(0, 103/255 , 91/255, 0.8))+
   geom_point(data = populations, aes (x = Long, y = Lat, size = N_studies_per_population), colour = "darkred") +
-  geom_text_repel (data = populations, aes (x = Long, y = Lat, label = Population), colour = "grey10", size = 2)+
+  geom_text_repel (data = populations, aes (x = Long, y = Lat, label = Population), colour = "grey10", size = 3)+
   theme_nothing()+
   coord_fixed()
 

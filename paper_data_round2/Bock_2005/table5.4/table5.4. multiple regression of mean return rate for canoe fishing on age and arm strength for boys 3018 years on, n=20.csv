@@ -1,4 +1,4 @@
-﻿Model,B,std. Error,Beta,t,sig.
+Model,B,std. Error,Beta,t,sig.
 Full (constant),-8.896,32.438,,-0.274,0.787
 Age,-6.358,5.291,-0.339,-1.202,0.247
 Arm strength,8.843,2.457,1.016,3.599,0.002

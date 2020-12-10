@@ -1,4 +1,4 @@
-﻿Hunt type,Regression,R2,R,p(slope),N,Implications
+Hunt type,Regression,R2,R,p(slope),N,Implications
 Beach fishing,Linear,0.047,0.217,0.197,37,No significant effect of accumulated experience over lifetime
 Beach fishing,Polynomial2,0.171,0.884,0.171,37,No significant effect of mid-life peak in strength
 Beach fishing,Logarithmic,0.085,0.292,0.0749,37,No significant effect of accumulated experience or size early in life
@@ -11,4 +11,4 @@ Shellfish Collecting,Linear (Children),0.025,0.158,0.5733,15,No significant effe
 Shellfish Collecting,Polynomial2 (F),0.001,-0.038,0.9596,28,No significant effect of mid-life peak in strength or effort
 Shellfish Collecting,Polynomial2 (M),0.334,-1.65,0.0706,21,No significant effect of strength or mid-life increases in effort
 Shellfish Collecting,Logarithmic (F),0.153,0.391,0.0397,28,Significant effect of accumulated experience or size early in life
-Shellfish Collecting,Logarithmic (M),0.255,0.55,0.0195,21,Significant effect of accumulated experience or size early in life
+Shellfish Collecting,Logarithmic (M),0.255,0.505,0.0195,21,Significant effect of accumulated experience or size early in life

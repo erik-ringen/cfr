@@ -11,12 +11,12 @@
 
 \title{Children foraging returns: a meta-analysis}
 \author{Ilaria Pretelli, Erik Ringen, Sheina Lew-Levy}
-\date{October 2020}
+\date{January 2021}
 
 \begin{document}
 
 \maketitle
-\linenumbers
+%\linenumbers
 
 \import{text/sections/}{0_abstract.tex}
 \tableofcontents{}

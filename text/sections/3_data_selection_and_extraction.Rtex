@@ -12,7 +12,7 @@ metadata <- read.csv("../data/papers_metadata.csv")
 %Describe and ground meta-analysis
 
 \subsection{Data selection and extraction}
-To obtain appropriate data to compare foraging returns in children and teenagers we proceeded with several steps, proceeding to discard works which did not satisfy our requirements from a large corpus of papers. The kind of data viable for this analysis needs to: 
+We aimed at finding in the literature published data on children foraging returns. The data were included in the analysis if they satisfy the following requirements: 
 
 \begin{itemize}
     \item Be original data on foraging returns from children and/or teenagers (no time allocations).
@@ -22,10 +22,10 @@ To obtain appropriate data to compare foraging returns in children and teenagers
 \end{itemize}
 
 \subsubsection{Paper selection}
-Based on the multiple-tier paper selection method described in \cite{lew-levy_how_2017}, we proceeded as follows to find relevant papers.
-As first step we constructed a large corpus of papers to screen by entering in the major search engines (Scopus, Wiley, Science Direct, Google Scholar, etc) the words "children"\&"foraging"\&"returns". This returned a first group of 507 papers, 360 after removal of duplicates.  
+To find relevant papers we used the multiple-tier method described in \cite{lew-levy_how_2017}.
+As first step we constructed a large corpus of papers to screen by entering in the major search engines (Scopus, Wiley, Science Direct, Google Scholar, etc) the words "children"\&"foraging"\&"returns". This returned an initial group of 507 papers (360 after removal of duplicates).  
 We then manually screened each abstract and selected a subset of 133 papers which seemed to have information on children and/or foraging.
-Every paper was then read by two independent coders, to identify papers with potentially relevant data on children foraging returns.
+Every paper was then read by two independent coders, to identify potentially relevant data sets on children foraging returns.
 This process yielded a first list of 35 papers containing return data from juvenile individuals. To ensure that our list contained all papers with relevant data, we searched the bibliographies and CV of first authors of all these papers. Then the preceding steps were repeated for 34 more papers, until we did not find any unknown relevant paper. With these steps, we reached a total of 40 papers containing data that could match our criteria for selection. To our knowledge, this is a complete list of papers containing data on children foraging returns.
 
 The associated library can be found at the OSF page of the project.

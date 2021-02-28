@@ -27,12 +27,20 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("2003_returns.rds")
 
 #### Step 1: Wrangle data ########
-d <- bind_rows( d_list$scatterplot$`2003_returns_male.png`, d_list$scatterplot$`2003_returns_female.png`  ) %>% select(id, x, y)
+d <- bind_rows( d_list$scatterplot$`2003_returns.png`, d_list$scatterplot$`2003_returns_female.png`  ) %>% select(id, x, y)
 
+# A couple of obs ~0 were registered as negative
+d$x <- ifelse(abs(d$x - 0) < 10, 0, d$x)
+d$x <- ifelse(d$x < 0, 0, d$x)
 
 # Get sex labels
 d$sex <- ifelse(substr(d$id, 1, 1) == "f", "female", "male")
 
+#######Unclear whether the data are presented as Age rank or ages. 
+#Wrangling with interpretation as ages below - change the section that is commented out
+
+###Process with Age rank
+#######
 # round y values to obtain age rank 
 d$rank <- round(d$y)
 
@@ -64,8 +72,6 @@ d$age_lower <- ifelse (d$age_group == "child", 6, 12 ) #Children (olo kely): Chi
                                                           #mobility, who can travel to the well or to the market alone. They
                                                           #frequently talk about marriage and sex. Some are sexually active.
 
-
-
 ##################################
 
 ##################################
@@ -86,6 +92,53 @@ d_fin$raw_sd <- NA
 d_fin$adult_return <- d$mean_adult
 d_fin$adult_sd <- d$sd_adult
 d_fin$adult_se <- d$sd_adult / sqrt(d$n_adult)
+
+
+# ###Process with Age
+######
+# # Average over the very small within-id variance in age due to extraction error
+# age_avg <- d %>%
+#   group_by(id) %>%
+#   summarise(age = mean(y))
+# 
+# # Get average returns of adults, sex-specific
+# adult_avg <- d %>% 
+#   filter(y >= 20) %>% 
+#   group_by(sex) %>%
+#     summarise(mean_adult=mean(x), sd_adult=sd(x), n_adult=n())
+# 
+# # bring in age and adult values to main df
+# d <- left_join(d, age_avg)
+# 
+# d <- left_join(d, adult_avg)
+# 
+# # filter out individuals above age 20
+# d <- filter(d, age <= 20)
+
+# d_fin <- d
+# ##################################
+# #### Step 3: Add meta-data and additional covariate information
+# d_fin$study <- paper_name # paper id
+# d_fin$outcome <- paste(d_fin$study, paper_section, sep="_") # total kcal/hr outcome, 1997 data
+# d_fin$id <- paste(d_fin$outcome, d$id, sep="_") # 
+# d_fin$sex <- d$sex # 
+# d_fin$age_error <- NA # 
+# d_fin$age_sd <- NA  # 
+# d_fin$age_lower <- NA # to check ages, as age is given as rank and not actual age
+# d_fin$age_upper <- NA # 
+# d_fin$resource <- "mixed" # tubers;small_game;marine
+# d_fin$units <- "net kcal/h" # 
+# d_fin$raw_return <- d$x
+# d_fin$raw_sd <- NA
+# d_fin$adult_return <- d$mean_adult
+# d_fin$adult_sd <- d$sd_adult
+# d_fin$adult_se <- d$sd_adult / sqrt(d$n_adult)
+# 
+
+
+
+
+
 
 ##################################
 #### Step 4: Export outcome csv for further processing 

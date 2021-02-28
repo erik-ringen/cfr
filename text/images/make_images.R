@@ -6,7 +6,7 @@ library(rjson)
 library(ggrepel) #to create distance between dots and numbers
 
 #setwd wd to "cfr/text/images"
-
+setwd("~/Nextcloud/Foraging returns review/cfr/text/images/")
 
 #load data
 metadata <- read.csv("../data/papers_metadata.csv")

@@ -9,14 +9,14 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Walker_2002/Fig_2b" # temporarily set directory
+temp_dir <- "paper_data_round2/Walker_2002/Fig_2b" # temporarily set directory
 
 ### Pre-lim: digitize figure data
-# metaDigitise(temp_dir)
+ metaDigitise(temp_dir)
 
 # workflow: get points from one half of the scatterlpot (F/M) at a time, with a different group for every unique ID on the y axis. Starting top of y axis to bottom. Then do again with the male data (rght side).
 
-#saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/Fig_2b.rds"))
+saveRDS(metaDigitise(temp_dir, summary=F), paste0(temp_dir, "/Fig_2b.rds"))
 
 #################################
 setwd(temp_dir)
@@ -27,7 +27,7 @@ paper_section <- strsplit(temp_dir, split="/", fixed=T)[[1]][3]
 d_list <- readRDS("Fig_2b.rds")
 
 #### Step 1: Wrangle data ########
-d <- bind_rows( d_list$`Fig_2b Graph same as a except hunters that were sampled in both decades have their data points connected with a line.png`  ) %>% select(id, x, y)
+d <- bind_rows( d_list$scatterplot$`Fig_2b Graph same as a except hunters that were sampled in both decades have their data points connected with a line.png`) %>% select(id, x, y)
 
 #bring kg to g
 d$y <- d$y *1000

@@ -9,15 +9,15 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Kramer_2009a/fig5" # temporarily set directory
+temp_dir <- "paper_data_round2/Kramer_2009a/fig5" # temporarily set directory
 
 ### Pre-lim: digitize figure data
-# metaDigitise(temp_dir)
+ metaDigitise(temp_dir)
 
 # workflow: extract group*resource one at a time. Because sample sizes not given for specific ages, divide resource-specific sample sizes by number of age groups (n_group = 5)
 # sr = 15, lr = 25, m = 29.8
 
-# saveRDS(metaDigitise(temp_dir, summary=T), paste0(temp_dir, "/fig5.rds"))
+ saveRDS(metaDigitise(temp_dir, summary=T), paste0(temp_dir, "/fig5.rds"))
 
 #################################
 setwd(temp_dir)

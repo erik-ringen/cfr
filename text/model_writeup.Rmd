@@ -19,29 +19,47 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Generative model
 
-Assume that individuals go on foraging trips in which they either successfully acquire some return with probability $1-p$ ($y > 0$) or come home empty-handed ($y = 0$) with probability $p$. Further assume that non zero returns follow a log-normal distribution. Observed foraging returns are thus described by a "hurdle" model where:
+Assume that individuals go on foraging trips in which they either successfully acquire some return with probability $1-p$ ($y > 0$) or come home empty-handed ($y = 0$) with probability $p$. Further assume that non zero returns follow a log-normal distribution. Observed foraging returns are thus mapped onto a "hurdle" model where:
 
 $$ f(y) = \textrm{Bernoulli}(p)  ~~~~\textrm{if}~~y=0 \\ $$
-$$ f(y) = (1-p) \times(\textrm{LogNormal}(\textrm{log}(\mu),\sigma)) ~~~~\textrm{if}~~y>0  $$
+$$ f(y) = (1-p) [\textrm{LogNormal}(\textrm{log}(\mu),\sigma)] ~~~~\textrm{if}~~y>0  $$
 
-Previous studies of human foraging returns have found that both the probability of a zero-return and the quantity of returns depends on forager skill ($S$), which varies across the lifespan. In the language of causal inference, $\textrm{age} \rightarrow S \rightarrow p$ and $S \rightarrow \mu$. Koster et al. modeled the relationship between age and $S$ as a concave function to account for skill senescence among older adults. However, our focus was on the returns of foragers below age 20---more than a decade earlier than the estimated peak of foraging skill, so we did not model senescence. Otherwise, we used the same functional form as Koster et al. (2019) and Lew-Levy et al. (2021) to describe change in latent foraging skill with age:
+Previous studies of human foraging returns have found that both the probability of a zero-return and the quantity of returns depends on forager skill ($S$), which varies across the lifespan. As a directed acyclic graph: $\textrm{age} \rightarrow S \rightarrow p$ and $S \rightarrow \mu$. Koster et al. modeled the relationship between age and $S$ as a concave function to account for senescence among older adults. However, our focus was on the returns of foragers below age 20---more than a decade earlier than the estimated peak of foraging skill, so we did not model senescence. Otherwise, we used the same functional form as Koster et al. (2019) and Lew-Levy et al. (2021) to describe change in latent foraging skill with age:
 
-$$S(\textrm{age}) = (1 - \textrm{exp}(-k\times \textrm{age}))^{b}$$
+$$S(\textrm{age}) = [1 - \textrm{exp}(-k\times \textrm{age})]^{b}$$
 
-Where $k$ is the constant rate of growth in foraging skill and $b$ is an elasticity parameter that determines the proportional change in skill. $b$ < 1 indicates diminishing returns (decreasing differentials of skill with age), while $b$ > 1 indicates accelerating returns (increasing differentials of skill with age). Skill itself may have nonlinear effects on foraging success, which we model with elasticity parameters $\eta$. $k$, $b$, and $\eta$ were assumed positive, which means that skill is strictly increasing with age and that higher skill always has a positive effect on foraging returns. Finally, we included linear parameters $\alpha$ that act as an intercepts for foraging returns, independent of age.
+Where $k$ is the constant rate of growth in foraging skill and $b$ is an elasticity parameter that determines the proportional change in skill. $b$ < 1 indicates diminishing returns (decreasing differentials of skill with age), while $b$ > 1 indicates accelerating returns (increasing differentials of skill with age). Skill itself may have nonlinear effects on foraging success, which we model as an additional elasticity parameter $\eta$. $k$, $b$, and $\eta$ were assumed positive, which means that skill is strictly increasing with age and that higher skill always has a positive effect on foraging returns. Finally, we add the log-linear $\alpha$, which acts as an intercept for foraging returns, independent of age.
 
 $$ \mu = S^{\eta_{[\mu]}}\alpha_{\mu} $$ 
-$$ p = 2(\textrm{logit}^{-1}(S^{\eta_{[p]}}\alpha_{p}) - \frac{1}{2}) $$
+$$ p = 2[\textrm{logit}^{-1}(S^{\eta_{[p]}}\alpha_{p}) - \frac{1}{2}] $$
+
+## Meausrement error in adult mean return
+
+We scaled child foraging returns by the mean return for foragers aged $\geq$20. To propagate uncertainty in mean adult returns, for each outcome in each study we treated it as a parameter ($y_{\mu[\textrm{Adult}]}$) with known Gaussian error (the standard error of the mean), such that:
+
+$$ \mathbb{E}(y_{\textrm{[adult]}}) \sim \textrm{Normal}(\bar{y}_{[\textrm{Adult}]},\sigma_{\bar{y}_{[\textrm{Adult}]}}) $$
+
+One complication is that the sample mean of returns will be deflated by the inclusion of zero return values. Note that the expectation of our generative model is:
+
+$$ \mathbb{E}(y) = (1 - p)[\textrm{exp}(\mu~+~\frac{\sigma^2}{2})] $$
+Because we want to partition zero and non-zero returns among children, we should only scale by the non-zero adult returns. Which means that the sample mean $\bar{y}$ will always be less than the quantity we actually want $\bar{y}[y>0]$. But the average of non-zero returns can be recovered as:
+
+$$\bar{y}[y>0] = \frac{\bar{y}}{(1 - p)}$$
+
+
 
 ## Integrating individual-level data with study-level summary statistics
 
-Our dataset included a mix of individual-level returns and summary statistics, such as the mean and standard deviation of returns for children/adults.
+Our data included a mix of individual-level returns and summary statistics, such as the mean and standard deviation of returns for children/adults.
 
 ## What if no adult returns are available?
 
 
 
 ## Individual differences
+
+
+## Adding predictors
 
 
 ## Uncertainty in age 

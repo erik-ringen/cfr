@@ -1,5 +1,5 @@
 ---
-title: Comparing child and adult foraging returns; a generative meta-analytic model
+title: 'Comparing child and adult foraging returns: a multilevel meta-analytic model'
 author: "Illaria Pretelli, Erik Ringen, and Sheina Lew-Levy"
 output:
   pdf_document:
@@ -22,17 +22,19 @@ knitr::opts_chunk$set(echo = TRUE)
 Assume that individuals go on foraging trips in which they successfully acquire some return ($y > 0$) with probability $1-p$ or come home empty-handed ($y = 0$) with probability $p$. Further assume that non zero returns follow a log-normal distribution. Observed foraging returns are thus mapped onto a "hurdle" model where:
 
 $$ f(y) = \textrm{Bernoulli}(p)  ~~~~\textrm{if}~~y=0 \\ $$
-$$ f(y) = (1-p) [\textrm{LogNormal}(\textrm{log}(\mu),\sigma)] ~~~~\textrm{if}~~y>0  $$
+$$ f(y) = (1-p) [\textrm{LogNormal}(\mu,\sigma)] ~~~~\textrm{if}~~y>0  $$
 
-Previous studies of human foraging returns have found that both the probability of a zero-return and the quantity of returns depends on forager skill ($S$), which varies across the lifespan. As a directed acyclic graph: $\textrm{age} \rightarrow S \rightarrow p$ and $S \rightarrow \mu$. Koster et al. modeled the relationship between age and $S$ as a concave downward function to account for senescence among older adults. However, our focus was on the returns of foragers below age 20---more than a decade earlier than the estimated peak of foraging skill, so we did not model senescence. Otherwise, we used the same functional form as Koster et al. (2019) and Lew-Levy et al. (2021) to describe change in latent foraging skill with age:
+Previous studies of human foraging returns have found that both the probability of a zero-return and the quantity of returns depends on forager skill ($S$), which varies across the lifespan. As a directed acyclic graph: $\textrm{age} \rightarrow S \rightarrow p$ and $S \rightarrow \mu$. Koster et al. (2019) modeled the relationship between age and $S$ as a concave downward function to account for senescence among older adults. However, our focus was on the returns of foragers below age 20---more than a decade earlier than the estimated peak of foraging skill, so we did not model senescence. Otherwise, we used the same functional form as Koster et al. (2019) and Lew-Levy et al. (2021) to describe change in latent foraging skill with age:
 
 $$S(\textrm{age}) = [1 - \textrm{exp}(-k\times \textrm{age})]^{b}$$
 
 
 Where $k$ is the constant rate of growth in foraging skill and $b$ is an elasticity parameter that determines the proportional change in skill. $b$ < 1 indicates diminishing returns (decreasing differentials of skill with age), while $b$ > 1 indicates accelerating returns (increasing differentials of skill with age). Skill itself may have nonlinear effects on foraging success, which we model as an additional elasticity parameter $\eta$. $k$, $b$, and $\eta$ were assumed positive, which means that skill is strictly increasing with age and that higher skill always has a positive effect on foraging returns. Finally, we add the log-linear $\alpha$, which acts as an intercept for foraging returns, independent of age.
 
-$$ \mu = S^{\eta_{[\mu]}}\alpha_{\mu} $$ 
+$$ \mu = \textrm{log}(S^{\eta_{[\mu]}}\alpha_{\mu}) $$ 
 $$ p = 2[\textrm{logit}^{-1}(S^{\eta_{[p]}}\alpha_{p}) - \frac{1}{2}] $$
+
+Absolute values of foraging returns are not likely to be directly comparable between or even within studies (if, for example the study reported returns for two different resource types). However, the target of our meta-analysis was not absolute production, but instead children's productivity *relative* to adults. Therefore we scaled returns $y$ by the mean adult return in a given study and resource type.
 
 ## Measurement error in adult mean return
 
@@ -45,45 +47,59 @@ One complication is that the sample mean and standard error of the mean will be 
 $$ \mathbb{E}(y) = (1 - p)[\textrm{exp}(\mu~+~\frac{\sigma^2}{2})] $$
 $$ \textrm{Var(y)} = [\textrm{exp}(\sigma^2) - 1] \textrm{exp}(2\mu + \sigma^2) $$
 
-Because we want to partition zero and non-zero returns among children, we should only scale by the non-zero adult returns. Which means that the sample mean $\bar{y}$ will always be less than the quantity we actually want $\bar{y}|y>0$. But the average of non-zero returns can be recovered:
+Because we want to partition zero and non-zero returns among children, we should only scale by the non-zero adult returns. The sample mean $\bar{y}$ will always be less than the quantity we actually want $\bar{y}|y>0$. But the average of non-zero returns can be recovered:
 
 $$\bar{y}|y>0 = \frac{\bar{y}}{(1 - p)}$$
-If an average $\bar{p}$ is not available for adult data, we use $p|\textrm{age} = 20$ as a rough estimate.
+If an average $\bar{p}$ is not available for adult data, we use model predicted $p|\textrm{age} = 20$ as a rough estimate.
 
-Similarly, to adjust the standard error of the mean so as to remove the effect of zero-returns,we estimate:
+Similarly, to adjust the standard error of the mean so as to remove the effect of zero-returns, we estimate:
 
 $$ \sigma_{\bar{y}|y \geq 0} = \sqrt{\frac{\textrm{var}(y|y >0)}{n}}$$
-Where $n$ is the sample size among adults.
 
 $$ \textrm{var}(y|y>0) = \frac{\textrm{var}(y)}{(1 - p)} - p[\bar{y}|y>0]^2 $$
-Where $\textrm{var}(y)$ is just $(\sigma_{\bar{y}}^2)n$. Therefore we can adjust otherwise biased adult estimates of foraging returns in light of zero-return rates derived from the data.
+Where $n$ is the sample size among adults, $\bar{y}|y>0$ is the same as given above and $\textrm{var}(y)$ is $(\sigma_{\bar{y}}^2)n$. Therefore we can adjust biased adult estimates of foraging returns in light of zero-return rates derived from the data.
 
 ## Integrating individual-level data with study-level summary statistics
 
-Our data included a mix of individual-level returns and summary statistics, such as the mean and standard deviation of returns for children/adults.
+Our data included a mix of individual-level returns (e.g., a forager brought back $y$ kilograms of fish) and summary statistics, such as the mean and standard deviation of returns for children/adults (e.g., over the study period, children averaged $\bar{y}$ kilograms of fish per day). The challenge was to synthesize two distinct types of data: observations drawn from the random variable $f(y|\mu,\sigma)$ and observations drawn from the random variables $f(\mu)$ and $f(\sigma)$.
+
+When returns were given as summaries, we first adjusted for deflation due to zero-returns as described above. Then, to map these adjusted sample estimates onto the log-normal parameters $\mu$ and $\sigma$ we used the method of moments:
+
+$$ \mu_{[\textrm{obs}]} = \textrm{log}[\frac{(\bar{y}|y>0)^2}{\sqrt{\textrm{var}(y|y>0) + (\bar{y}|y>0)^2}}]$$
+$$ \sigma_{\textrm{[obs]}} = \sqrt{\textrm{log}[\frac{\textrm{var}(y|y>0)}{(\bar{y}|y>0)^2} + 1]}$$
+
+Then we can update the likelihood:
+
+$$ \mu_{[\textrm{obs}]} \sim \textrm{Normal}(\mu,\sigma_{\mu[\textrm{obs}]}) $$
+Where $\sigma_{\mu[\textrm{obs}]}$ is the standard error of $\bar{y}|y>0$ after the method of moments transformation.
+
+(NOTE: not sure how we would meta-analyze the variance terms given summary statistics...)
 
 ## What if no adult returns are available?
 
-
-
-## Individual differences
-
+Not sure! Need feedback.
 
 ## Adding predictors
 
+The meta-goal of this meta-analysis was to understand why some authors report that children are relatively bad at foraging, while others argue that children are proficient foragers from young ages.
+
+We allowed the parameters $k, b, \eta$, and $\alpha$ to vary among and between studies (i.e., if a single study had multiple outcomes) and resource type using random effects. We also assessed sex differences with an overall average sex difference and outcome-specific deviations as random effects.
+
+$$ \textrm{log}(\alpha) = \alpha_0 + v[\alpha_0,\textrm{outcome}] + v[\alpha_0,\textrm{resource}] + (\alpha_{[\textrm{sex}]} + \alpha_{[\textrm{sex,outcome}]})*\textrm{sex} $$
+$$ \textrm{log}(k) = k_0 + v[k_0,\textrm{outcome}] + v[k_0,\textrm{resource}] + (k_{[\textrm{sex}]} + k_{[\textrm{sex,outcome}]})*\textrm{sex} $$
+$$ \textrm{log}(b) = b_0 + v[b_0,\textrm{outcome}] + v[b_0,\textrm{resource}] + (b_{[\textrm{sex}]} + b_{[\textrm{sex,outcome}]})*\textrm{sex} $$
+$$ \textrm{log}(\eta) = \eta_0 + v[\eta_0,\textrm{outcome}] + v[\eta_0,\textrm{resource}] + (\eta_{[\textrm{sex}]} + \eta_{[\textrm{sex,outcome}]})*\textrm{sex} $$
+
+We also model correlations between the random (varying) effects $v$ to account for, for example, the possibility that studies where the base rate of skill acquisition is higher may have lower age-independent returns.
 
 ## Uncertainty in age 
 
+Forager age was not reported exactly in any study. Most frequently, authors reported an integer age for each child. In other cases an interval of possible ages was given (e.g., 4-7). Depending on the reported uncertainty, we modeled age with either Gaussian or uniform interval measurement error.
 
 ## Uncertainty in sex
 
+In cases where sex of the forager was not reported, we average over sex differences using log_mix() in proportion to how often males and females appeared in a given study.
 
-Absolute values of foraging returns are not likely to be directly comparable between or even within studies (if, for example the study reported returns for two different resource types). However, the target of our meta-analysis was not absolute production, but instead children's foraging productivity \it{relative} to adults. Therefore we scaled returns $y$ by the mean adult return in a given study and resource type.
+## Individual differences
 
-
-
-
-
-
-
-
+Some studies have multiple measurements from the same forager, in which case we include random effects to account for non-independence of the data and estimate between-individual variance in returns.

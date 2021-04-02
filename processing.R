@@ -4,10 +4,40 @@ library(rethinking)
 # Get all extracted data files in the subdirectories
 paper_data <- list.files(pattern = "^data_", recursive = TRUE)
 
-# Combine them into a single dataframe
-d <- paper_data %>% 
+round1 <- paper_data[substr(paper_data, 12, 17) != "round2"]
+round2 <- paper_data[substr(paper_data, 12, 17) == "round2"]
+
+# Combine each round of data into a single dataframe
+d_round1 <- round1 %>% 
   purrr::map(read_csv) %>% 
   purrr::reduce(rbind)
+
+d_round2 <- round2 %>% 
+  purrr::map(read_csv) %>% 
+  purrr::reduce(rbind)
+
+# Are the same studies in each round of data entry?
+sum(unique(d_round1$outcome) %in% unique(d_round2$outcome)) / length(unique(d_round1$outcome) )
+
+# Look at the empirical cumulative distributions between each pair
+d_both_rounds <- bind_rows(d_round1, d_round2)
+d_both_rounds$round <- c(rep("round1", nrow(d_round1)), rep("round2", nrow(d_round2)))
+
+ggplot(d_both_rounds, aes(raw_return, color=round)) + 
+  facet_wrap(~study, scales="free_x") +
+  stat_ecdf(alpha=0.6,lwd=0.8) + 
+  theme_minimal() +
+  ylab("ECDF")
+
+#####################################################
+#### Bring in data from cchunts package #############
+data("Alvard")
+data("Beckerman")
+data("Bird_Bird_Codding")
+data("Coad")
+data("Duda")
+data("Ellen")
+
 
 # Prep data for Stan
 N <- nrow(d)

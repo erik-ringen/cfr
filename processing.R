@@ -30,6 +30,8 @@ ggplot(d_both_rounds, aes(raw_return, color=round)) +
   theme_minimal() +
   ylab("ECDF")
 
+# Looks good. We'll use round2 for analysis.
+
 #####################################################
 #### Deal with negative values in BliegeBird_2002a ##
 d_round2 %>% 
@@ -37,25 +39,15 @@ d_round2 %>%
   summarise(min_return = min(raw_return)) %>% 
   filter(min_return < 0)
 
-## A
-d_round2$raw_return <- ifelse( 
-  d_round2$outcome == "BliegeBird_2002a_fig1a",
-  d_round2$raw_return - min(d_round2$raw_return[d_round2$outcome == "BliegeBird_2002a_fig1a"]),
-  d_round2$raw_return
-  )
+## For now, count net negative values as zero-return? 
+d_round2$raw_return <- ifelse( d_round2$raw_return < 0, 0, d_round2$raw_return )
 
-d_round2$raw_return <- ifelse( 
-  d_round2$outcome == "BliegeBird_2002a_fig1b",
-  d_round2$raw_return - min(d_round2$raw_return[d_round2$outcome == "BliegeBird_2002a_fig1b"]),
-  d_round2$raw_return
-)
+#####################################################
+#### Deal with resource type in Froehle 2018
+d_round2 %>% 
+  filter(is.na(resource))
 
-d_round2$raw_return <- ifelse( 
-  d_round2$outcome == "BliegeBird_2002a_fig3",
-  d_round2$raw_return - min(d_round2$raw_return[d_round2$outcome == "BliegeBird_2002a_fig3"]),
-  d_round2$raw_return
-)
-
+d_round2$resource <- ifelse(is.na(d_round2$resource), "mixed", d_round2$resource)
 
 #####################################################
 #### Bring in data from cchunts package #############
@@ -106,9 +98,13 @@ d_round2$sex <- as.numeric(d_round2$sex)
 
 d_combined <- bind_rows(d_round2, cchunts_dat_child2)
 
-d_combined <- d_combined %>% mutate(ratio = raw_return / adult_return)
+d_combined <- d_combined %>% mutate(resource = fct_recode(resource, game = "small_game", marine = "shellfish", marine = "fish", USOs = "tubers", USOs = "roots", fruit = "fruit", fruit = "fruits", mixed_other = "eggs", mixed_other = "honey", mixed_other = "mixed"), ratio = raw_return/adult_return)
 
-  
+####################################################
+#### Export combined dataset #######################
+write_csv(d_combined, "data.csv")
+
+
 
 
 # Prep data for Stan

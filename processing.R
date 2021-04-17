@@ -1,4 +1,5 @@
 library(tidyverse)
+library(cchunts)
 library(rethinking)
 
 # Get all extracted data files in the subdirectories
@@ -31,13 +32,34 @@ ggplot(d_both_rounds, aes(raw_return, color=round)) +
 
 #####################################################
 #### Bring in data from cchunts package #############
-data("Alvard")
-data("Beckerman")
-data("Bird_Bird_Codding")
-data("Coad")
-data("Duda")
-data("Ellen")
+cchunts_dat <- make_joint( cchunts_data_sets )
 
+# First, get summary of adult returns
+cchunts_dat_adult <- cchunts_dat %>% 
+  filter(age_dist_1 >= 20) %>% 
+  group_by(society, sex) %>% 
+  summarise(
+    adult_return = mean(harvest),
+    adult_sd = sd(harvest),
+    adult_se = sd(harvest)/sqrt(n())
+  )
+
+# Then get, individual-level data from foragers under 20
+cchunts_dat_child <- cchunts_dat %>% 
+  filter(age_dist_1 < 20) %>%
+  select(society, forager_id, sex, harvest, age_type, age_dist_1, age_dist_2, age_type) %>% 
+  mutate(study = paste0(society, "_cchunts"),
+         outcome = harvest,
+         id = paste0(society, forager_id),
+         sex = ifelse(sex == "M", 1, 0),
+         age = age_dist_1,
+         age_error = fct_recode(age_type, Exact = "none", Uncertain = "distribution", Uniform = "interval")
+         )
+  
+
+
+  
+  summarise(sex = sum(sex == "M")/n()) # proportion of males
 
 # Prep data for Stan
 N <- nrow(d)

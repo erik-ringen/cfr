@@ -31,13 +31,41 @@ ggplot(d_both_rounds, aes(raw_return, color=round)) +
   ylab("ECDF")
 
 #####################################################
+#### Deal with negative values in BliegeBird_2002a ##
+d_round2 %>% 
+  group_by(outcome) %>% 
+  summarise(min_return = min(raw_return)) %>% 
+  filter(min_return < 0)
+
+## A
+d_round2$raw_return <- ifelse( 
+  d_round2$outcome == "BliegeBird_2002a_fig1a",
+  d_round2$raw_return - min(d_round2$raw_return[d_round2$outcome == "BliegeBird_2002a_fig1a"]),
+  d_round2$raw_return
+  )
+
+d_round2$raw_return <- ifelse( 
+  d_round2$outcome == "BliegeBird_2002a_fig1b",
+  d_round2$raw_return - min(d_round2$raw_return[d_round2$outcome == "BliegeBird_2002a_fig1b"]),
+  d_round2$raw_return
+)
+
+d_round2$raw_return <- ifelse( 
+  d_round2$outcome == "BliegeBird_2002a_fig3",
+  d_round2$raw_return - min(d_round2$raw_return[d_round2$outcome == "BliegeBird_2002a_fig3"]),
+  d_round2$raw_return
+)
+
+
+#####################################################
 #### Bring in data from cchunts package #############
 cchunts_dat <- make_joint( cchunts_data_sets )
 
 # First, get summary of adult returns
 cchunts_dat_adult <- cchunts_dat %>% 
+  mutate(study = paste0(society, "_cchunts")) %>% 
   filter(age_dist_1 >= 20) %>% 
-  group_by(society, sex) %>% 
+  group_by(study, sex) %>% 
   summarise(
     adult_return = mean(harvest),
     adult_sd = sd(harvest),
@@ -49,17 +77,39 @@ cchunts_dat_child <- cchunts_dat %>%
   filter(age_dist_1 < 20) %>%
   select(society, forager_id, sex, harvest, age_type, age_dist_1, age_dist_2, age_type) %>% 
   mutate(study = paste0(society, "_cchunts"),
-         outcome = harvest,
+         outcome = paste0(society, "_cchunts"),
          id = paste0(society, forager_id),
-         sex = ifelse(sex == "M", 1, 0),
          age = age_dist_1,
-         age_error = fct_recode(age_type, Exact = "none", Uncertain = "distribution", Uniform = "interval")
-         )
+         age_error = fct_recode(age_type, "none" = "Exact", "distribution" = "Uncertain", "interval" = "Uniform"),
+         age_sd = ifelse(age_type == "Uncertain", age_dist_2, NA),
+         age_lower = ifelse(age_type == "Uniform", age_dist_1, NA),
+         age_upper = ifelse(age_type == "Uniform", age_dist_2, NA),
+         resource = "game",
+         units = "kg",
+         raw_return = harvest,
+         raw_sd = NA
+         ) %>% 
+  select(names(d_both_rounds[1:13]))
+  
+# Match child with average adult values
+cchunts_dat_child2 <- left_join(cchunts_dat_child, cchunts_dat_adult)
+cchunts_dat_child2$sex <- ifelse(cchunts_dat_child2$sex == "M", 1, 0)
+
+for (i in 1:nrow(d_round2)) {
+  if (d_round2$sex[i] == "female") d_round2$sex[i] <- 0
+  else if (d_round2$sex[i] == "male") d_round2$sex[i] <- 1
+  else if (d_round2$sex[i] == "both") d_round2$sex[i] <- 0.5
+  else d_round2$sex[i] <- as.numeric(d_round2$sex[i])
+}
+
+d_round2$sex <- as.numeric(d_round2$sex)
+
+d_combined <- bind_rows(d_round2, cchunts_dat_child2)
+
+d_combined <- d_combined %>% mutate(ratio = raw_return / adult_return)
+
   
 
-
-  
-  summarise(sex = sum(sex == "M")/n()) # proportion of males
 
 # Prep data for Stan
 N <- nrow(d)

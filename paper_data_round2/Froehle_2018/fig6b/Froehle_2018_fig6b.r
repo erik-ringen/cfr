@@ -9,7 +9,7 @@ usePackage("metaDigitise")
 
 ##################################
 home <- getwd() # remember home directory to return to
-temp_dir <- "paper_data/Froehle_2018/fig6b" # temporarily set directory
+temp_dir <- "paper_data_round2/Froehle_2018/fig6b" # temporarily set directory
 
 ### Pre-lim: digitize figure data
 #metaDigitise(temp_dir)

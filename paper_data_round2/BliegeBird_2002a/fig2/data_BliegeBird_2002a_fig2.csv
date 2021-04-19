@@ -1,4 +1,4 @@
-study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
-BliegeBird_2002a,BliegeBird_2002a_fig2,NA,both,NA,NA,NA,5,9,fish,net kcal/hr,87.051,96.469,783.2341111111111,835.0701573096777,196.82792366673004
-BliegeBird_2002a,BliegeBird_2002a_fig2,NA,both,NA,NA,NA,10,13,fish,net kcal/hr,375.156,248.506,783.2341111111111,835.0701573096777,196.82792366673004
-BliegeBird_2002a,BliegeBird_2002a_fig2,NA,both,NA,NA,NA,14,29,fish,net kcal/hr,268.284,250.809,783.2341111111111,835.0701573096777,196.82792366673004
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,raw_se,adult_return,adult_sd,adult_se
+BliegeBird_2002a,BliegeBird_2002a_fig2,NA,both,NA,NA,NA,5,9,fish,net kcal/hr,87.051,96.469,24.11725,783.2341111111111,835.0701573096777,196.82792366673004
+BliegeBird_2002a,BliegeBird_2002a_fig2,NA,both,NA,NA,NA,10,13,fish,net kcal/hr,375.156,248.506,62.1265,783.2341111111111,835.0701573096777,196.82792366673004
+BliegeBird_2002a,BliegeBird_2002a_fig2,NA,both,NA,NA,NA,14,29,fish,net kcal/hr,268.284,250.809,62.70225,783.2341111111111,835.0701573096777,196.82792366673004

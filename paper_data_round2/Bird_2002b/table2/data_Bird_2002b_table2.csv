@@ -1,10 +1,10 @@
-study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,adult_return,adult_sd,adult_se
-Bird_2002b,Bird_2002b_table2_Hippopus,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,1.02,1.3606983501129117,6.73,11.037603906645682,1.61
-Bird_2002b,Bird_2002b_table2_Tridacna spp.,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.8,1.6565023392678926,2.15,3.564940392208543,0.52
-Bird_2002b,Bird_2002b_table2_Trochus (lg),NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.2,0.7099295739719539,0.2,0.6855654600401044,0.1
-Bird_2002b,Bird_2002b_table2_Lambis,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,7.24,7.9867077071844825,19.6,18.990163243110892,2.77
-Bird_2002b,Bird_2002b_table2_Cypraea,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.71,3.4313262741977772,2.65,9.32369025654542,1.36
-Bird_2002b,Bird_2002b_table2_Trochus (sm),NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.61,1.4198591479439078,0,0,0
-Bird_2002b,Bird_2002b_table2_Strombus,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,4,6.034401378761609,1.56,4.250505852248647,0.62
-Bird_2002b,Bird_2002b_table2_Trid. crocea,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.08,0.2958039891549808,0.02,0.13711309200802088,0.02
-Bird_2002b,Bird_2002b_table2_Trid. gigas,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0,0,0.34,1.3025743740761984,0.19
+study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,raw_se,adult_return,adult_sd,adult_se
+Bird_2002b,Bird_2002b_table2_Hippopus,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,1.02,1.3606983501129117,0.23,6.73,11.037603906645682,1.61
+Bird_2002b,Bird_2002b_table2_Tridacna spp.,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.8,1.6565023392678926,0.28,2.15,3.564940392208543,0.52
+Bird_2002b,Bird_2002b_table2_Trochus (lg),NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.2,0.7099295739719539,0.12,0.2,0.6855654600401044,0.1
+Bird_2002b,Bird_2002b_table2_Lambis,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,7.24,7.9867077071844825,1.35,19.6,18.990163243110892,2.77
+Bird_2002b,Bird_2002b_table2_Cypraea,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.71,3.4313262741977772,0.58,2.65,9.32369025654542,1.36
+Bird_2002b,Bird_2002b_table2_Trochus (sm),NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.61,1.4198591479439078,0.24,0,0,0
+Bird_2002b,Bird_2002b_table2_Strombus,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,4,6.034401378761609,1.02,1.56,4.250505852248647,0.62
+Bird_2002b,Bird_2002b_table2_Trid. crocea,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0.08,0.2958039891549808,0.05,0.02,0.13711309200802088,0.02
+Bird_2002b,Bird_2002b_table2_Trid. gigas,NA,0.45714285714285713,NA,interval,NA,5,15,shellfish,item/h,0,0,0,0.34,1.3025743740761984,0.19

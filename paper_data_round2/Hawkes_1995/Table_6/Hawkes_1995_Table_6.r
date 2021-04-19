@@ -121,13 +121,14 @@ d_fin$resource <- "fruit" #
 d_fin$units <- d_all$unit # 
 d_fin$raw_return <- d_all$mean
 d_fin$raw_sd <- d_all$S.E. * sqrt(d_all$n)
+d_fin$raw_se <- d_all$S.E.
 d_fin$adult_return <- d_all$adult_mean
 d_fin$adult_sd <- d_all$adult_S.E. * sqrt(d_all$adult_n)
 d_fin$adult_se <- d_all$adult_S.E. 
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, raw_se, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

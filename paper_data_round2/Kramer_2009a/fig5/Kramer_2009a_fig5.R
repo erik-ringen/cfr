@@ -12,12 +12,12 @@ home <- getwd() # remember home directory to return to
 temp_dir <- "paper_data_round2/Kramer_2009a/fig5" # temporarily set directory
 
 ### Pre-lim: digitize figure data
- metaDigitise(temp_dir)
+#metaDigitise(temp_dir)
 
 # workflow: extract group*resource one at a time. Because sample sizes not given for specific ages, divide resource-specific sample sizes by number of age groups (n_group = 5)
 # sr = 15, lr = 25, m = 29.8
 
- saveRDS(metaDigitise(temp_dir, summary=T), paste0(temp_dir, "/fig5.rds"))
+#saveRDS(metaDigitise(temp_dir, summary=T), paste0(temp_dir, "/fig5.rds"))
 
 #################################
 setwd(temp_dir)
@@ -72,13 +72,14 @@ d_fin$resource <- c("roots", "roots", "fruit") #
 d_fin$units <- "g/h"                                #transformed from kg
 d_fin$raw_return <- d_fin$mean
 d_fin$raw_sd <- d_fin$sd
+d_fin$raw_se <- d_fin$sd / sqrt( c( (125/5), (149/5), (75/5) ))
 d_fin$adult_return <- d$mean_adult                  #adult values include age class with upper limits >20, hence with lower limit <20. to check for consistency with other tables
 d_fin$adult_sd <- d$sd_adult
 d_fin$adult_se <- d_fin$se_adult
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, raw_se, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

@@ -52,13 +52,14 @@ d_fin$resource <- "shellfish" # w
 d_fin$units <- "item/h" # 
 d_fin$raw_return <- d_wide$`LambdaC_children`
 d_fin$raw_sd <- d_wide$SE_children * sqrt(d_wide$`n_follows_LambdaC_children`)
+d_fin$raw_se <- d_wide$SE_children
 d_fin$adult_return <- d_wide$`LambdaC_adults`
 d_fin$adult_sd <- d_wide$SE_adults * sqrt(d_wide$`n_follows_LambdaC_adults`)
 d_fin$adult_se <- d_wide$SE_adults
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, raw_se, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

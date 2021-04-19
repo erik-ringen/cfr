@@ -70,13 +70,14 @@ d_fin$resource <- "fish" #
 d_fin$units <- "net kcal/hr" # 
 d_fin$raw_return <- d_select$mean
 d_fin$raw_sd <- d_select$s.d. 
+d_fin$raw_se <- d_select$s.d. / sqrt(sum(d_select$n))
 d_fin$adult_return <- d_a$adult_return[1]
 d_fin$adult_sd <- d_a$adult_sd[1]
 d_fin$adult_se <- d_a$adult_sd[1] / sqrt (sum (d_a$n))
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, raw_se, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

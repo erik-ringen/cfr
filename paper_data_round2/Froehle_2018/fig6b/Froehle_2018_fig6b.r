@@ -50,13 +50,14 @@ d_fin$resource <- NA # what type of foraging resource
 d_fin$units <- "kcal/h" # whether the rate is per hour (hr), per day, or other
 d_fin$raw_return <- d$mean
 d_fin$raw_sd <- d$error
+d_fin$raw_se <- d$error / sqrt(d$n)
 d_fin$adult_return <- NA
 d_fin$adult_sd <- NA
 d_fin$adult_se <- NA
 
 ##################################
 #### Step 4: Export outcome csv for further processing 
-d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, adult_return, adult_sd, adult_se)
+d_export <- d_fin %>% ungroup %>% select(study, outcome, id, sex, age, age_error, age_sd, age_lower, age_upper, resource, units, raw_return, raw_sd, raw_se, adult_return, adult_sd, adult_se)
 
 write_csv(d_export, paste0( paste(paste("data", paper_name, sep="_"),paper_section, sep="_"), ".csv" ))
 

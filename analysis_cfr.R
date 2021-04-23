@@ -176,42 +176,23 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", ag
 
 age_seq <- seq(from=0,to=20, length.out = 50)
 
-plot(NULL, ylim=c(0,1.2), xlim=c(0,20), ylab="Expected Child Return / Expected Adult Return", xlab="Age")
 
-### Marine resources ##
-preds_female <- pred_fun(age=age_seq, resp="returns", resource = 1, male=0)
-preds_male <- pred_fun(age=age_seq, resp="returns", resource = 1, male=1)
-preds_both <- (preds_female + preds_male)/2
+resource_cols <- c("#046C9A", "#CB2313", "#1E1E1E", "#0C775E", "#EBCC2A")
 
-lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="skyblue")
+plot(NULL, ylim=c(0,3), xlim=c(0,20), ylab="Expected Child Return / Expected Adult Return", xlab="Age")
 
-### Game resources ##
-preds_female <- pred_fun(age=age_seq, resp="returns", resource = 2, male=0)
-preds_male <- pred_fun(age=age_seq, resp="returns", resource = 2, male=1)
-preds_both <- (preds_female + preds_male)/2
+for (i in 1:N) points(y=data_list$returns[i], x = jitter(data_list$age[i]*20), col=col.alpha(resource_cols[resource[i]], 0.2), pch=16)
 
-lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="indianred")
+for (r in 1:max(resource)) {
+  preds_female <- pred_fun(age=age_seq, resp="returns", resource = r, male=0)
+  preds_male <- pred_fun(age=age_seq, resp="returns", resource = r, male=1)
+  preds_both <- (preds_female + preds_male)/2
+  
+  lines(apply(preds_both, 2, mean), x=age_seq, lwd=3, col=resource_cols[r])
+}
 
-### Mixed resources ##
-preds_female <- pred_fun(age=age_seq, resp="returns", resource = 3, male=0)
-preds_male <- pred_fun(age=age_seq, resp="returns", resource = 3, male=1)
-preds_both <- (preds_female + preds_male)/2
+legend(x=0, y=3, legend=c("Marine", "Game", "Mixed/Other", "Fruit", "Underground Storage Organs"), lwd=3, col=resource_cols, bty='n')
 
-lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="slategray")
-
-### Fruit resources ##
-preds_female <- pred_fun(age=age_seq, resp="returns", resource = 4, male=0)
-preds_male <- pred_fun(age=age_seq, resp="returns", resource = 4, male=1)
-preds_both <- (preds_female + preds_male)/2
-
-lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="seagreen")
-
-### USO resources ##
-preds_female <- pred_fun(age=age_seq, resp="returns", resource = 5, male=0)
-preds_male <- pred_fun(age=age_seq, resp="returns", resource = 5, male=1)
-preds_both <- (preds_female + preds_male)/2
-
-lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="orange")
 
 
 

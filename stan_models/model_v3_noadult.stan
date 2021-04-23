@@ -126,11 +126,11 @@ transformed parameters{
     alpha_p = exp( a_p[1] + a_p[2]*(s-1) + id_v[id[i],1] + outcome_v[outcome[i],7] + resource_v[resource[i],7]);
     
     // expected yield
-    alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + id_v[id[i],2] + outcome_v[outcome[i],7] + resource_v[resource[i],7]);
+    alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + id_v[id[i],2] + outcome_v[outcome[i],8] + resource_v[resource[i],8]);
     }
     
     else {
-    alpha_p = exp( a_p[1] + a_p[2]*(s-1) + outcome_v[outcome[i],8] + resource_v[resource[i],8]);
+    alpha_p = exp( a_p[1] + a_p[2]*(s-1) + outcome_v[outcome[i],7] + resource_v[resource[i],7]);
     
     // expected yield
     alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],8] + resource_v[resource[i],8]);

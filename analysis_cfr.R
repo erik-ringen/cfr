@@ -74,7 +74,7 @@ outcome <- match(d$outcome, unique(d$outcome))
 id <- coerce_index(d$id)
 id <- ifelse(is.na(id), -99, id)
 
-resource <- match(d$resource, unique(d$resource))
+d$resource_id <- match(d$resource, unique(d$resource))
 
 # Organize age data. flag NA's as -99 for Stan and divide by max age (20)
 age <- ifelse(is.na(d$age), (d$age_lower + d$age_upper)/2, d$age) / 20
@@ -96,7 +96,7 @@ data_list <- list(
   N_resource = max(resource),
   N_id = N_id,
   outcome = outcome,
-  resource = resource,
+  resource = d$resource_id,
   outcome_var = d$outcome_var,
   study = study,
   id = id,
@@ -110,49 +110,38 @@ data_list <- list(
   child_summary_returns = child_summary_returns
 )
 
+ggplot(filter(d, scaled_return > 0), aes(x = age, y = scaled_return)) + facet_wrap(~resource) + geom_point() + geom_smooth() + scale_y_continuous(limits=c(0,2.5))
+
+d_r <- d %>% 
+  group_by(resource) %>% 
+  summarise(id = unique(resource_id))
+
 stan_model <- stan_model("stan_models/model_v3_noadult.stan")
 
-fit <- sampling( stan_model, data=data_list, chains=8, cores=8, iter=100, init="0" )
+fit <- sampling( stan_model, data=data_list, chains=6, cores=6, iter=100, init="0" )
 
 post <- extract.samples(fit)
-
-pr_fail <- as.numeric(post$pr_fail)
-mu_obs <- as.numeric(post$mu_obs)
-
-var_nz <- NA
-
-for (i in 1:N) {
-  if (var_child[i] != -99) {
-    
-    var_nz[i] = (var_child[i]/(1 - pr_fail[i])) - (pr_fail[i]*(mu_obs[i]^2))
-    
-  }
-  
-}
-
-
-
-
 
 n_samps <- length(post$lp__)
 
 #### Convienience function to plot predictions
-pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
+pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", age=14 ) {
   
-  if (!is.na(outcome)) sd <- post$sd_merged[,match(outcome, data_list$outcome)]
-  else sd <- median(post$sd_outcome)
+  if (!is.na(resource)) resource_v <- post$resource_v[,resource,]
+  else resource_v <- matrix(0, nrow=n_samps, ncol=9)
   
+  if (!is.na(outcome)) sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,9])
+  else sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,9])
+
   if (!is.na(outcome)) outcome_v <- post$outcome_v[,outcome,]
-  else outcome_v <- matrix(0, nrow=n_samps, ncol=16)
-  
+  else outcome_v <- matrix(0, nrow=n_samps, ncol=9)
+    
   if (!is.na(id)) id_v <- post$id_v[,id,]
   else id_v <- matrix(0, nrow=n_samps, ncol=2)
   
   n_preds <- length(age)
     
-    k <- matrix(NA, n_samps, 2)
-    b <- k
-    eta <- k
+    k <- matrix(NA, n_samps, 2); b <- k; eta <- k
     S <- array(NA, dim=c(n_samps, n_preds,2))
     mu_p <- matrix(NA, n_samps, n_preds)
     mu_r <- mu_p
@@ -160,21 +149,20 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
     for (q in 1:2) {
       ticker <- 0
       
-      k[,q] = exp( post$a_k[,male+1,q] + outcome_v[,(ticker + 1 + q - 1)] + outcome_v[,(ticker + 3 + q - 1)]*male );
-      ticker <- ticker + 4 # update index position
+      k[,q] = exp( post$a_k[,male+1,q] + outcome_v[,(ticker + q)] + resource_v[,(ticker + q)]);
+      ticker <- ticker + 2 # update index position
       
-      b[,q] = exp( post$a_b[,male+1,q] + outcome_v[,(ticker + 1 + q - 1)] + outcome_v[,(ticker + 3 + q - 1)]*male );
-      ticker <- ticker + 4
+      b[,q] = exp( post$a_b[,male+1,q] + outcome_v[,(ticker + q)] + resource_v[,(ticker + q)]);
+      ticker <- ticker + 2
       
-      eta[,q] = exp( post$a_eta[,male+1,q] + outcome_v[,(ticker + 1 + q - 1)] + outcome_v[,(ticker + 3 + q - 1)]*male );
-      ticker <- ticker + 4
+      eta[,q] = exp( post$a_eta[,male+1,q] + outcome_v[,(ticker + q)] + resource_v[,(ticker + q)]);
+      ticker <- ticker + 2
       
       for (n in 1:n_preds) S[,n,q] = ( 1 - exp(-k[,q] * (age[n]/20) ))^b[,q];
     
-    p = exp( post$a_p[,1] + post$a_p[,2]*male + id_v[,1] + outcome_v[,ticker + 1] + outcome_v[,ticker + 2]*male );
-    ticker <- ticker + 2
+    p = exp( post$a_p[,1] + post$a_p[,2]*male + id_v[,1] + outcome_v[,7] + resource_v[,7]);
     
-    alpha = exp( post$a_alpha[,1] + post$a_alpha[,2]*male + id_v[,2] + outcome_v[,ticker + 1] + outcome_v[,ticker + 2]*male );
+    alpha = exp( post$a_alpha[,1] + post$a_alpha[,2]*male + id_v[,2] + outcome_v[,8] + resource_v[,8] );
     }
     
     for (n in 1:n_preds) {
@@ -183,17 +171,55 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resp="returns", age=14 ) {
     }
     
     if (resp == "S_returns") return( S[,,2] )
-    if (resp == "returns") return( mu_r )
+    if (resp == "returns") return( (2*(inv_logit(mu_p) - 0.5)) *  exp( log(mu_r) + (sd^2)/2) )
 }
 
 age_seq <- seq(from=0,to=20, length.out = 50)
 
-preds <- pred_fun(age=age_seq, resp="returns", male=0)
-plot(x=age_seq, y=apply(preds, 2, median), ylim=c(0,max(preds)), type="l", col="slategray", lwd=2)
+plot(NULL, ylim=c(0,1.2), xlim=c(0,20), ylab="Expected Child Return / Expected Adult Return", xlab="Age")
 
-shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray", 0.15))
-#shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray", 0.1))
-#shade(apply(preds, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray", 0.1))
+### Marine resources ##
+preds_female <- pred_fun(age=age_seq, resp="returns", resource = 1, male=0)
+preds_male <- pred_fun(age=age_seq, resp="returns", resource = 1, male=1)
+preds_both <- (preds_female + preds_male)/2
+
+lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="skyblue")
+
+### Game resources ##
+preds_female <- pred_fun(age=age_seq, resp="returns", resource = 2, male=0)
+preds_male <- pred_fun(age=age_seq, resp="returns", resource = 2, male=1)
+preds_both <- (preds_female + preds_male)/2
+
+lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="indianred")
+
+### Mixed resources ##
+preds_female <- pred_fun(age=age_seq, resp="returns", resource = 3, male=0)
+preds_male <- pred_fun(age=age_seq, resp="returns", resource = 3, male=1)
+preds_both <- (preds_female + preds_male)/2
+
+lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="slategray")
+
+### Fruit resources ##
+preds_female <- pred_fun(age=age_seq, resp="returns", resource = 4, male=0)
+preds_male <- pred_fun(age=age_seq, resp="returns", resource = 4, male=1)
+preds_both <- (preds_female + preds_male)/2
+
+lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="seagreen")
+
+### USO resources ##
+preds_female <- pred_fun(age=age_seq, resp="returns", resource = 5, male=0)
+preds_male <- pred_fun(age=age_seq, resp="returns", resource = 5, male=1)
+preds_both <- (preds_female + preds_male)/2
+
+lines(apply(preds_both, 2, mean), x=age_seq, lwd=2, col="orange")
+
+
+
+plot(x=age_seq, y=apply(preds_both, 2, median), ylim=c(0,1.2), type="l", col="slategray", lwd=2, ylab=c("Expected Child Return / Expected Adult Return"))
+
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray", 0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray", 0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray", 0.05))
 
 preds <- pred_fun(age=age_seq, resp="returns", male=1)
 lines(x=age_seq, y=apply(preds, 2, median), col="orange", lwd=2)

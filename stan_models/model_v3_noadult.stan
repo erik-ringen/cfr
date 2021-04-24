@@ -20,8 +20,8 @@ data{
 parameters{
   // Fixed effects 
   // only partially-pool parameters that are scale-free
-  matrix[2,2] a_k; // log-scale intercept for growth rate, sex-specific
-  matrix[2,2] a_b; // log-scale intercept for growth elasticity
+  vector[2] a_k; // log-scale intercept for growth rate, sex-specific
+  vector[2] a_b; // log-scale intercept for growth elasticity
   matrix[2,2] a_eta; // log-scale intercept for skill elasticity
   
   vector[2] a_p;
@@ -93,51 +93,45 @@ transformed parameters{
   for (s in 1:2) {
     
     // q denotes whether the model is for non-zero return prob (p) or quantitative return (mu)
-    real k[2];
-    real b[2];
+    real k;
+    real b;
     real eta[2];
-    real S[2];
+    real S;
     real alpha_p;
     real alpha_r;
-    
-    for (q in 1:2) {
       
-    int ticker = 0; // ticker keeps track of index position for random effects
-    
     // growth rate k
-    k[q] = exp( a_k[1,q] + a_k[2,q]*(s-1) + outcome_v[outcome[i],(ticker + q)] + resource_v[resource[i],(ticker + q)] );
-    ticker = ticker + 2; // update index position
+    k = exp( a_k[1] + a_k[2]*(s-1) + outcome_v[outcome[i],1] + resource_v[resource[i],1] );
     
-    // elasticity of growth
-    b[q] = exp( a_b[1,q] + a_b[2,q]*(s-1) + outcome_v[outcome[i],(ticker + q)] + resource_v[resource[i],(ticker + q)] );
-    ticker = ticker + 2; // update index position
+    // elasticity of growth b
+    b = exp( a_b[1] + a_b[2]*(s-1) + outcome_v[outcome[i],2] + resource_v[resource[i],2] );
+
+    // elasticity of skill eta, for prob non-zero harvest and mu return
+    eta[1] = exp( a_eta[1,1] + a_eta[2,1]*(s-1) + outcome_v[outcome[i],3] + resource_v[resource[i],3] );
     
-    // elasticity of skill
-    eta[q] = exp( a_eta[1,q] + a_eta[2,q]*(s-1) + outcome_v[outcome[i],(ticker + q)] + resource_v[resource[i],(ticker + q)] );
-    ticker = ticker + 2;
+    eta[2] = exp( a_eta[1,2] + a_eta[2,2]*(s-1) + outcome_v[outcome[i],4] + resource_v[resource[i],4] );
     
     // Skill, age = age with measurement error
-    S[q] = pow( 1 - exp(-k[q] * age_merged[i]), b[q] );
-    }
+    S = pow( 1 - exp(-k * age_merged[i]), b );
     
     // add individual random effects to alpha_p and alpha_r, where appropriate
     if (id[i] > 0 ) {
     // prob foraging success
-    alpha_p = exp( a_p[1] + a_p[2]*(s-1) + id_v[id[i],1] + outcome_v[outcome[i],7] + resource_v[resource[i],7]);
+    alpha_p = exp( a_p[1] + a_p[2]*(s-1) + id_v[id[i],1] + outcome_v[outcome[i],5] + resource_v[resource[i],5]);
     
     // expected yield
-    alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + id_v[id[i],2] + outcome_v[outcome[i],8] + resource_v[resource[i],8]);
+    alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + id_v[id[i],2] + outcome_v[outcome[i],6] + resource_v[resource[i],6]);
     }
     
     else {
-    alpha_p = exp( a_p[1] + a_p[2]*(s-1) + outcome_v[outcome[i],7] + resource_v[resource[i],7]);
+    alpha_p = exp( a_p[1] + a_p[2]*(s-1) + outcome_v[outcome[i],5] + resource_v[resource[i],5]);
     
     // expected yield
-    alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],8] + resource_v[resource[i],8]);
+    alpha_r = exp( a_alpha[1] + a_alpha[2]*(s-1) + outcome_v[outcome[i],6] + resource_v[resource[i],6]);
     }
     
-    mu_p[i,s] = pow(S[1],eta[1]) * alpha_p; 
-    mu_r[i,s] = pow(S[2],eta[2]) * alpha_r;
+    mu_p[i,s] = pow(S,eta[1]) * alpha_p; 
+    mu_r[i,s] = pow(S,eta[2]) * alpha_r;
     } // end loop over sex
   
     } // end loop over obs
@@ -147,8 +141,8 @@ transformed parameters{
 
 model{
   // Priors ///////////////////////////
-  to_vector(a_k) ~ std_normal();
-  to_vector(a_b) ~ std_normal();
+  a_k ~ std_normal();
+  a_b ~ std_normal();
   to_vector(a_eta) ~ std_normal();
   a_alpha ~ std_normal();
   a_p ~ std_normal();

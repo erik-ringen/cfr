@@ -70,7 +70,7 @@ d$sex <- ifelse(is.na(d$sex), 0.5, d$sex)
 ########################################################
 # making additional indices
 study <- match(d$study, unique(d$study))
-outcome <- match(d$outcome, unique(d$outcome))
+d$outcome_id <- match(d$outcome, unique(d$outcome))
 id <- coerce_index(d$id)
 id <- ifelse(is.na(id), -99, id)
 
@@ -95,7 +95,7 @@ data_list <- list(
   N_outcomes = N_outcomes,
   N_resource = max(d$resource_id),
   N_id = N_id,
-  outcome = outcome,
+  outcome = d$outcome_id,
   resource = d$resource_id,
   outcome_var = d$outcome_var,
   study = study,
@@ -110,15 +110,13 @@ data_list <- list(
   child_summary_returns = child_summary_returns
 )
 
-ggplot(d, aes(x = age, y = scaled_return)) + facet_wrap(~resource) + geom_point() + geom_smooth() + scale_y_continuous(limits=c(0,2.5))
-
 d_r <- d %>% 
   group_by(resource) %>% 
   summarise(id = unique(resource_id))
 
 stan_model <- stan_model("stan_models/model_v3_noadult.stan")
 
-fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=200, init="0" )
+fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=500, init="0" )
 
 post <- extract.samples(fit)
 
@@ -179,16 +177,17 @@ age_seq <- seq(from=0,to=20, length.out = 50)
 
 resource_cols <- c("#046C9A", "#CB2313", "#1E1E1E", "#0C775E", "#EBCC2A")
 
-plot(NULL, ylim=c(0,1), xlim=c(0,20), ylab="Expected Child Return / Expected Adult Return", xlab="Age")
+for (i in 1:N) points(y=data_list$returns[i], x = jitter(data_list$age[i]*20), col=col.alpha(resource_cols[data_list$resource[i]], 0.2), pch=16)
 
-#for (i in 1:N) points(y=data_list$returns[i], x = jitter(data_list$age[i]*20), col=col.alpha(resource_cols[data_list$resource[i]], 0.2), pch=16)
+plot(NULL, ylim=c(0,3), xlim=c(0,20), ylab="Expected Child Return / Expected Adult Return", xlab="Age")
 
 for (r in 1:max(data_list$resource)) {
-  preds_female <- pred_fun(age=age_seq, resp="S_returns", resource = r, male=0)
-  preds_male <- pred_fun(age=age_seq, resp="S_returns", resource = r, male=1)
+  
+  preds_female <- pred_fun(age=age_seq, resp="returns", resource = r, male=0)
+  preds_male <- pred_fun(age=age_seq, resp="returns", resource = r, male=1)
   preds_both <- (preds_female + preds_male)/2
   
-  lines(apply(preds_both, 2, mean), x=age_seq, lwd=3, col=resource_cols[r])
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
 }
 
 legend(x=0, y=3, legend=c("Marine", "Game", "Mixed/Other", "Fruit", "Underground Storage Organs"), lwd=3, col=resource_cols, bty='n')

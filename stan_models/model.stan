@@ -22,8 +22,7 @@ data{
   int adult_values_present[N]; // indicator whether adult returns are absent (0) or present, in which case value is an index 1-N_AV
   int N_AV; // number adult values present
   
-  int child_summary_returns[N]; // 
-  int N_CV;
+  int child_summary_returns[N]; //
 }
 
 parameters{
@@ -41,7 +40,6 @@ parameters{
   real<lower=0> sigma_sd_outcome; // std deviation of outcome sd random effects
   
   vector<lower=0>[N_AV] adult_returns;  // avg adult return, parameterized to carry forward uncertainty, zero-inflated
-  vector<lower=0>[N_CV] child_returns; // child return, when data were reported as a summary rather than an individual return
   
   // study*outcome-level random effects
   matrix[16,N_outcomes] outcome_z;
@@ -65,6 +63,7 @@ transformed parameters{
   
   vector[N] mu_obs; // for summary statistics, need to adjust for zero-deflation
   vector[N] sem_obs; // for summary statistics, need to adjust for zero-deflation  
+  vector[N] p_obs;
   
   vector[N] mu_adult_obs; // for summary statistics, need to adjust for zero-deflation
   vector[N] sem_adult_obs; // for summary statistics, need to adjust for zero-deflation  
@@ -152,9 +151,11 @@ transformed parameters{
   // When there are no adult return values
   if (mu_adult[i] == -99) {
    
-  real adult_returns_adj;
   real adult_returns_adj_f = (1 - 2*( inv_logit(mu_p[i,1]) - 0.5  )) * exp( log(mu_r[i,1]) + square(sd_merged[i])/2 );
   real adult_returns_adj_m = (1 - 2*( inv_logit(mu_p[i,2]) - 0.5  )) * exp( log(mu_r[i,2]) + square(sd_merged[i])/2 );
+  
+  mu_adult_obs[i] = -99;
+  sem_adult_obs[i] = -99;
   
   // Average over sex differences in adult mean returns
   adult_returns_merged[i] = (1 - sex[i])*adult_returns_adj_f + sex[i]*adult_returns_adj_m;
@@ -169,7 +170,7 @@ transformed parameters{
       
   n_est = square(sd_adult[i]/se_adult[i]);
       
-  mu_adult_obs[i] = returns[i]/(1 - pr_fail);
+  mu_adult_obs[i] = mu_adult[i]/(1 - pr_fail);
   var_nz = (square(sd_adult[i])/(1 - pr_fail)) - pr_fail*square(mu_adult_obs[i]);
   sem_adult_obs[i] = sqrt(var_nz/n_est);
   
@@ -257,7 +258,7 @@ transformed parameters{
       var_nz = (square(sd_child[i])/(1 - pr_fail)) - pr_fail*square(mu_obs[i]);
       sem_obs[i] = sqrt(var_nz/n_est);
       
-      child_returns_merged[i] = child_returns[child_summary_returns[i]];
+      child_returns_merged[i] = mu_obs[i];
     }
     
   }
@@ -268,20 +269,15 @@ transformed parameters{
   
 ////////////////////////////////////////////////////////////////////// sds for log-normal returns for each outcome
   for (i in 1:N) {
-      sd_merged[i] = a_sd_outcome + sd_outcome[outcome[i]]*sigma_sd_outcome;
+      sd_merged[i] = exp(a_sd_outcome + sd_outcome[outcome[i]]*sigma_sd_outcome);
     }
     
 } // end transformed parameters block
 
 model{
   //// Adult returns meausrement error model //////////////////////////////
-  
   for (i in 1:N) {
-    if (adult_values_present[i] > 0)
-    adult_returns[i] ~ normal(mu_adult_obs[i], sem_adult_obs[i]);
-    
-    if (child_summary_returns[i] > 0)
-    child_returns[i] ~ normal(mu_obs[i], sem_obs[i]);
+    if (mu_adult[i] != -99) adult_returns[adult_values_present[i]] ~ normal(mu_adult_obs[i], 0.1);
   }
   
   // Priors ///////////////////////////
@@ -327,20 +323,42 @@ model{
   }
   
   else if (scaled_returns[i] > 0) {
+    
     lp_p[1] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
     lp_p[2] = bernoulli_lpmf( 1 | 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
     
+    // If data were given as summary statitics, can only meta-analyze the expected value
+    if (child_summary_returns[i] > 0) {
+    lp_r[1] = normal_lpdf( scaled_returns[i] | exp(log(mu_r[i,1]) + square(sd_merged[i])/2), sem_obs[i] );
+    lp_r[2] = normal_lpdf( scaled_returns[i] | exp(log(mu_r[i,1]) + square(sd_merged[i])/2), sem_obs[i] );
+    
+    // Mix over male or female in proportion to their probability
+    target += log_mix( 1 - sex[i], lp_r[1], lp_r[2] );
+    }
+    
+    // If data were given as individual-level data, use full model
+    else {
     lp_r[1] = lognormal_lpdf( scaled_returns[i] | log(mu_r[i,1]), sd_merged[i] );
     lp_r[2] = lognormal_lpdf( scaled_returns[i] | log(mu_r[i,2]), sd_merged[i] );
+    
+    // Mix over male or female in proportion to their probability
+    target += log_mix( 1 - sex[i], lp_p[1], lp_p[2] );
+    target += log_mix( 1 - sex[i], lp_r[1], lp_r[2] );
+    }
   }
-  
-  // Mix over male or female in proportion to their probability
-  target += log_mix( 1 - sex[i], lp_p[1], lp_p[2] );
-  target += log_mix( 1 - sex[i], lp_r[1], lp_r[2] );
   }
   
   // If sex female
   else if (sex[i] == 0) {
+    
+    // only summary statistics
+    if (child_summary_returns[i] > 0) {
+    
+    scaled_returns[i] ~ normal( exp(log(mu_r[i,1]) + square(sd_merged)/2), sem_obs[i] );
+    }
+    
+    // individual-level returns
+    else {
     
     if (scaled_returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5 ) );
     else if (scaled_returns[i] > 0) {
@@ -348,16 +366,27 @@ model{
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5   ));
     scaled_returns[i] ~ lognormal( log(mu_r[i,1]), sd_merged[i] );
     }
+    }
   }
   
     // If sex male
   else if (sex[i] == 1) {
     
+    // only summary statistics
+    if (child_summary_returns[i] > 0) {
+    
+    scaled_returns[i] ~ normal( exp(log(mu_r[i,2]) + square(sd_merged[i])/2), sem_obs[i] );
+    }
+    
+    // individual-level returns
+    else {
+    
     if (scaled_returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
     else if (scaled_returns[i] > 0) {
-      
+    
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5   ));
     scaled_returns[i] ~ lognormal( log(mu_r[i,2]), sd_merged[i] );
+    }
     }
   }
   
@@ -365,5 +394,3 @@ model{
 ////////////////////////////////////////////////////////
 
 } // end model block
-
-

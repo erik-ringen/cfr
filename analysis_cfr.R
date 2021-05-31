@@ -114,96 +114,219 @@ d_r <- d %>%
   group_by(resource) %>% 
   summarise(id = unique(resource_id))
 
+d_outcome <- d %>% 
+  group_by(outcome) %>% 
+  summarise(id = unique(outcome_id)) %>% 
+  mutate(short_name = str_extract(outcome, "[^_]+"))
+
 stan_model <- stan_model("stan_models/model_v3_noadult.stan")
 
-fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=500, init="0" )
+fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=250, init="0" )
 
 post <- extract.samples(fit)
 
 n_samps <- length(post$lp__)
 
-#### Convienience function to plot predictions
+
+
+#### Convenience function to plot predictions
 pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", age=14 ) {
   
   if (!is.na(resource)) resource_v <- post$resource_v[,resource,]
-  else resource_v <- matrix(0, nrow=n_samps, ncol=9)
+  else resource_v <- matrix(0, nrow=n_samps, ncol=7)
   
-  if (!is.na(outcome)) sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,9])
-  else sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,9])
+  if (!is.na(outcome)) sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7])
+  else sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7])
 
   if (!is.na(outcome)) outcome_v <- post$outcome_v[,outcome,]
-  else outcome_v <- matrix(0, nrow=n_samps, ncol=9)
+  else outcome_v <- matrix(0, nrow=n_samps, ncol=7)
     
   if (!is.na(id)) id_v <- post$id_v[,id,]
   else id_v <- matrix(0, nrow=n_samps, ncol=2)
   
   n_preds <- length(age)
     
-    k <- matrix(NA, n_samps, 2); b <- k; eta <- k
-    S <- array(NA, dim=c(n_samps, n_preds,2))
+    eta <- matrix(NA, n_samps, 2); k <- rep(NA, n_samps); b <- k
+    S <- matrix(NA, n_samps, n_preds)
     mu_p <- matrix(NA, n_samps, n_preds)
     mu_r <- mu_p
+      
+      k = exp( post$a_k[,1] + post$a_k[,2]*male + outcome_v[,1] + resource_v[,1])
+      
+      b = exp( post$a_b[,1] + post$a_b[,2]*male + outcome_v[,2] + resource_v[,2])
+      
+      eta[,1] = exp( post$a_eta[,1,1] + post$a_eta[,2,1]*male + outcome_v[,3] + resource_v[,3])
+      eta[,2] = exp( post$a_eta[,1,2] + post$a_eta[,2,2]*male + outcome_v[,4] + resource_v[,4])
+      
+      for (n in 1:n_preds) S[,n] = ( 1 - exp(-k * (age[n]/20) ))^b
     
-    for (q in 1:2) {
-      ticker <- 0
-      
-      k[,q] = exp( post$a_k[,male+1,q] + outcome_v[,(ticker + q)] + resource_v[,(ticker + q)]);
-      ticker <- ticker + 2 # update index position
-      
-      b[,q] = exp( post$a_b[,male+1,q] + outcome_v[,(ticker + q)] + resource_v[,(ticker + q)]);
-      ticker <- ticker + 2
-      
-      eta[,q] = exp( post$a_eta[,male+1,q] + outcome_v[,(ticker + q)] + resource_v[,(ticker + q)]);
-      ticker <- ticker + 2
-      
-      for (n in 1:n_preds) S[,n,q] = ( 1 - exp(-k[,q] * (age[n]/20) ))^b[,q];
+    p = exp( post$a_p[,1] + post$a_p[,2]*male + id_v[,1] + outcome_v[,5] + resource_v[,5])
     
-    p = exp( post$a_p[,1] + post$a_p[,2]*male + id_v[,1] + outcome_v[,7] + resource_v[,7]);
-    
-    alpha = exp( post$a_alpha[,1] + post$a_alpha[,2]*male + id_v[,2] + outcome_v[,8] + resource_v[,8] );
-    }
+    alpha = exp( post$a_alpha[,1] + post$a_alpha[,2]*male + id_v[,2] + outcome_v[,6] + resource_v[,6] )
     
     for (n in 1:n_preds) {
-    mu_p[,n] = (S[,n,1]^eta[,1]) * p; 
-    mu_r[,n] = (S[,n,2]^eta[,2]) * alpha;
+    mu_p[,n] = (S[,n]^eta[,1]) * p
+    mu_r[,n] = (S[,n]^eta[,2]) * alpha
     }
     
-    if (resp == "S_returns") return( S[,,2] )
-    if (resp == "returns") return( (2*(inv_logit(mu_p) - 0.5)) *  exp( log(mu_r) + (sd^2)/2) )
+    if (resp == "S_returns") return( S )
+    if (resp == "dim_returns") return(  2*(inv_logit(mu_p) - 0.5) * exp( log(mu_r) + (sd^2)/2) )
+    if (resp == "nodim_returns") return( mu_r/alpha )
 }
-
-age_seq <- seq(from=0,to=20, length.out = 50)
-
 
 resource_cols <- c("#046C9A", "#CB2313", "#1E1E1E", "#0C775E", "#EBCC2A")
 
-for (i in 1:N) points(y=data_list$returns[i], x = jitter(data_list$age[i]*20), col=col.alpha(resource_cols[data_list$resource[i]], 0.2), pch=16)
+age_seq <- seq(from=2, to=20, length.out = 40)
 
-plot(NULL, ylim=c(0,3), xlim=c(0,20), ylab="Expected Child Return / Expected Adult Return", xlab="Age")
+par(mfrow=c(1,3), cex=1)
+
+plot(NULL, ylim=c(0,3), xlim=c(2,20), ylab="E(Child Returns)/E(Adult Returns)", xlab="Age")
+mtext("Measurement Scale")
+legend(x=2, y=3, legend=c("Marine", "Game", "Mixed/Other", "Fruit", "Underground Storage Organs"), lwd=3, col=resource_cols, bty='n', cex=0.7)
+
+# plot raw data?
+for (i in 1:N) points(y=data_list$returns[i], x = jitter(data_list$age[i]*20), col=col.alpha(resource_cols[data_list$resource[i]], 0.2), pch=16)
 
 for (r in 1:max(data_list$resource)) {
   
-  preds_female <- pred_fun(age=age_seq, resp="returns", resource = r, male=0)
-  preds_male <- pred_fun(age=age_seq, resp="returns", resource = r, male=1)
-  preds_both <- (preds_female + preds_male)/2
+  preds_female <- pred_fun(age=age_seq, resp="dim_returns", resource = r, male=0)
+  preds_male <- pred_fun(age=age_seq, resp="dim_returns", resource = r, male=1)
+  preds_both <- (preds_male + preds_female)/2
   
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
 }
 
-legend(x=0, y=3, legend=c("Marine", "Game", "Mixed/Other", "Fruit", "Underground Storage Organs"), lwd=3, col=resource_cols, bty='n')
+
+plot(NULL, ylim=c(0,1), xlim=c(2,20), ylab="Returns", xlab="Age", yaxt='n')
+axis(2, at=c(0,1), labels=c("Min","Max"))
+mtext("Dimensionless Returns")
+
+for (r in 1:max(data_list$resource)) {
+  
+  preds_female <- pred_fun(age=age_seq, resp="nodim_returns", resource = r, male=0)
+  preds_male <- pred_fun(age=age_seq, resp="nodim_returns", resource = r, male=1)
+  preds_both <- (preds_male + preds_female)/2
+  
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
+}
+
+
+plot(NULL, ylim=c(0,1), xlim=c(2,20), ylab="Skill", xlab="Age", yaxt='n')
+mtext("Dimensionless Latent Skill")
+axis(2, at=c(0,1), labels=c("Min","Max"))
+
+for (r in 1:max(data_list$resource)) {
+  
+  preds_female <- pred_fun(age=age_seq, resp="S_returns", resource = r, male=0)
+  preds_male <- pred_fun(age=age_seq, resp="S_returns", resource = r, male=1)
+  preds_both <- (preds_male + preds_female)/2
+  
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
+}
+
+#####################################################
+### Sex differences #################################
+par(mfrow=c(1,3))O
+
+plot(NULL, ylim=c(0,3), xlim=c(2,20), ylab="E(Child Returns)/E(Adult Returns)", xlab="Age")
+axis(2, at=c(0,1), labels=c("Min","Max"), yaxt='n')
+mtext("Measurement Scale")
+legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n')
+
+preds_female <- pred_fun(age=age_seq, resp="dim_returns", male=0)
+preds_male <- pred_fun(age=age_seq, resp="dim_returns", male=1)
+  
+lines(apply(preds_female, 2, median), x=age_seq, lwd=3, col="slategray")
+shade(apply(preds_female, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("slategray",0.1))
+
+lines(apply(preds_male, 2, median), x=age_seq, lwd=3, col="orange")
+shade(apply(preds_male, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("orange",0.1))
+
+## Dimensionless returns
+plot(NULL, ylim=c(0,1), xlim=c(2,20), ylab="", xlab="Age", yaxt='n')
+axis(2, at=c(0,1), labels=c("Min","Max"))
+mtext("Dimensionless Returns")
+legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n', cex=0.7)
+
+preds_female <- pred_fun(age=age_seq, resp="nodim_returns", male=0)
+preds_male <- pred_fun(age=age_seq, resp="nodim_returns", male=1)
+
+lines(apply(preds_female, 2, median), x=age_seq, lwd=3, col="slategray")
+shade(apply(preds_female, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("slategray",0.1))
+
+lines(apply(preds_male, 2, median), x=age_seq, lwd=3, col="orange")
+shade(apply(preds_male, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("orange",0.1))
+
+## Dimensionless skill
+plot(NULL, ylim=c(0,1), xlim=c(2,20), ylab="", xlab="Age", yaxt='n')
+axis(2, at=c(0,1), labels=c("Min","Max"))
+mtext("Dimensionless Latent Skill")
+legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n', cex=0.7)
+
+preds_female <- pred_fun(age=age_seq, resp="S_returns", male=0)
+preds_male <- pred_fun(age=age_seq, resp="S_returns", male=1)
+
+lines(apply(preds_female, 2, median), x=age_seq, lwd=3, col="slategray")
+shade(apply(preds_female, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("slategray",0.1))
+
+lines(apply(preds_male, 2, median), x=age_seq, lwd=3, col="orange")
+shade(apply(preds_male, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("orange",0.1))
+
+#### Compare parameters between males and females
+par(mfrow=c(1,5))
+dens( exp(post$a_k[,1] + post$a_k[,2]), col="orange", lwd=2, yaxt='n', xlab='k', ylab="", xlim=c(0,5.5)) 
+dens( exp(post$a_k[,1]), col="slategray", lwd=2, yaxt='n', xlab='k', ylab="", add=T) 
+legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n')
+mtext("k")
+
+
+dens( exp(post$a_b[,1] + post$a_b[,2]), col="orange", lwd=2, yaxt='n', xlab='b', ylab="") 
+dens( exp(post$a_b[,1]), col="slategray", lwd=2, yaxt='n', xlab='b', ylab="", add=T) 
+mtext("b")
+
+dens( exp(post$a_eta[,1,2] + post$a_eta[,2,2]), col="orange", lwd=2, yaxt='n', xlab='eta', ylab="") 
+dens( exp(post$a_eta[,1,2]), col="slategray", lwd=2, yaxt='n', xlab='eta', ylab="", add=T) 
+mtext(expression(eta))
+
+dens( exp(post$a_alpha[,1]), col="slategray", lwd=2, yaxt='n', xlab='alpha', ylab="") 
+dens( exp(post$a_alpha[,1] + post$a_alpha[,2]), col="orange", lwd=2, yaxt='n', xlab='eta', ylab="", add=T) 
+
+mtext(expression(alpha))
+
+
+dens( exp(post$a_sd_outcome[,1]), col="slategray", lwd=2, yaxt='n', xlab='sigma', ylab="") 
+dens( exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]), col="orange", lwd=2, yaxt='n', xlab='eta', ylab="", add=T) 
+
+mtext(expression(sigma))
+
+################################
+#### Outcome differences #######
+
+k_outcome <- apply(post$outcome_v[,,1], 2, median)
+b_outcome <- apply(post$outcome_v[,,2], 2, median)
+eta_outcome <- apply(post$outcome_v[,,4], 2, median)
+alpha_outcome <- apply(post$outcome_v[,,6], 2, median)
+sigma_outcome <- apply(post$outcome_v[,,7], 2, median)
+
+
+d_outcome %>% arrange(id)
+
+
+plot()
 
 
 
 
-plot(x=age_seq, y=apply(preds_both, 2, median), ylim=c(0,1.2), type="l", col="slategray", lwd=2, ylab=c("Expected Child Return / Expected Adult Return"))
 
-shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray", 0.05))
-shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray", 0.05))
-shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray", 0.05))
 
-preds <- pred_fun(age=age_seq, resp="returns", male=1)
-lines(x=age_seq, y=apply(preds, 2, median), col="orange", lwd=2)
-shade(apply(preds, 2, PI, prob=0.9), age_seq, col=col.alpha("orange", 0.15))
-#shade(apply(preds, 2, PI, prob=0.6), age_seq, col=col.alpha("orange", 0.1))
-#shade(apply(preds, 2, PI, prob=0.3), age_seq, col=col.alpha("orange", 0.1))
+
+
+
+
+
+
+
+
+
+
 

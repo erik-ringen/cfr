@@ -9,8 +9,6 @@ data{
   real sex[N]; // probability male (sex = 1) forager
   int id[N]; // index of individual id
   vector[N] age; // mean age
-  vector[N] age_lower; // low-end of age, if given as interval
-  vector[N] age_upper; // high-end of age, if given as interval
   vector[N] age_sd; // std. dev of age, if given
   vector[N] returns; // return value (child)
   vector[N] se_child; // SEM child 
@@ -47,11 +45,14 @@ parameters{
   cholesky_factor_corr[2] L_id;
   
   // Age measurement error
-  vector<lower=0,upper=1>[N] age_me; // measurement error on age, constraints will be rescaled in transformed parameter block
+  vector<lower=0,upper=1>[N] age_me;
+  
+  // pooling of age based on study outcome
+  vector[N_outcomes] age_mu;
+  vector<lower=0>[N_outcomes] age_sigma; 
 }
 
 transformed parameters{
-  vector[N] age_merged; // all age values
   matrix[N,2] sd_merged;
   matrix[N,2] mu_p; // mean vector for prob of non-zero return
   matrix[N,2] mu_r; // mean vector for quantity of returns 
@@ -71,19 +72,6 @@ transformed parameters{
       if (outcome_var[i] > 0) sd_merged[i,s] = exp(a_sd_outcome[1] + a_sd_outcome[2]*(s-1) + outcome_v[outcome[i],7] + resource_v[resource[i],7]);
       else sd_merged[i,s] = exp(a_sd_outcome[1] + a_sd_outcome[2]*(s-1) + resource_v[resource[i],7]);
     }
-
-  //////////////////////////////////////////////////////////////////////////
-  // contraints on age will depend on whether the error is gaussian or interval
-  for (i in 1:N) {
-    // uniform error
-    if (age_lower[i] != -99) {
-      age_merged[i] = age_lower[i] + (age_upper[i] - age_lower[i]) * age_me[i];
-    }
-    // gaussian error is anywhere from 0 to 20 years, thus no need to adjust bounds
-    else {
-      age_merged[i] = age_me[i];
-    }
-  }
   
 //////////////////////////////////////////////////////////
   // Model loop for child foragers /////////////////////////
@@ -112,7 +100,7 @@ transformed parameters{
     eta[2] = exp( a_eta[1,2] + a_eta[2,2]*(s-1) + outcome_v[outcome[i],4] + resource_v[resource[i],4] );
     
     // Skill, age = age with measurement error
-    S = pow( 1 - exp(-k * age_merged[i]), b );
+    S = pow( 1 - exp(-k * age_me[i]), b );
     
     // add individual random effects to alpha_p and alpha_r, where appropriate
     if (id[i] > 0 ) {
@@ -163,11 +151,16 @@ model{
   L_resource ~ lkj_corr_cholesky(2);
   //////////////////////////////////////
   
-  // meausrement error model for age, depending on error structure
+  // meausrement error model for age
+  age_mu ~ std_normal();
+  age_sigma ~ exponential(1);
+  
   for (i in 1:N) {
-    if (age_lower[i] != -99) age_merged[i] ~ uniform(age_lower[i], age_upper[i]);
-    else if (age_sd[i] != -99) age_merged[i] ~ normal(age[i], age_sd[i]);
-    else age_merged[i] ~ normal(age[i], 0.5/20); // generic age error when no other info available
+    
+    age_me[i] ~ normal( age_mu[outcome[i]], age_sigma[outcome[i]]);
+    
+    if (age_sd[i] != -99) age[i] ~ normal(age_me[i], age_sd[i]);
+    else age[i] ~ normal(age_me[i], 0.5/20); // generic age error when no other info available
   }
   
   /////////////////////////////////////

@@ -78,9 +78,13 @@ d$resource_id <- match(d$resource, unique(d$resource))
 
 # Organize age data. flag NA's as -99 for Stan and divide by max age (20)
 age <- ifelse(is.na(d$age), (d$age_lower + d$age_upper)/2, d$age) / 20
-age_lower <- ifelse(is.na(d$age_lower), -99, d$age_lower / 20)
-age_upper <- ifelse(is.na(d$age_upper), -99, d$age_upper / 20)
+
+# If age given as sd
 age_sd <- ifelse(is.na(d$age_sd), -99, d$age_sd / 20 )
+
+# If age given as intervals
+age_range <- (d$age_upper - d$age_lower) / 20
+age_sd <- ifelse(!is.na(age_range), age_range/2, age_sd)
 
 # Index unique outcomes with unknown variance
 d$outcome_var <- coerce_index( ifelse(is.na(d$raw_sd), d$outcome, NA) )
@@ -101,8 +105,6 @@ data_list <- list(
   study = study,
   id = id,
   age = age,
-  age_lower = age_lower,
-  age_upper = age_upper,
   age_sd = age_sd,
   returns = d$scaled_return,
   se_child = se_child,
@@ -121,7 +123,7 @@ d_outcome <- d %>%
 
 stan_model <- stan_model("stan_models/model_v3_noadult.stan")
 
-fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=250, init="0" )
+fit <- sampling( stan_model, data=data_list, chains=6, cores=6, iter=250, init="0" )
 
 post <- extract.samples(fit)
 

@@ -123,7 +123,7 @@ d_outcome <- d %>%
 
 stan_model <- stan_model("stan_models/model_v3_noadult.stan")
 
-fit <- sampling( stan_model, data=data_list, chains=6, cores=6, iter=250, init="0" )
+fit <- sampling( stan_model, data=data_list, chains=6, cores=6, iter=10, init="0" )
 
 post <- extract.samples(fit)
 

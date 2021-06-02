@@ -103,7 +103,12 @@ d_round2$sex <- as.numeric(d_round2$sex)
 
 d_combined <- bind_rows(d_round2, cchunts_dat_child2)
 
-d_combined <- d_combined %>% mutate(resource = fct_recode(resource, game = "small_game", marine = "shellfish", marine = "fish", USOs = "tubers", USOs = "roots", fruit = "fruit", fruit = "fruits", mixed_other = "eggs", mixed_other = "honey", mixed_other = "mixed"))
+d_combined <- d_combined %>% mutate(resource = as.character(fct_recode(resource, game = "small_game", marine = "shellfish", marine = "fish", USOs = "tubers", USOs = "roots", fruit = "fruit", fruit = "fruits", mixed_other = "eggs", mixed_other = "honey", mixed_other = "mixed")))
+
+# Consolidate the mixed and game categories
+d_combined$resource <- ifelse(d_combined$resource == "mixed_other", "game", d_combined$resource)
+d_combined$resource <- ifelse(d_combined$resource == "game", "game_mixed", d_combined$resource)
+
 
 # Adjust age error variables
 d_combined$age_lower <- ifelse( d_combined$age_lower == d_combined$age_upper, d_combined$age_lower - 0.5, d_combined$age_lower )

@@ -169,6 +169,16 @@ ggplot(dummy_asr, aes(x = age, y = outcome_count, fill = resource, color=resourc
   xlab("Age")
 
 ###########################################
+##### Differences by method ###############
+d_method <- d %>% 
+  group_by(outcome) %>% 
+  summarise(units = unique(units),
+            id = unique(outcome_id)) %>% 
+  mutate(method = ifelse(
+    units %in% c("g/h","item/h","kcal/h", "net kcal/h", "net kcal/hr", "net kcal/h", "kcal/day"), "Rate", "Quantity"),
+    short_name = str_extract(outcome, "[^_]+"))
+
+###########################################
 ##### Orchard plots for key parameters ####
 
 ### First females, then males #####
@@ -527,3 +537,102 @@ eta_r_plot <- ggplot(eta_r_df, aes(x = median, y = sex)) +
 orchard <- k_plot / b_plot / eta_p_plot / eta_r_plot
 
 ggsave("orchard.pdf", plot = orchard, width=4, height=8, dpi=600)
+
+#################################################################
+##### Do same but for method differences ########################
+k_df$id <- rep(1:N_outcomes, 2)
+
+k_df_method <- left_join(k_df, d_method)
+
+k_method_plot <- ggplot(k_df_method, aes(x = median, y = method)) +
+  geom_jitter(aes(color = resource, size = precision, shape = sex), alpha=0.6,width=0, height=0.2) +
+  scale_size(name = "Precision") +
+  theme_bw(base_size = 12) + 
+  scale_shape_manual(values = c("circle","triangle"), guide=F) +
+  scale_color_manual(values = resource_cols, guide=F) + 
+  xlab("k") +
+  ylab("")  + 
+  theme(legend.position = c(0.5, 0.07),
+        legend.background = element_blank(),
+        legend.key = element_blank(),
+        legend.title = element_text(size=8),
+        legend.text = element_text(size=8),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.key.size = unit(0.5, 'lines')) + 
+  guides(size = guide_legend(nrow = 1,title.position = "left"))
+
+
+b_df$id <- rep(1:N_outcomes, 2)
+
+b_df_method <- left_join(b_df, d_method)
+
+b_method_plot <- ggplot(b_df_method, aes(x = median, y = method)) +
+  geom_jitter(aes(color = resource, size = precision, shape = sex), alpha=0.6,width=0, height=0.2) +
+  scale_size(name = "Precision") +
+  theme_bw(base_size = 12) + 
+  scale_shape_manual(values = c("circle","triangle"), guide=F) +
+  scale_color_manual(values = resource_cols, guide=F) + 
+  xlab("b") +
+  ylab("")  + 
+  theme(legend.position = c(0.5, 0.07),
+        legend.background = element_blank(),
+        legend.key = element_blank(),
+        legend.title = element_text(size=8),
+        legend.text = element_text(size=8),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.key.size = unit(0.5, 'lines')) + 
+  guides(size = guide_legend(nrow = 1,title.position = "left"))
+
+
+eta_p_df$id <- rep(1:N_outcomes, 2)
+
+eta_p_df_method <- left_join(eta_p_df, d_method)
+
+eta_p_method_plot <- ggplot(eta_p_df_method, aes(x = median, y = method)) +
+  geom_jitter(aes(color = resource, size = precision, shape = sex), alpha=0.6,width=0, height=0.2) +
+  scale_size(name = "Precision") +
+  theme_bw(base_size = 12) + 
+  scale_shape_manual(values = c("circle","triangle"), guide=F) +
+  scale_color_manual(values = resource_cols, guide=F) + 
+  xlab(expression(eta["p"])) +
+  ylab("")  + 
+  theme(legend.position = c(0.5, 0.07),
+        legend.background = element_blank(),
+        legend.key = element_blank(),
+        legend.title = element_text(size=8),
+        legend.text = element_text(size=8),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.key.size = unit(0.5, 'lines')) + 
+  guides(size = guide_legend(nrow = 1,title.position = "left"))
+
+
+
+eta_r_df$id <- rep(1:N_outcomes, 2)
+
+eta_r_df_method <- left_join(eta_r_df, d_method)
+
+eta_r_method_plot <- ggplot(eta_r_df_method, aes(x = median, y = method)) +
+  geom_jitter(aes(color = resource, size = precision, shape = sex), alpha=0.6,width=0, height=0.2) +
+  scale_size(name = "Precision") +
+  theme_bw(base_size = 12) + 
+  scale_shape_manual(values = c("circle","triangle"), guide=F) +
+  scale_color_manual(values = resource_cols, guide=F) + 
+  xlab(expression(eta["r"])) +
+  ylab("")  + 
+  theme(legend.position = c(0.5, 0.07),
+        legend.background = element_blank(),
+        legend.key = element_blank(),
+        legend.title = element_text(size=8),
+        legend.text = element_text(size=8),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.key.size = unit(0.5, 'lines')) + 
+  guides(size = guide_legend(nrow = 1,title.position = "left"))
+
+
+## Put em all together
+orchard <- k_method_plot / b_method_plot / eta_p_method_plot / eta_r_method_plot
+
+ggsave("orchard_method.pdf", plot = orchard, width=4, height=8, dpi=600)
+
+
+

@@ -129,18 +129,17 @@ post <- extract.samples(fit)
 
 n_samps <- length(post$lp__)
 
-
 #### Convenience function to plot predictions
 pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", age=14 ) {
   
   if (!is.na(resource)) resource_v <- post$resource_v[,resource,]
-  else resource_v <- matrix(0, nrow=n_samps, ncol=7)
+  else resource_v <- matrix(0, nrow=n_samps, ncol=14)
   
   if (!is.na(outcome)) sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7])
   else sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7])
 
   if (!is.na(outcome)) outcome_v <- post$outcome_v[,outcome,]
-  else outcome_v <- matrix(0, nrow=n_samps, ncol=7)
+  else outcome_v <- matrix(0, nrow=n_samps, ncol=14)
     
   if (!is.na(id)) id_v <- post$id_v[,id,]
   else id_v <- matrix(0, nrow=n_samps, ncol=2)
@@ -152,12 +151,12 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", ag
     mu_p <- matrix(NA, n_samps, n_preds)
     mu_r <- mu_p
       
-      k = exp( post$a_k[,1] + post$a_k[,2]*male + outcome_v[,1] + resource_v[,1])
+      k = exp( post$a_k[,1] + post$a_k[,2]*male + outcome_v[,1] + outcome_v[,8]*male + resource_v[,1] + resource_v[,8]*male )
+       
+      b = exp( post$a_b[,1] + post$a_b[,2]*male + outcome_v[,2] + outcome_v[,9]*male + resource_v[,2] + resource_v[,9]*male )
       
-      b = exp( post$a_b[,1] + post$a_b[,2]*male + outcome_v[,2] + resource_v[,2])
-      
-      eta[,1] = exp( post$a_eta[,1,1] + post$a_eta[,2,1]*male + outcome_v[,3] + resource_v[,3])
-      eta[,2] = exp( post$a_eta[,1,2] + post$a_eta[,2,2]*male + outcome_v[,4] + resource_v[,4])
+      eta[,1] = exp( post$a_eta[,1,1] + post$a_eta[,2,1]*male + outcome_v[,3] + outcome_v[,9]*male + resource_v[,3] + resource_v[,9]*male )
+      eta[,2] = exp( post$a_eta[,1,2] + post$a_eta[,2,2]*male + outcome_v[,4] + outcome_v[,10] + resource_v[,4] + resource_v[,10]*male )
       
       for (n in 1:n_preds) S[,n] = ( 1 - exp(-k * (age[n]/20) ))^b
     
@@ -175,7 +174,7 @@ pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", ag
     if (resp == "nodim_returns") return( mu_r/alpha )
 }
 
-resource_cols <- c("#046C9A", "#CB2313", "#1E1E1E", "#0C775E", "#EBCC2A")
+resource_cols <- c("#046C9A", "#CB2313", "#0C775E", "#EBCC2A")
 
 age_seq <- seq(from=2, to=20, length.out = 40)
 
@@ -227,7 +226,7 @@ for (r in 1:max(data_list$resource)) {
 
 #####################################################
 ### Sex differences #################################
-par(mfrow=c(1,3))O
+par(mfrow=c(1,3))
 
 plot(NULL, ylim=c(0,3), xlim=c(2,20), ylab="E(Child Returns)/E(Adult Returns)", xlab="Age")
 axis(2, at=c(0,1), labels=c("Min","Max"), yaxt='n')

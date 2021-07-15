@@ -1,12 +1,12 @@
 #### Convenience function to plot age curves from cfr model ####
 
-pred_fun <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", age=14 ) {
+cfr_pred <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", age=14 ) {
   
   if (!is.na(resource)) resource_v <- post$resource_v[,resource,]
   else resource_v <- matrix(0, nrow=n_samps, ncol=14)
   
   if (!is.na(outcome)) sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7] + resource_v[,14]*male)
-  else sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7] + resource[,14]*male)
+  else sd <- exp(post$a_sd_outcome[,1] + post$a_sd_outcome[,2]*male + resource_v[,7] + resource_v[,14]*male)
   
   if (!is.na(outcome)) outcome_v <- post$outcome_v[,outcome,]
   else outcome_v <- matrix(0, nrow=n_samps, ncol=14)

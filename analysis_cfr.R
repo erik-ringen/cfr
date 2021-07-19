@@ -126,9 +126,9 @@ d_outcome <- d %>%
   mutate(short_name = str_extract(outcome, "[^_]+"))
 
 ### intialize and fit stan model
-stan_model <- stan_model("stan_models/model_v3_noadult.stan")
+stan_model <- stan_model("stan_models/model_v5.stan")
 
-fit <- sampling( stan_model, data=data_list, chains=6, cores=6, iter=10, init="0" )
+fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=500, init="0" )
 
 # extract posterior samples
 post <- extract.samples(fit)

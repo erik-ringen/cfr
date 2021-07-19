@@ -246,10 +246,24 @@ for (r in 1:max(data_list$resource)) {
 }
 dev.off()
 
+###########################################
+##### Coefficient of Variation #############
+cov_male <- matrix(NA, nrow=n_samps, ncol = max(data_list$resource)+1)
+cov_female <- cov_male
+
+for (r in 1:max(data_list$resource)) {
+ cov_female[,r] = cfr_pred(resp="CoV", male=0, resource = r)
+ cov_male[,r] = cfr_pred(resp="CoV", male=1, resource = r)
+}
+
+# overall CoV
+cov_female[,max(data_list$resource)+1] = cfr_pred(resp="CoV", male=0)
+cov_male[,max(data_list$resource)+1] = cfr_pred(resp="CoV", male=1)
 
 
 
 
+###########################################
 
 par(mfrow=c(1,3), cex=1, pty='s')
 

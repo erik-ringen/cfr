@@ -42,5 +42,17 @@ cfr_pred <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", ag
   if (resp == "S_returns") return( S )
   if (resp == "dim_returns") return(  2*(inv_logit(mu_p) - 0.5) * exp( log(mu_r) + (sd^2)/2) )
   if (resp == "nodim_returns") return( mu_r/alpha )
+  if (resp == "CoV") {
+    
+    prob_return = 2*(rethinking::inv_logit(p) - 0.5)
+    y_pred <- matrix(NA, nrow=n_samps, ncol=1000)
+    
+    for (i in 1:n_samps) {
+      for (n in 1:1000) {
+        y_pred[i,n] = rbinom(1, 1, prob_return[i]) * rlnorm(1, log(mu_r[i]), sd[i])
+      }
+    }
+      return( apply(y_pred, 1, sd) / exp( log(mu_r) + (sd^2 / 2) ) )
+  }
 }
 

@@ -22,6 +22,12 @@ d_round2 <- round2 %>%
       mutate(sex = as.character(sex))
   }) 
 
+
+#Remove Gurven_2006 and Walker_2002 data as present in cchunts
+d_round1 <- d_round1[-which(d_round1$study == "Walker_2002" | d_round1$study == "Gurven_2006"),]
+d_round2 <- d_round2[-which(d_round2$study == "Walker_2002" | d_round2$study == "Gurven_2006"),]
+
+
 # Are the same studies in each round of data entry?
 sum(unique(d_round1$outcome) %in% unique(d_round2$outcome)) / length(unique(d_round1$outcome) )
 
@@ -57,6 +63,9 @@ d_round2$resource <- ifelse(is.na(d_round2$resource), "mixed", d_round2$resource
 #####################################################
 #### Bring in data from cchunts package #############
 cchunts_dat <- make_joint( cchunts_data_sets )
+
+#14 data points in the Bird_Bird_Codding dataset *might* be repeated in the data from Bird_2005
+#cchunts_dat <- cchunts_dat[-which ( cchunts_dat$society == "Bird_Bird_Codding" & cchunts_dat$trip_year <= "2002" & cchunts_dat$age_dist_1 <= 14), ]
 
 # First, get summary of adult returns
 cchunts_dat_adult <- cchunts_dat %>% 
@@ -119,3 +128,4 @@ d_combined$age_sd <- ifelse( d_combined$age_sd == 0, NA, d_combined$age_sd )
 ####################################################
 #### Export combined dataset #######################
 write_csv(d_combined, "data.csv")
+write_csv(d_combined, "text/data/d_all_data.csv")

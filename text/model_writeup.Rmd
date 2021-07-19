@@ -1,6 +1,6 @@
 ---
 title: 'Comparing child and adult foraging returns: a multilevel meta-analytic model'
-author: "Illaria Pretelli, Erik Ringen, and Sheina Lew-Levy"
+author: "Ilaria Pretelli, Erik Ringen, and Sheina Lew-Levy"
 output:
   pdf_document:
     latex_engine: xelatex

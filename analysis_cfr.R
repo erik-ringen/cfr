@@ -118,25 +118,140 @@ d_r <- d %>%
 
 d_outcome <- d %>% 
   group_by(outcome) %>% 
-  summarise(id = unique(outcome_id), resource = unique(resource_id)) %>% 
+  summarise(id = unique(outcome_id),
+            resource = unique(resource_id),
+            age_min = ifelse( is.na(min(age)), unique(age_lower), min(age)),
+            age_max = ifelse( is.na(max(age)), unique(age_upper), max(age))
+            ) %>% 
   mutate(short_name = str_extract(outcome, "[^_]+"))
 
+### intialize and fit stan model
 stan_model <- stan_model("stan_models/model_v3_noadult.stan")
 
 fit <- sampling( stan_model, data=data_list, chains=6, cores=6, iter=10, init="0" )
 
+# extract posterior samples
 post <- extract.samples(fit)
-
 n_samps <- length(post$lp__)
 
 #### Convenience function to plot predictions
 source("cfr_pred.R")
 
-resource_cols <- c("#046C9A", "#CB2313", "#0C775E", "#EBCC2A")
+resource_cols <- c("#046C9A", "#CB2313", "#0C775E", "#EBCC2A") # color palette to denote resources
+resource_names <- c("Marine", "Game/Mixed", "Fruit", "USOs") # pub-friendly labels
+age_seq <- seq(from=0, to=20, length.out = 20)
 
-age_seq <- seq(from=2, to=20, length.out = 40)
+## Plot each outcome age curve
 
-par(mfrow=c(1,3), cex=1)
+## Stratify plots by resource type
+pdf(file = "resource_skill.pdf", width = 8.5, height= 11)
+par(mfrow=c(2,2),
+    pty='s',
+    oma=c(2,2,2,2)
+    )
+
+for (r in 1:max(data_list$resource)) {
+  
+  d_outcome_temp <- filter(d_outcome, resource == r)
+  plot(NULL, ylim=c(0,1), xlim=c(0,20), ylab="", xlab="", axes=F)
+  axis(1, at=c(0,5,10,15,20))
+  mtext(resource_names[r], adj=0, cex=1.25)
+  
+  #### Study-specific curves ########
+  for (s in 1:nrow(d_outcome_temp)) {
+
+    preds_female <- cfr_pred(age=age_seq, resp="S_returns", resource = r, outcome = d_outcome_temp$id[s], male=0)
+    preds_male <- cfr_pred(age=age_seq, resp="S_returns", resource = r, outcome = d_outcome_temp$id[s], male=1)
+    preds_both <- (preds_male + preds_female)/2
+    
+    lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
+  }
+  
+  #### Average curve ################
+  preds_female <- cfr_pred(age=age_seq, resp="S_returns", resource = r, male=0)
+  preds_male <- cfr_pred(age=age_seq, resp="S_returns", resource = r, male=1)
+  preds_both <- (preds_male + preds_female)/2
+  
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col = resource_cols[r])
+  
+  ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,5])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,5]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,5]), median(preds_both[,10])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,10]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,10]), median(preds_both[,20])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,20]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  
+}
+dev.off()
+
+
+pdf(file = "resource_return.pdf", width = 8, height= 8)
+par(mfrow=c(2,2),
+    pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5)
+)
+
+for (r in 1:max(data_list$resource)) {
+  
+  d_outcome_temp <- filter(d_outcome, resource == r)
+  
+  #### Average curve ################
+  preds_female <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=0)
+  preds_male <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=1)
+  preds_both <- (preds_male + preds_female)/2
+  
+  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.1), xlim=c(0,20), ylab="", xlab="", axes=F)
+  
+  axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+  axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+  
+  mtext(resource_names[r], cex=1.25)
+  mtext(ifelse(r %in% c(1,3), "Returns", ""), side=2, cex=1.25, line=1)
+  
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col = resource_cols[r])
+  
+  #### Study-specific curves ########
+  for (s in 1:nrow(d_outcome_temp)) {
+    
+    preds_female <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s], male=0)
+    preds_male <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s], male=1)
+    preds_both <- (preds_male + preds_female)/2
+    
+    lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
+  }
+  
+  
+  ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,5])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,5]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,5]), median(preds_both[,10])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,10]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,10]), median(preds_both[,20])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,20]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  
+}
+dev.off()
+
+
+
+
+
+
+par(mfrow=c(1,3), cex=1, pty='s')
 
 plot(NULL, ylim=c(0,3), xlim=c(2,20), ylab="E(Child Returns)/E(Adult Returns)", xlab="Age")
 mtext("Measurement Scale")
@@ -147,8 +262,8 @@ for (i in 1:N) points(y=data_list$returns[i], x = jitter(data_list$age[i]*20), c
 
 for (r in 1:max(data_list$resource)) {
   
-  preds_female <- pred_fun(age=age_seq, resp="dim_returns", resource = r, male=0)
-  preds_male <- pred_fun(age=age_seq, resp="dim_returns", resource = r, male=1)
+  preds_female <- cfr_pred(age=age_seq, resp="dim_returns", resource = r, male=0)
+  preds_male <- cfr_pred(age=age_seq, resp="dim_returns", resource = r, male=1)
   preds_both <- (preds_male + preds_female)/2
   
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
@@ -161,8 +276,8 @@ mtext("Dimensionless Returns")
 
 for (r in 1:max(data_list$resource)) {
   
-  preds_female <- pred_fun(age=age_seq, resp="nodim_returns", resource = r, male=0)
-  preds_male <- pred_fun(age=age_seq, resp="nodim_returns", resource = r, male=1)
+  preds_female <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=0)
+  preds_male <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=1)
   preds_both <- (preds_male + preds_female)/2
   
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
@@ -175,8 +290,8 @@ axis(2, at=c(0,1), labels=c("Min","Max"))
 
 for (r in 1:max(data_list$resource)) {
   
-  preds_female <- pred_fun(age=age_seq, resp="S_returns", resource = r, male=0)
-  preds_male <- pred_fun(age=age_seq, resp="S_returns", resource = r, male=1)
+  preds_female <- cfr_pred(age=age_seq, resp="S_returns", resource = r, male=0)
+  preds_male <- cfr_pred(age=age_seq, resp="S_returns", resource = r, male=1)
   preds_both <- (preds_male + preds_female)/2
   
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col=resource_cols[r])
@@ -191,8 +306,8 @@ axis(2, at=c(0,1), labels=c("Min","Max"), yaxt='n')
 mtext("Measurement Scale")
 legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n')
 
-preds_female <- pred_fun(age=age_seq, resp="dim_returns", male=0)
-preds_male <- pred_fun(age=age_seq, resp="dim_returns", male=1)
+preds_female <- cfr_pred(age=age_seq, resp="dim_returns", male=0)
+preds_male <- cfr_pred(age=age_seq, resp="dim_returns", male=1)
   
 lines(apply(preds_female, 2, median), x=age_seq, lwd=3, col="slategray")
 shade(apply(preds_female, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("slategray",0.1))
@@ -206,8 +321,8 @@ axis(2, at=c(0,1), labels=c("Min","Max"))
 mtext("Dimensionless Returns")
 legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n', cex=0.7)
 
-preds_female <- pred_fun(age=age_seq, resp="nodim_returns", male=0)
-preds_male <- pred_fun(age=age_seq, resp="nodim_returns", male=1)
+preds_female <- cfr_pred(age=age_seq, resp="nodim_returns", male=0)
+preds_male <- cfr_pred(age=age_seq, resp="nodim_returns", male=1)
 
 lines(apply(preds_female, 2, median), x=age_seq, lwd=3, col="slategray")
 shade(apply(preds_female, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("slategray",0.1))
@@ -221,8 +336,8 @@ axis(2, at=c(0,1), labels=c("Min","Max"))
 mtext("Dimensionless Latent Skill")
 legend(x=2, y=3, legend=c("Female", "Male"), lwd=3, col=c("slategray","orange"), bty='n', cex=0.7)
 
-preds_female <- pred_fun(age=age_seq, resp="S_returns", male=0)
-preds_male <- pred_fun(age=age_seq, resp="S_returns", male=1)
+preds_female <- cfr_pred(age=age_seq, resp="S_returns", male=0)
+preds_male <- cfr_pred(age=age_seq, resp="S_returns", male=1)
 
 lines(apply(preds_female, 2, median), x=age_seq, lwd=3, col="slategray")
 shade(apply(preds_female, 2, PI, prob=0.9), age_seq, lwd=3, col=col.alpha("slategray",0.1))

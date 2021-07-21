@@ -68,7 +68,9 @@ To identify studies which used the same data in separate analyses published in d
         \node (AF) [mainrec, below=0.8 of AD] {After full text checked: 35};
         \node (IO) [mainrec, right=2 of AF] {Included from bibliographies and CVs: 5};
         \node (MA) [mainrec, below right=0.8 and -1 of AF] {Meta-data investigated: 40};
-        \node (IA) [mainrec, below =0.8  of MA] {Included in analysis: \Sexpr{nlevels(unique(d[,"study"]))} };
+        \node (SS) [mainrec, below =0.8  of MA] {Selected papers: 16};
+        \node (IA) [mainrec, below =0.8  of SS] {Included in analysis: \Sexpr{nlevels(unique(d[,"study"]))}};
+        \node (CC) [mainrec, below left =0.8  and 0.3 of MA] {From \texttt{cchunts} package: 38};
         \draw[->,line width=1] (SD) -- (AD);
         \draw[->,line width=1] (JS) -- (AD);
         \draw[->,line width=1] (GS) -- (AD);
@@ -79,15 +81,16 @@ To identify studies which used the same data in separate analyses published in d
         \draw[->,line width=1] (AF) -- (IO);
         \draw[->,line width=1] (AF) -- (MA);
         \draw[->,line width=1] (IO) -- (MA);
-        \draw[->,line width=1] (MA) -- (IA);
+        \draw[->,line width=1] (MA) -- (SS);
+        \draw[->,line width=1] (SS) -- (IA);
+        \draw[->,line width=1] (CC) -- (IA);
     \end{tikzpicture}
     \caption{Schematic summarizing the process to select the papers.}
     \label{selection}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h] %UPDATE IMAGE 
      \includegraphics[width=\textwidth]{text/images/world_pop.png}
-    \label{world_pop}
     \caption{World map with sites of populations originating the data. The size of the dot is proportional to the number of datasets from each populations. The most represented people, the Hadza, appear in \Sexpr{unique(metadata[which(metadata[,"Population"] == "Hadza"), "N_studies_per_population"])} studies.}
     \label{world_pop}
 \end{figure}

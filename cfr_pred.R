@@ -1,9 +1,11 @@
 #### Convenience function to plot age curves from cfr model ####
 
-cfr_pred <- function( outcome=NA, male=0, id=NA, resource=NA, resp="returns", age=14 ) {
+cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="returns", age=14 ) {
   
   ## female dummy var
-  female <- ifelse(male == 0, 1, 0)
+  male <- ifelse(is.na(male), 0, male)
+  female <- ifelse(male == 0, 1, 
+                   ifelse(is.na(male), 0, 0))
   
   ## replace random effects with 0 if marginalizing over them
   if (!is.na(resource)) resource_v <- post$resource_v[,resource,]

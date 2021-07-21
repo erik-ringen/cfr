@@ -147,7 +147,8 @@ age_seq <- seq(from=0, to=20, length.out = 20)
 pdf(file = "resource_skill.pdf", width = 8.5, height= 11)
 par(mfrow=c(2,2),
     pty='s',
-    oma=c(2,2,2,2)
+    oma=c(0,0,0,0),
+    cex=1.3
     )
 
 for (r in 1:max(data_list$resource)) {
@@ -159,19 +160,12 @@ for (r in 1:max(data_list$resource)) {
   
   #### Study-specific curves ########
   for (s in 1:nrow(d_outcome_temp)) {
-
-    preds_female <- cfr_pred(age=age_seq, resp="S_returns", resource = r, outcome = d_outcome_temp$id[s], male=0)
-    preds_male <- cfr_pred(age=age_seq, resp="S_returns", resource = r, outcome = d_outcome_temp$id[s], male=1)
-    preds_both <- (preds_male + preds_female)/2
-    
-    lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
+  preds_both <- cfr_pred(age=age_seq, resp="S_returns", resource = r, outcome = d_outcome_temp$id[s])
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
   }
   
   #### Average curve ################
-  preds_female <- cfr_pred(age=age_seq, resp="S_returns", resource = r, male=0)
-  preds_male <- cfr_pred(age=age_seq, resp="S_returns", resource = r, male=1)
-  preds_both <- (preds_male + preds_female)/2
-  
+  preds_both <- cfr_pred(age=age_seq, resp="S_returns", resource = r)
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col = resource_cols[r])
   
   ## lines to connect different ages ####
@@ -191,12 +185,34 @@ for (r in 1:max(data_list$resource)) {
 }
 dev.off()
 
+#####################################################
+pdf(file = "resource_skill_avg.pdf", width = 6, height= 8)
+par(pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
 
+preds_both <- cfr_pred(age=age_seq, resp="S_returns")
+
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+lines(apply(preds_both, 2, median), x=age_seq, lwd=3)
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("black",0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("black",0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("black",0.05))
+
+axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+dev.off()
+
+#####################################################
 pdf(file = "resource_return.pdf", width = 8, height= 8)
 par(mfrow=c(2,2),
     pty='s',
     oma=c(0,0,0,0),
-    mai = c(0.5,0.5,0.5,0.5)
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
 )
 
 for (r in 1:max(data_list$resource)) {
@@ -204,9 +220,7 @@ for (r in 1:max(data_list$resource)) {
   d_outcome_temp <- filter(d_outcome, resource == r)
   
   #### Average curve ################
-  preds_female <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=0)
-  preds_male <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=1)
-  preds_both <- (preds_male + preds_female)/2
+  preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r)
   
   plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.1), xlim=c(0,20), ylab="", xlab="", axes=F)
   
@@ -221,10 +235,7 @@ for (r in 1:max(data_list$resource)) {
   #### Study-specific curves ########
   for (s in 1:nrow(d_outcome_temp)) {
     
-    preds_female <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s], male=0)
-    preds_male <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s], male=1)
-    preds_both <- (preds_male + preds_female)/2
-    
+    preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s])
     lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
   }
   
@@ -245,6 +256,114 @@ for (r in 1:max(data_list$resource)) {
   
 }
 dev.off()
+
+
+pdf(file = "resource_return_avg.pdf", width = 6, height= 8)
+par(pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
+
+preds_both <- cfr_pred(age=age_seq, resp="nodim_returns")
+
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+lines(apply(preds_both, 2, median), x=age_seq, lwd=3)
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("black",0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("black",0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("black",0.05))
+
+axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+dev.off()
+
+###########################################
+##### Sex differences ##################### 
+
+pdf(file = "male_return_avg.pdf", width = 6, height= 8)
+par(pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
+
+preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", male=1)
+
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col="orange")
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("orange",0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("orange",0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("orange",0.05))
+
+axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+dev.off()
+
+pdf(file = "female_return_avg.pdf", width = 6, height= 8)
+par(pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
+
+preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", male=0)
+
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col="slategray")
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray",0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray",0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray",0.05))
+
+axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+dev.off()
+
+
+pdf(file = "male_skill_avg.pdf", width = 6, height= 8)
+par(pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
+
+preds_both <- cfr_pred(age=age_seq, resp="S_returns", male=1)
+
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col="orange")
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("orange",0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("orange",0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("orange",0.05))
+
+axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+dev.off()
+
+pdf(file = "female_skill_avg.pdf", width = 6, height= 8)
+par(pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
+
+preds_both <- cfr_pred(age=age_seq, resp="S_returns", male=0)
+
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col="slategray")
+shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("slategray",0.05))
+shade(apply(preds_both, 2, PI, prob=0.6), age_seq, col=col.alpha("slategray",0.05))
+shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray",0.05))
+
+axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+dev.off()
+
+
+
 
 ###########################################
 ##### Coefficient of Variation #############

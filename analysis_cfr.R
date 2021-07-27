@@ -11,9 +11,6 @@ d <- d %>%
   filter(adult_return != 0 | is.na(adult_return) ) %>% 
   filter( !(!is.na(adult_return) & is.na(adult_se)) )
 
-## For now, drop summary stats
-#d <- filter(d, is.na(raw_se))
-
 #########################################################
 #### Scale data by maximum in each outcome ##############
 d <- d %>% 
@@ -238,7 +235,6 @@ for (r in 1:max(data_list$resource)) {
     preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s])
     lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
   }
-  
   
   ## lines to connect different ages ####
   # 0 to 5 diff 

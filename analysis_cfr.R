@@ -136,12 +136,12 @@ source("cfr_pred.R")
 
 resource_cols <- c("#046C9A", "#CB2313", "#0C775E", "#EBCC2A") # color palette to denote resources
 resource_names <- c("Marine", "Game/Mixed", "Fruit", "USOs") # pub-friendly labels
-age_seq <- seq(from=0, to=20, length.out = 20)
+age_seq <- seq(from=0, to=20, length.out = 21)
 
 ## Plot each outcome age curve
 
 ## Stratify plots by resource type
-pdf(file = "resource_skill.pdf", width = 8.5, height= 11)
+pdf(file = "resource_skill.pdf", width = 8.5, height = 11)
 par(mfrow=c(2,2),
     pty='s',
     oma=c(0,0,0,0),
@@ -152,8 +152,11 @@ for (r in 1:max(data_list$resource)) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   plot(NULL, ylim=c(0,1), xlim=c(0,20), ylab="", xlab="", axes=F)
-  axis(1, at=c(0,5,10,15,20))
+  axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+  axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
   mtext(resource_names[r], adj=0, cex=1.25)
+
+  
   
   #### Study-specific curves ########
   for (s in 1:nrow(d_outcome_temp)) {
@@ -167,16 +170,16 @@ for (r in 1:max(data_list$resource)) {
   
   ## lines to connect different ages ####
   # 0 to 5 diff 
-  lines(x = rep(0,2), y = c(0, median(preds_both[,5])), col=resource_cols[r], lty="dashed", lwd=2)
-  lines(x = c(0, 5), y = rep(median(preds_both[,5]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), col=resource_cols[r], lty="dashed", lwd=2)
   
   # 5 to 10 diff 
-  lines(x = rep(5,2), y = c(median(preds_both[,5]), median(preds_both[,10])), col=resource_cols[r], lty="dashed", lwd=2)
-  lines(x = c(5, 10), y = rep(median(preds_both[,10]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), col=resource_cols[r], lty="dashed", lwd=2)
   
   # 10 to 20 diff
-  lines(x = rep(10,2), y = c(median(preds_both[,10]), median(preds_both[,20])), col=resource_cols[r], lty="dashed", lwd=2)
-  lines(x = c(10, 20), y = rep(median(preds_both[,20]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), col=resource_cols[r], lty="dashed", lwd=2)
   
   
 }
@@ -200,6 +203,19 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("black",0.05))
 
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+  ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), lty="dashed", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), lty="dashed", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed", lwd=2)
 
 dev.off()
 
@@ -229,6 +245,8 @@ for (r in 1:max(data_list$resource)) {
   
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col = resource_cols[r])
   
+<<<<<<< HEAD
+=======
   #### Study-specific curves ########
   for (s in 1:nrow(d_outcome_temp)) {
     
@@ -236,19 +254,26 @@ for (r in 1:max(data_list$resource)) {
     lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
   }
   
+>>>>>>> 127802a43b993f56174458becb2a5e8d123b2000
   ## lines to connect different ages ####
   # 0 to 5 diff 
-  lines(x = rep(0,2), y = c(0, median(preds_both[,5])), col=resource_cols[r], lty="dashed", lwd=2)
-  lines(x = c(0, 5), y = rep(median(preds_both[,5]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), col=resource_cols[r], lty="dashed", lwd=2)
   
   # 5 to 10 diff 
-  lines(x = rep(5,2), y = c(median(preds_both[,5]), median(preds_both[,10])), col=resource_cols[r], lty="dashed", lwd=2)
-  lines(x = c(5, 10), y = rep(median(preds_both[,10]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), col=resource_cols[r], lty="dashed", lwd=2)
   
   # 10 to 20 diff
-  lines(x = rep(10,2), y = c(median(preds_both[,10]), median(preds_both[,20])), col=resource_cols[r], lty="dashed", lwd=2)
-  lines(x = c(10, 20), y = rep(median(preds_both[,20]),2), col=resource_cols[r], lty="dashed", lwd=2)
-  
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), col=resource_cols[r], lty="dashed", lwd=2)
+
+  #### Study-specific curves ########
+  for (s in 1:nrow(d_outcome_temp)) {
+    
+    preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, outcome = d_outcome_temp$id[s])
+    lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
+  }
   
 }
 dev.off()
@@ -272,11 +297,23 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("black",0.05))
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
 
+ ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), lty="dashed", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), lty="dashed", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed", lwd=2)
+
 dev.off()
 
 ###########################################
 ##### Sex differences ##################### 
-
 pdf(file = "male_return_avg.pdf", width = 6, height= 8)
 par(pty='s',
     oma=c(0,0,0,0),
@@ -294,6 +331,20 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("orange",0.05))
 
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+ ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), lty="dashed", col="orange", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), lty="dashed", col="orange", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), lty="dashed", col="orange", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), lty="dashed", col="orange", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), lty="dashed", col="orange", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed", col="orange", lwd=2)
+
 
 dev.off()
 
@@ -314,6 +365,19 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray",0.0
 
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+ ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), lty="dashed", col="slategray", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), lty="dashed", col="slategray", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), lty="dashed", col="slategray", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), lty="dashed", col="slategray", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), lty="dashed", col="slategray", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed", col="slategray", lwd=2)
 
 dev.off()
 
@@ -336,6 +400,19 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("orange",0.05))
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
 
+ ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), lty="dashed",col="orange", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), lty="dashed",col="orange", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), lty="dashed",col="orange", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), lty="dashed",col="orange", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), lty="dashed",col="orange", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed",col="orange", lwd=2)
+
 dev.off()
 
 pdf(file = "female_skill_avg.pdf", width = 6, height= 8)
@@ -355,6 +432,19 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("slategray",0.0
 
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+ ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), lty="dashed",col="slategray", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), lty="dashed",col="slategray", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), lty="dashed",col="slategray", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), lty="dashed",col="slategray", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), lty="dashed",col="slategray", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed",col="slategray", lwd=2)
 
 dev.off()
 

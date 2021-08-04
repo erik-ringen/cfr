@@ -3,12 +3,6 @@ library(rethinking)
 
 d <- read_csv("data.csv")
 
-########################################################
-#### Drop a couple of problematic obs ##################
-d <- d %>% 
-  filter(outcome != "Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h") %>% # zero-return and no adult value
-  filter(outcome != "Bird_2002b_table2_Trid. gigas") # zero-return summary stat
-
 #########################################################
 #### Scale returns data by maximum in each outcome ######
 d <- d %>% 

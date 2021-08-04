@@ -125,6 +125,12 @@ d_combined$age_upper <- ifelse( d_combined$age_lower == d_combined$age_upper, d_
 
 d_combined$age_sd <- ifelse( d_combined$age_sd == 0, NA, d_combined$age_sd )
 
+########################################################
+#### Drop a couple of problematic obs ##################
+d <- d %>% 
+  filter(outcome != "Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h") %>% # zero-return and no adult value
+  filter(outcome != "Bird_2002b_table2_Trid. gigas") # zero-return summary stat
+
 ####################################################
 #### Export combined dataset #######################
 write_csv(d_combined, "data.csv")

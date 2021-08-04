@@ -2,28 +2,27 @@ data{
   int N; // total num obs
   int N_outcomes; // num distinct outcomes
   int N_id; // num unique individuals that appear
-  int N_resource;
+  int N_resource; // num resource categories
   int outcome[N]; // index of which outcome
-  int outcome_var[N]; // index, whether outcome has known variance
-  int resource[N];
+  int resource[N]; // index of resource types
   real sex[N]; // probability male (sex = 1) forager
   int id[N]; // index of individual id
   vector[N] age; // mean age
   vector[N] age_sd; // std. dev of age, if given
   vector[N] returns; // return value (child)
   vector[N] se_child; // SEM child 
-  int child_summary_returns[N]; //
+  int child_summary_returns[N]; // indicator of whether data given as summary stat
 }
 
 parameters{
   // Fixed effects 
-  vector[7] a; // generic intercepts
-  vector[2] a_k; // log-scale intercept for growth rate, sex-specific
-  vector[2] a_b; // log-scale intercept for growth elasticity
-  matrix[2,2] a_eta; // log-scale intercept for skill elasticity
+  vector[7] a; // global intercepts, we'll use these for different parameters
+  vector[2] a_k; // log-scale intercept for growth rate, sex-specific (index 1 = female, index 2 = male)
+  vector[2] a_b; // log-scale intercept for growth elasticity, sex-specific
+  matrix[2,2] a_eta; // log-scale intercept for skill elasticity, sex-specific
   
-  vector[2] a_p;
-  vector[2] a_alpha;
+  vector[2] a_p; // zero-return prob, sex-specific
+  vector[2] a_alpha; // observation scale intercept, sex-specific
   
   vector[2] a_sd_outcome; // average lognormal sd, with sex diffs
   vector[N_outcomes] sd_outcome; // lognormal sd deviations for speific outcomes
@@ -54,13 +53,13 @@ parameters{
 }
 
 transformed parameters{
-  matrix[N,2] sd_merged;
+  matrix[N,2] sd_merged; // log-normal sigma
   matrix[N,2] mu_p; // mean vector for prob of non-zero return
   matrix[N,2] mu_r; // mean vector for quantity of returns 
   
-  matrix[N_id,2] id_v;
-  matrix[N_outcomes,21] outcome_v; 
-  matrix[N_resource,21] resource_v;
+  matrix[N_id,2] id_v; // scaled and correlated individual random effects
+  matrix[N_outcomes,21] outcome_v;  // scaled and correlated outcome random effects
+  matrix[N_resource,21] resource_v; // scaled and correlated resource random effects
   
   ///////// scaling and correlating random effects /////////////////////////
   outcome_v = (diag_pre_multiply(sigma_outcome, L_outcome) * outcome_z)';

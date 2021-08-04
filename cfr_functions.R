@@ -67,12 +67,14 @@ cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="returns", a
     mu_r[,n] = (S[,n]^eta[,2]) * alpha
   }
   
+  # Prob of a non-zero return
+  prob_return <- 2*(rethinking::inv_logit(p) - 0.5)
+
   if (resp == "S_returns") return( S )
-  if (resp == "dim_returns") return(  2*(inv_logit(mu_p) - 0.5) * exp( log(mu_r) + (sd^2)/2) )
-  if (resp == "nodim_returns") return( mu_r/alpha )
+  if (resp == "dim_returns") return(  prob_return * exp( log(mu_r) + (sd^2)/2) )
+  if (resp == "nodim_returns") return( prob_return * (mu_r/alpha) )
   if (resp == "CoV") {
-    
-    prob_return = 2*(rethinking::inv_logit(p) - 0.5)
+
     y_pred <- matrix(NA, nrow=n_samps, ncol=1000)
     
     for (i in 1:n_samps) {

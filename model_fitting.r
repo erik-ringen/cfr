@@ -91,16 +91,3 @@ fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=500, init
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")
-
-d_r <- d %>% 
-  group_by(resource) %>% 
-  summarise(id = unique(resource_id))
-
-d_outcome <- d %>% 
-  group_by(outcome) %>% 
-  summarise(id = unique(outcome_id),
-            resource = unique(resource_id),
-            age_min = ifelse( is.na(min(age)), unique(age_lower), min(age)),
-            age_max = ifelse( is.na(max(age)), unique(age_upper), max(age))
-            ) %>% 
-  mutate(short_name = str_extract(outcome, "[^_]+"))

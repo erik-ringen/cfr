@@ -1,5 +1,17 @@
-#### Convenience function to plot age curves from cfr model ####
+# color palette to denote resources
+resource_cols <- c("#046C9A", "#CB2313", "#0C775E", "#EBCC2A") 
 
+# pub-friendly labels
+resource_names <- c("Marine", "Game/Mixed", "Fruit", "USOs") 
+
+# sex-coded colors
+f_col <- "slategray"
+m_col <- "orange"
+
+# generic age sequence to make curves, one element for each age
+age_seq <- seq(from=0, to=20, length.out = 21)
+
+#### Convenience function to plot age curves from cfr model ####
 cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="returns", age=14 ) {
   
   ## female dummy var
@@ -71,4 +83,3 @@ cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="returns", a
       return( apply(y_pred, 1, sd) / exp( log(mu_r) + (sd^2 / 2) ) )
   }
 }
-

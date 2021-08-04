@@ -25,7 +25,7 @@ d_outcome <- d %>%
   mutate(short_name = str_extract(outcome, "[^_]+"))
 
 ##### Read in previously fit stan model
-fit <- readRDS("fit.rds")
+fit <- readRDS("fit_cfr.rds")
 
 # extract posterior samples
 post <- extract.samples(fit)

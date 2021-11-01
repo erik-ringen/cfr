@@ -10,7 +10,8 @@ d <- d %>%
   mutate(scaled_return = raw_return /  max(raw_return, na.rm=T),
          scaled_se = raw_se / max(raw_return, na.rm=T),
          ) %>% 
-  ungroup()
+  ungroup() %>% 
+  filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
 
 #########################################################
 # Prep data for Stan
@@ -82,6 +83,8 @@ stan_model <- stan_model("stan_models/model_cfr.stan")
 
 ### run MCMC program
 fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=500, init="0" )
+
+post <- extract.samples(fit)
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")

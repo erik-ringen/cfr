@@ -68,7 +68,7 @@ cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="returns", a
   }
   
   # Prob of a non-zero return
-  prob_return <- 2*(rethinking::inv_logit(p) - 0.5)
+  prob_return <- 2*(rethinking::inv_logit(mu_p) - 0.5)
 
   if (resp == "S_returns") return( S )
   if (resp == "dim_returns") return(  prob_return * exp( log(mu_r) + (sd^2)/2) )

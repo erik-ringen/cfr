@@ -39,10 +39,9 @@ parameters{
   vector<lower=0>[21] sigma_resource;
   cholesky_factor_corr[21] L_resource;
   
-  // individual-level random effects
-  matrix[2,N_id] id_z;
-  vector<lower=0>[2] sigma_id;
-  cholesky_factor_corr[2] L_id;
+  // individual-level random effects on skill
+  vector[N_id] id_z;
+  real<lower=0> sigma_id;
   
   // Age measurement error
   vector<lower=0,upper=1>[N] age_me;
@@ -57,13 +56,13 @@ transformed parameters{
   matrix[N,2] mu_p; // mean vector for prob of non-zero return
   matrix[N,2] mu_r; // mean vector for quantity of returns 
   
-  matrix[N_id,2] id_v; // scaled and correlated individual random effects
+  vector[N_id] id_v; // scaled individual random effects
   matrix[N_outcomes,21] outcome_v;  // scaled and correlated outcome random effects
   matrix[N_resource,21] resource_v; // scaled and correlated resource random effects
   
   ///////// scaling and correlating random effects /////////////////////////
   outcome_v = (diag_pre_multiply(sigma_outcome, L_outcome) * outcome_z)';
-  id_v = (diag_pre_multiply(sigma_id, L_id) * id_z)';
+  id_v = id_z * sigma_id;
   resource_v = (diag_pre_multiply(sigma_resource, L_resource) * resource_z)';
   
   ///// sds for log-normal returns for each outcome
@@ -106,17 +105,18 @@ transformed parameters{
     // Skill, age = age with measurement error
     S = pow( 1 - exp(-k * age_me[i]), b );
     
+    // Add individual random effets, where appropriate
+    if (id[i]>0) {
+      S = exp( log(S) + id_v[id[i]] );
+    }
+    
     // add individual random effects to alpha_p and alpha_r, where appropriate
     if (s == 1) alpha_p = exp( a[5] + a_p[1]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],12] + resource_v[resource[i],12]);
     if (s == 2) alpha_p = exp( a[5] + a_p[2]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],19] + resource_v[resource[i],19]);
     
     if (s == 1) alpha_r = exp( a[6] + a_alpha[1]*sigma_sex[6] + outcome_v[outcome[i],6] + resource_v[resource[i],6] + outcome_v[outcome[i],13] + resource_v[resource[i],13]);
     if (s == 2) alpha_r = exp( a[6] + a_alpha[2]*sigma_sex[6] + outcome_v[outcome[i],6] + resource_v[resource[i],6] + outcome_v[outcome[i],20] + resource_v[resource[i],20]);
-    
-    if (id[i]>0) {
-      alpha_p = exp( log(alpha_p) + id_v[id[i],1] );
-      alpha_r = exp( log(alpha_r) + id_v[id[i],2] );
-    }
+
     
     mu_p[i,s] = pow(S,eta[1]) * alpha_p; 
     mu_r[i,s] = pow(S,eta[2]) * alpha_r;
@@ -139,17 +139,17 @@ model{
   sd_outcome ~ std_normal();
   
   to_vector(outcome_z) ~ std_normal();
-  to_vector(id_z) ~ std_normal();
+  id_z ~ std_normal();
   to_vector(resource_z) ~ std_normal();
   
-  sigma_sex ~ exponential(1);
-  sigma_outcome ~ exponential(1);
-  sigma_resource ~ exponential(1);
-  to_vector(sigma_id) ~ exponential(1);
-  sigma_sd_outcome ~ exponential(1);
+  // half-normal priors on variance components
+  sigma_sex ~ std_normal();
+  sigma_outcome ~ std_normal();
+  sigma_resource ~ std_normal();
+  sigma_id ~ std_normal();
+  sigma_sd_outcome ~ std_normal();
   
   L_outcome ~ lkj_corr_cholesky(2);
-  L_id ~ lkj_corr_cholesky(2);
   L_resource ~ lkj_corr_cholesky(2);
   //////////////////////////////////////
   

@@ -110,7 +110,6 @@ transformed parameters{
       S = exp( log(S) + id_v[id[i]] );
     }
     
-    // add individual random effects to alpha_p and alpha_r, where appropriate
     if (s == 1) alpha_p = exp( a[5] + a_p[1]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],12] + resource_v[resource[i],12]);
     if (s == 2) alpha_p = exp( a[5] + a_p[2]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],19] + resource_v[resource[i],19]);
     

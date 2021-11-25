@@ -1,60 +1,99 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\UseRawInputEncoding                        %allows accented characters
 \usepackage{lineno}                         %line number
 \usepackage{subfiles}                       % File import
+\usepackage{url}
 \usepackage{natbib}
- \bibliographystyle{unsrtnat}
+ \bibliographystyle{abbrvnat}
+ \setcitestyle{authoryear, open={(},close={)}}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage{lscape}
+\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[paperwidth=8.5in,paperheight=11in,text={6in,9in},left=1.25in,top=1in,headheight=0.25in,headsep=0.4in,footskip=0.4in]{geometry}
+\usepackage{array}
+    \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
 \tikzstyle{rec} = [rectangle, rounded corners, text width=2.1cm, minimum width=1.5cm, minimum height=1cm,text centered, draw=black]
 \tikzstyle{mainrec} = [rectangle, rounded corners, text width=4cm, minimum width=2.3cm, minimum height=1cm,text centered, draw=black]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
- 
 
-\title{Children's foraging returns: a meta-analysis}
+\title{Children's foraging returns and implications for the evolution of childhood: a meta-analysis}
 \author{Ilaria Pretelli, Erik Ringen, Sheina Lew-Levy}
-\date{January 2021}
+\date{November 2021}
 
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %load all data to inform the text from "text/data/"
 <<echo=FALSE, cache=TRUE>>=
-d <- read.csv("./data/d_all_data.csv")
+d <- read.csv("../data.csv")
 metadata <- read.csv("./data/papers_metadata.csv")
 
 @
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \maketitle
-%\linenumbers
+\linenumbers
+%\tableofcontents{}
 
-\import{text/sections/}{0_abstract.tex}
-\tableofcontents{}
+\begin{abstract}
+A connection between the need to learn complex foraging skills and the emergence of childhood is at the core of hypotheses trying to explain the extended juvenile period in our species. To test these hypotheses, observational studies on foraging behavior are needed, but data on children foraging success is sparse and difficult to compare, and inferences on the evolution of early life history traits hard to draw. In the present paper, we characterize the developmental plasticity in foraging returns and skill using a meta-analytic latent-variable modelling approach. Using published data from 768 individual and groups of child and adolescent foragers from 28 societies, focusing on how resource type complexity leads to variation in these patterns. While foraging skill increases with age, there are diminishing marginal returns, implying that most knowledge is acquired by 10 years. Skill acquisition nonetheless continues into adolescence, with more difficult to extract resources (tubers and game) showing slower rate of skill increase than easier-to-extract resources (fruit and marine). While our overall findings are consistent with the idea that childhood is functional to acquiring foraging skills, we conclude that variability associated with individual, ecological, and societal factors should be measured in future studies aiming  to further clarify the mechanisms underlying the evolution of childhood.
 
+\end{abstract}
 
+%The Embodied Capital Theory posits that long childhoods evolved as a period for learning to extract resources from our complex foraging niche. One key line of evidence in support of this theory is that, in many subsistence societies, children are not net producers until adolescence or later. However, some studies report that forager children can achieve high returns at an early age, depending on targeted resource and ecology. Further, limited cross-cultural research suggests that there is considerable inter-societal variation in variation in foraging skill development, particularly in the domain of hunting. Comparative studies across a range of resource types and societies are needed to further understand these trends.
 
 \section{Introduction}
-Human childhoods are characterized by slow physical growth, extended dependence on parents and alloparents for provisioning, and increased investment in brain growth compared to nonhuman primates (\cite{bogin_evolutionary_1997, jones_primates_2011, leigh_evolution_2001, walker_growth_2006}). This constellation of life history features may represent an adaptation to our foraging niche: humans rely on nutrient-dense and difficult-to-acquire food resources extracted and processed using specialized technologies (\cite{schuppli_life_2016, veile_hunter-gatherer_2018}).  \cite{kaplan_theory_2000} posit that childhood serves as a period for accruing the knowledge, skill, and strength (“embodied capital”) needed to successfully acquire complex resources, such as underground storage organs and large game. Humans appear to trade-off early life production and reproduction for higher caloric returns later in life. This pattern has been linked to enhanced longevity and higher total fertility compared to our closest relatives. The surplus generated by increased later-life production may have contributed to the evolution of human cooperation, including inter-generational food sharing, larger group size, labour divisions, and family structure (\cite{kramer_cooperative_2018}. Understanding the ontogeny of children’s foraging skill is thus a key line of evidence to evaluate and refine hypotheses about the co-evolution of our human subsistence and life history features.
+Human childhoods are characterized by slow physical growth, extended dependence on parents and alloparents for provisioning, and increased investment in brain growth compared to nonhuman primates \citep{bogin_evolutionary_1997, gurven_energetic_2006, kramer_why_2014, jones_primates_2011, walker_growth_2006}. This constellation of life history features may represent an adaptation to our foraging niche: humans rely on nutrient-dense and difficult-to-acquire food resources extracted and processed using specialized technologies \citep{schuppli_life_2016, veile_hunter-gatherer_2018}.  \cite{kaplan_theory_2000} posit that childhood serves as a period for accruing the knowledge, skill, and strength (“embodied capital”) needed to successfully acquire complex resources, such as underground storage organs and large game. Humans appear to trade-off early life production and reproduction for higher caloric returns later in life. This pattern has been linked to enhanced longevity and higher total fertility compared to our closest relatives. The surplus generated by increased later-life production may have contributed to the evolution of human cooperation, including inter-generational food sharing, larger group size, labour divisions, and family structure \citep{kramer_cooperative_2018, leigh_evolution_2001}. Understanding the ontogeny of children’s foraging skill is thus key to evaluating and refining hypotheses about the co-evolution of human subsistence, life history features and social structure.
+%Although compelling, this framework is incredibly hard to test on real world data, largely because suitable datasets are difficult to build (due to the need for highly detailed individual level data and decades of longitudinal data).
 
-The Embodied Capital Theory (ECT) predicts that children’s foraging returns should increase with age, and that age-specific returns should vary with resource type complexity, with more difficult-to-acquire resources peaking later in life. To test these predictions, researchers have focused on measuring how individual characteristics (e.g. age,  sex) influence the trade off between children’s current and future production in contemporary subsistence societies (\cite{bird_constraints_2002, blurton_jones_selection_2002, crittenden_juvenile_2013, gurven_how_2006, kramer_early_2009}). On the whole, findings largely support ECT: children are not usually net producers until adolescence or later, even as their foraging returns increase as they age \cite{kaplan_theory_1996}. A combination of somatic and cognitive capital likely contributes to the development of foraging skill (\cite{bock_what_2005}). For example, among Paraguayan Ache,  hunters’ returns peak in mid-adulthood, several years after peak strength, suggesting that experienced-based knowledge is fundamental to successful hunting (\cite{mcelreath_using_2014, walker_age-dependency_2002}). Still, children routinely specialize in collecting resources matched to their size, skill, and strength, challenging the assumption that learning and immediate production are at odds \cite{kramer_childhood_2021}. For example, Australian Martu children hunt goanna lizards in rocky outcrops, where they can maximize their returns given their height, stride length, and walking speed(\cite{bird_mardu_2005}). Some Hadza children collect enough fruit to provision other members of their family when baobab and figs are in season (\cite{crittenden_juvenile_2013}). Because most research testing predictions from ECT has focused on single population, inconsistent support for ECT may reflect the influence of cultural and ecological context on children's foraging.
+Many researchers have sought to test this framework by measuring returns among foragers of different ages in contemporary subsistence societies \citep{bird_constraints_2002, blurton_jones_selection_2002, crittenden_juvenile_2013, gurven_how_2006, kramer_early_2009}, but single population studies focusing on one type of resource cannot provide decisive support for the hypotheses linking human life history features to our complex foraging niche.
+Some studies adopted a comparative approach, which can help explain how and why the life history of foraging varies cross-culturally. In a study of age-specific hunting returns from 40 societies, \cite{koster_life_2020} showed that while overall, hunting skill peaked in adulthood, there was considerable inter- and intra-societal variation in returns with age, potentially reflecting variation in “experience, motivation, opportunities for social learning, and the physical and cognitive demands of hunting in different socioecological environments.” Further, Hawkes, Blurton Jones, and colleagues argued that factors such as water availability, risk of getting lost, risk of predation, and availability of resources explained why Hadza children begin foraging so early, and San children delay the onset of foraging activities \citep{blurton_jones_modelling_1989, blurton_jones_differences_1994, blurton_jones_foraging_1994, blurton_jones_global_1996, blurton_jones_why_1997, hawkes_hadza_1995}. Considering the diverse environments inhabited by humans present and past, these findings highlight considerable plasticity in children's foraging participation, reflecting availability of age appropriate foraging opportunities in the surrounding environment \citep{koster_life_2020}. %Research into the early development of foraging skill across a broad range of resources and societies are needed to fully characterize this plasticity. 
 
-Few cross-cultural studies have investigated the development of foraging skill. In a study of age-specific hunting returns from 40 societies, \cite{koster_life_2020} showed that while overall, hunting skill peaked in adulthood, there was considerable inter- and intra-societal variation in returns, potentially reflecting variation in “experience, motivation, opportunities for social learning, and the physical and cognitive demands of hunting in different socioecological environments.” Further, Blurton Jones, Hawkes, and colleagues argued that factors such as water availability, risk of getting lost, risk of predation, and availability of resources explained why Hadza children forage so much, and San children forage so little (\cite{blurton_jones_modelling_1989, blurton_jones_differences_1994, blurton_jones_foraging_1994, blurton_jones_global_1996, blurton_jones_why_1997, hawkes_hadza_1995}). Considering the diverse environments inhabited by humans present and past, these findings highlight considerable plasticity in children's foraging participation \cite{koster_life_2020}. Research into the early development of foraging skill across a broad range of resources and societies are needed to understand the selective pressure which gave rise to this plasticity. 
+But these studies largely ignore variability in age specific returns across different foraged resources. The human niche is not homogeneously complex, but rather each task and activity requires a specific set of cognitive and physical competences, which are acquired along variable timelines \citep{bock_what_2005, lancaster_evolution_2000}. For example, to successfully collect and eat fruits, a forager needs to know where to find the plants carrying fruits and when these will be ripe, have enough coordination to pick delicate products from the tree and, in some cases, agility and strength to climb tall trees \citep{crittenden_juvenile_2013}. Hunting requires higher levels of understanding of the natural environment--e.g. tracking mobile prey or be able to predict where an animal might walk to place a snare--as well as higher coordination--e.g. using a slingshot to hit a flying bird--and physical abilities, plus technologies such as bows or poisons are often fundamental \citep{gurven_how_2006}. Indeed, among Paraguayan Ache, hunter returns peak in mid-adulthood, several years after peak strength, suggesting that accumulated knowledge and experience are fundamental to successful hunting \citep{mcelreath_using_2014, walker_age-dependency_2002}.
+%Individuals can receive social cues that allow them to deal with some of these aspects, for example a child might learn from some older family member where to find ripe apples, but many of these traits are individual. 
+%because they are diff, we can expect them to have different age trajectories and we can test them?
 
-In this paper, we examined age-specific foraging returns from a cross-cultural perspective. Specifically, we aimed to answer three questions: (1) What is the overall pattern of foraging returns across development? (2) How do foraging returns vary within and between societies? and (3) How does resource complexity affect foraging returns? To answer these questions, we conducted a meta-analysis of all published data on child and adolescent foraging returns. Our sample consists of \Sexpr{nlevels(unique(d[,"outcome"]))} datasets from \Sexpr{nlevels(unique(metadata[,"Population"]))} societies. %Erik to fill in details of the analysis and why its special and what it allows us to say statistically that other studies haven’t been able to say. 
+Because of these differences between resources, we would expect different skill development for easier vs harder foods. Within the same ecology, harder species will be associated with slower learning curves, while easier resources will be successfully acquired earlier, as it happens in non human primates \citep{johnson_trade-offs_2004, gunst_ontogeny_2010}.%something about variation here?!?
+
+In this paper we aim to understand how resource complexity affects age-specific foraging returns. We do so by conducting a meta-analysis of published data on child and adolescent foraging returns, relative to different resource types and populations. Specifically, we pooled \Sexpr{nlevels(unique(d[,"outcome"]))} data sets from \Sexpr{nlevels(unique(metadata[,"Population"]))} societies. Further, age-specific returns data are hard to compare across sites due to differences in environment, technology, and measurement techniques. By conducting a latent variable analysis, we are better able to infer underlying foraging skill development by comparing age-specific foraging returns on a relative scale. In doing so, we get improved estimates of both the 'typical' development of foraging skill and the range of cross-cultural variation in skill ontogeny.
+
+%If your hyp is that age-spec skill acquis is related to the difficulty of the resource, I think you need to specify that there are different ways of testing this. (1) Ecologies with "harder" species will have slower skill acquisition; (2) Within ecologies harder species will be associated with slower learning curves. I appreciate that you can only test (2) because of your relative measure, but you need to be clear about what you are testing and why
+
+%Embodied Capital Theory (ECT) predicts that children's foraging returns should increase with age--but that increases in productivity should be slower for more complex and difficult-to-acquire resources. Many researchers have sought to test these predictions by measuring returns among foragers of different ages in contemporary subsistence societies \citep{bird_constraints_2002, blurton_jones_selection_2002, crittenden_juvenile_2013, gurven_how_2006, kramer_early_2009}. On the whole, findings largely support ECT: although foraging returns increase throughout childhood, children are usually not net producers until adolescence or later \citep{kaplan_theory_1996, collings_birth_2009}. A combination of somatic and cognitive capital likely contributes to the development of foraging skill \citep{bock_what_2005}. For example, among Paraguayan Ache, hunter returns peak in mid-adulthood, several years after peak strength, suggesting that accumulated knowledge and experience are fundamental to successful hunting \citep{mcelreath_using_2014, walker_age-dependency_2002}. Still, children routinely specialize in collecting resources matched to their size, skill, and strength, challenging the assumption that learning and immediate production are at odds \citep{kramer_childhood_2021, lew-levy_life_2021}. For example, Australian Martu children hunt goanna lizards in rocky outcrops, where they can maximize their returns given their height, stride length, and walking speed \citep{bird_mardu_2005}. Some Hadza children collect enough fruit to provision other members of their family when baobab and figs are in season \citep{crittenden_juvenile_2013}. Because most research testing predictions from ECT is restricted to single populations, inconsistent support for ECT may reflect cross cultural variation in skill development and children's activities.
+
+%In this paper, we examine age-specific foraging returns from a cross-cultural perspective. We aim to answer three questions: (1) What is the overall pattern of foraging returns across development? (2) How does resource complexity affect age-specific foraging returns? and (3) how do these vary across studies? 
+%Previous research focused on these questions have had limited inferential power due to small sample sizes--reflecting in part the small populations of many foraging societies. Here, we conduct a meta-analysis of published data on child and adolescent foraging returns.  Specifically, we pooled \Sexpr{nlevels(unique(d[,"outcome"]))} data sets from \Sexpr{nlevels(unique(metadata[,"Population"]))} societies. Further, age-specific returns data are hard to compare across sites due to differences in environment, technology, and measurement techniques. By conducting a latent variable analysis, we are better able to infer underlying foraging skill development by comparing age-specific foraging returns on a relative scale. In doing so, we get improved estimates of both the 'typical' development of foraging skill and the range of cross-cultural variation in skill ontogeny.% and thus, provide a clearer picture regarding the life history of foraging. 
+
+
+
+%(I am retaining my sequence of comments here, to see why this section is poorly written).
+%Also is the lack of a sex difference reflecting the fact that boys and girls will have been observed foraging on different resources? What about sex differences on the same resources? Oh, OK, I see you do refer to this but it shouldnt be in the SI, you should incorporate results into Fig 4. Oh, Ok, I see you back off putting any confidence in these results at all because of poor resolution! This makes for very unsatisfactory reading. Better to address in final section of Intro with something like: "Other than presenting descriptive data by sex, we do not analytically address sex differences in skill or returns because of low data resolution, or (I would imagine) our inability to determine the extent to which the sexes self select into resources of differential difficulty". 
+%(1) Ecologies with "harder" species will have slower skill acquisition; (2) Within ecologies harder species will be associated with slower learning curves. 
+
+%i would add a sentence or two here explaining what you mean by latent variable analysis and how that improves upon shortcomings of other approaches
 
 
 \section{Materials and Methods}
 \subsection{Study selection}
-We followed a systematic two-step protocol for locating relevant published articles, as summarized in Figure \ref{selection}.  First, we queried major search engines (Google Scholar, JStor, PsycNet, Science Direct, Springer, Wiley) with the key-words "children"\&"foraging"\&"returns" on September 26, 2019. This search produced 360 unique papers. After reading abstracts for eligibility, 133 papers were read in full. 35 papers were identified as potentially including data on foraging returns from juvenile individuals, according to two independent coders. Second, we endeavored to locate additional relevant texts. We searched through the bibliographies of papers with relevant data identified during out initial search. We also looked through the CVs of the first authors of these papers. We repeated these steps for all newly-identified relevant papers. This search method yielded a total of 40 papers potentially containing data on children foraging returns. 
+We followed a systematic two-step protocol for locating relevant published articles, as summarized in Figure \ref{fig:selection}.  First, we queried major search engines (Google Scholar, JStor, PsycNet, Science Direct, Springer, Wiley) with the keywords `children'\&`foraging'\&`returns' on September 26, 2019. This search produced 360 unique papers. After reading abstracts for eligibility, 133 papers were read in full. 35 papers were identified as potentially including data on foraging returns from juveniles, according to two independent coders. Second, we endeavored to locate additional relevant texts. We searched through the bibliographies of papers with relevant data identified during our initial search. We also looked through the publication list of the first authors of these papers. We repeated these steps for all newly-identified relevant papers. This search method yielded a total of 40 papers potentially containing data on children foraging returns. 
 
-We screened these studies against our inclusion criteria: (1) the paper reported original data on foraging returns from children and/or adolescents. Time allocation studies, secondary analyses, and reviews were not eligible for inclusion; (2) the paper contained individual- or group-level means and variances; (3) the paper had information about age: either individual forager age, age class, or child-adult comparisons; (4) the data was presented as continuous quantities, e.g. kcal/day, g/h. Ranges were not eligible. For example, \cite{kawabe_development_1983} reports number of animals (1 to 5 or more than 5)  by species killed across childhood. This study was not included in the present analysis.
+We screened these studies against our inclusion criteria: (1) the paper reported original data on foraging returns from children and/or adolescents. Time allocation studies, secondary analyses, and reviews were not eligible for inclusion; (2) the paper contained individual-level data or group-level means and variances; (3) the paper reported individual forager age, age class, or child-adult comparisons; (4) the data was presented as continuous quantities, e.g. kcal/day, g/h. Ranges were not eligible. For example, \cite{kawabe_development_1983} reports number of animals (1 to 5 or more than 5)  by species killed across childhood. This study was not included in the present analysis.
 
-To identify studies which used the same data in separate analyses published in different papers, we compiled metadata for each paper. Datasets were considered overlapping if they were collected in the same population, time period and for the same set of resources. Age ranges, reported data collectors, unit of measure (e.g. kcal/h) and methods of data collection (e.g. focal follows or experiment set-up) were also revised (see Supplementary Material for more details on metadata for the selected papers). . In cases where reports of children's foraging returns were duplicated, we retained the paper with the most detailed information, such that individual returns were preferred over group returns, reports with specific ages were preferred over those focused on age class, etc. A total of \Sexpr{nlevels(unique(d[,"study"]))} papers produced a sample of \Sexpr{nlevels(unique(d[,"id"]))} individuals and group measures from \Sexpr{nlevels(unique(metadata[,"Population"]))} societies on three continents (1-\Sexpr{unique(metadata[which(metadata[,"Population"] == "Hadza"), "N_studies_per_population"])} studies per society, see Figure \ref{world_pop}). %quantify group measures - how many of our data points are from groups? Also need to include cchunts
+To identify studies which used the same data in separate analyses published in different papers, we compiled metadata for each paper. Datasets were considered overlapping if they were collected in the same population, time period, and for the same set of resources. Age ranges, reported data collectors, unit of measure (e.g. kcal/h) and methods of data collection (e.g. naturalistic or experimental) were also examined. %Please see table S\ref{tab:metadata} for more details on metadata for the selected papers.
+In cases where reports of children's foraging returns were duplicated, we retained the paper with the most detailed information, such that individual returns were preferred over group returns, and reports with specific ages were preferred over those focused on age classes. We also included child hunting return data available in the \texttt{cchunts} package from \cite{koster_life_2020}. Two papers contained data present in the \texttt{cchunts} package and were hence discarded.  A total of \Sexpr{nlevels(unique(d[,"study"]))} papers which contain \Sexpr{nlevels(unique(d[,"outcome"]))} datasets produced a sample of \Sexpr{nlevels(unique(d[,"id"]))} individuals and group measures from  \Sexpr{nlevels(unique(metadata[,"Population"]))} societies on three continents (1-\Sexpr{unique(metadata[which(metadata[,"Population"] == "Hadza"), "N_studies_per_population"])} studies per society--mean: 1.5, SD: 1.1,  see Figure \ref{fig:world_pop}). %quantify group measures--how many of our data points are from groups? Also need to include cchunts
+%\Sexpr{mean(distinct(metadata, Population, N_studies_per_population)[,2])}
+%\Sexpr{sd(distinct(metadata, Population, N_studies_per_population)[,2])}
   
 \begin{figure}[h]
     \begin{tikzpicture}[node distance=2cm]
@@ -68,9 +107,10 @@ To identify studies which used the same data in separate analyses published in d
         \node (AF) [mainrec, below=0.8 of AD] {After full text checked: 35};
         \node (IO) [mainrec, right=2 of AF] {Included from bibliographies and CVs: 5};
         \node (MA) [mainrec, below right=0.8 and -1 of AF] {Meta-data investigated: 40};
-        \node (SS) [mainrec, below =0.8  of MA] {Selected papers: 16};
+        \node (SS) [mainrec, below =0.8  of MA] {Selected papers: 14};
         \node (IA) [mainrec, below =0.8  of SS] {Included in analysis: \Sexpr{nlevels(unique(d[,"study"]))}};
-        \node (CC) [mainrec, below left =0.8  and 0.3 of MA] {From \texttt{cchunts} package: 38};
+        \node (CC) [mainrec, below left =0.8  and 0.3 of MA] {From \texttt{cchunts} package: \Sexpr{nlevels(unique(d[,"study"])) - 12}};
+        \node (GW) [rec, right=0.3 of SS] {Excluded as duplicated in the \texttt{cchunts} package: 2};
         \draw[->,line width=1] (SD) -- (AD);
         \draw[->,line width=1] (JS) -- (AD);
         \draw[->,line width=1] (GS) -- (AD);
@@ -84,24 +124,169 @@ To identify studies which used the same data in separate analyses published in d
         \draw[->,line width=1] (MA) -- (SS);
         \draw[->,line width=1] (SS) -- (IA);
         \draw[->,line width=1] (CC) -- (IA);
+        \draw[->,line width=1] (SS) -- (GW);
     \end{tikzpicture}
     \caption{Schematic summarizing the process to select the papers.}
-    \label{selection}
+    \label{fig:selection}
 \end{figure}
 
-\begin{figure}[h] %UPDATE IMAGE 
-     \includegraphics[width=\textwidth]{text/images/world_pop.png}
-    \caption{World map with sites of populations originating the data. The size of the dot is proportional to the number of datasets from each populations. The most represented people, the Hadza, appear in \Sexpr{unique(metadata[which(metadata[,"Population"] == "Hadza"), "N_studies_per_population"])} studies.}
-    \label{world_pop}
+\begin{figure}[h] %correct positioning
+    \makebox[\textwidth][c]{\includegraphics[width=1.6\textwidth]{text/images/world_pop.png}}
+    \caption{World map with locations of study populations originating the data. Among square brackets, the number of datasets per each populations. The most represented people, the Hadza, appear in \Sexpr{unique(metadata[which(metadata[,"Population"] == "Hadza"), "N_studies_per_population"])} studies. Population for which the dataset was obtained through our selection process are colored in darker orange, in lighter orange those with data included in \cite{koster_life_2020}}
+    \label{fig:world_pop}
 \end{figure}
 
 \subsection{Coding}
-Data presented in tables were extracted by transcribing the values. Data presented in figures was extracted using the  \texttt{metadigitalize} R package (\cite{pick_reproducible_2019}). Two coders independently extracted each type of data. Values were compared and averaged to account for potential coder error. A portion of the dataset came from the \texttt{cchunts} R package, associated to \cite{koster_life_2020}, which presents individual level hunting returns. Of these, we selected all the data for individuals below 20 years of age, which represent XXX\% of total data analyzed. 
+Data presented in tables were extracted by transcribing the values. Data presented in figures were extracted using the  \texttt{metadigitalize} R package \citep{pick_reproducible_2019}. Two coders independently extracted each type of data. Values were compared and averaged to account for potential coder error. Data from the \texttt{cchunts} R package present individual level hunting returns. Of these, we selected all the observations for individuals below 20 years of age, which represent 68\% of our data. 
+We assigned a targeted resource to each dataset based on information present in text and figure captions of the papers. Most papers contained data referring to a single resource, e.g. hunting returns for game, or fish and shellfish. In cases where a paper contained different resources types, we unpacked the data, treating data points relative to different resources as different outcomes. If data points could not be attributed to specific resources, they were categorized as mixed, as were data relative to eggs and honey. 
+Resources were defined as hard (game, underground storage organs--USOs) or easy (fruits, fish/shellfish), according to definitions of complexity offered in \cite{johnson_trade-offs_2004, lancaster_evolution_2000, schuppli_life_2016}. These classify resource complexity according to several factors, contrasting foods which are sessile and can be simply collected (e.g. fruits), versus foods that need to be extracted from a hard substrate (e.g. USOs) and food that moves and needs to be hunted down (namely, game). Shellfish is here considered a collected resource, as we don not include the processing phase, which entails extraction. 
 
-%Need to update the metadata to include the cchunts package
+
+
+%in accordance with \cite{schuppli_life_2016} , who rank niche complexity along two axes: a motor dimension, where frugivory and insectivory are ranked above folivory and below extractive foraging and mobile prey catching; and a knowledge dimension, where the presence of features such as cooperative hunting and tool use increase complexity. Accordingly, we ranked fruit (fewer tools, motor complexity), and marine resources (fewer tools, some extraction but often relative to the processing phase, which we do not consider here) as easier than underground storage organs (complex tools, extraction \textit{par excellence}) and game (complex tools, cooperation, mobile prey). 
+%a bit unclear what you ended up doing with these complexity scores - was it just used to group resources into different categories (as in figure 5)? maybe add a sentence here
+
+% \Sexpr{sum(grepl( "cchunts", d[,1], fixed = TRUE)) / nrow(d)}
+%check that d and metadata are up to date
+
+\subsection{Statistical model}
+Following recent studies on the ontogeny of subsistence knowledge and ability \citep{koster_life_2020, lew-levy_life_2021}, we employed a dynamical model of foraging that allowed us to estimate how foraging skill accumulates with age, and how skill (a latent variable) relates to observed returns (which vary for reasons other than forager skill). 
+
+We used a hurdle model to describe both the probability of acquiring any return at all and probability of harvesting a certain amount of resources.
+Assume that individuals go on foraging trips in which they successfully acquire some return ($y > 0$) with probability $p$ or come home empty-handed ($y = 0$) with probability $1 - p$. Further assume that non zero returns follow a log-normal distribution. Observed foraging returns are thus mapped onto a hurdle model where:
+
+$$ f(y) = \textrm{Bernoulli}(1 - p)  ~~~~\textrm{if}~~y=0 \\ $$
+$$ f(y) = p[\textrm{LogNormal}(\mu,\sigma)] ~~~~\textrm{if}~~y>0  $$
+
+Previous studies of human foraging returns have found that both the probability of a zero-return and the quantity of returns depends on forager skill ($S$), which varies across the lifespan. As a directed acyclic graph, this can be conceived of as $\textrm{age} \rightarrow S \rightarrow p$ and $S \rightarrow \mu$ (see figure \ref{fig:DAG}). \cite{koster_life_2020} modeled the relationship between age and $S$ as a concave downward function to account for senescence among older adults. However, our focus was on the returns of foragers below age 20--more than a decade earlier than the estimated peak of foraging skill--so we did not model senescence. Otherwise, we used the same functional form as \cite{koster_life_2020} and \cite{lew-levy_life_2021} to describe change in latent foraging skill with age:
+
+$$S(\textrm{age}) = [1 - \textrm{exp}(-k\times \textrm{age})]^{b}$$
+
+
+Where $k$ is the constant rate of growth in foraging skill and $b$ is an elasticity parameter that determines the proportional change in skill. $b < 1$ indicates diminishing returns (decreasing differentials of skill with age), while $b > 1$ indicates accelerating returns (increasing differentials of skill with age). Skill itself may have nonlinear effects on foraging success, which we model as an additional elasticity parameter $\eta$. $k$, $b$, and $\eta$ were assumed to be positive, which means that skill is strictly increasing with age and that higher skill always has a positive effect on foraging returns. Finally, we add the log-linear $\alpha$, which acts as an intercept for foraging returns, independent of age.
+
+$$ \mu = \textrm{log}(S^{\eta_{\mu}}\alpha_{\mu}) $$ %removed squared brackets around mu and p, check if they were needed
+$$ p = 2[\textrm{logit}^{-1}(S^{\eta_{p}}\alpha_{p}) - \frac{1}{2}] $$
+
+Figure \ref{fig:DAG}, on the right, shows prior distributions of skill and corresponding returns. Multiple possible shapes of the correlation between both skill and returns with age are possible, allowing sufficient flexibility to comfortably fit any effect of age.
+
+In order to untangle the effect of age from that of other factors, our model was multilevel, which allowed us to accommodate variation across individuals, sex, resource type, and study.
+We allowed the parameters $k, b, \eta$, and $\alpha$ to vary among and between studies (i.e., if a single study had multiple outcomes) and resource type using random effects. 
+%We also assessed sex differences with an overall average sex difference and outcome-specific deviations as random effects. I THINK WE ARE DOING THIS DIFFERENTLY NOW, ARE WE, ERIK?
+
+$$ \textrm{log}(\alpha) = \alpha_0 + v_{[\alpha_0,\textrm{outcome}]} + v_{[\alpha_0,\textrm{resource}]} + \alpha_{[\textrm{sex}]} + \alpha_{[\textrm{sex,outcome}]} + \alpha_{[\textrm{sex,resource}]} $$
+$$ \textrm{log}(k) = k_0 + v_{[k_0,\textrm{outcome}]} + v_{[k_0,\textrm{resource}]} + k_{[\textrm{sex}]} + k_{[\textrm{sex,outcome}]} + k_{[\textrm{sex,resource}]} $$
+$$ \textrm{log}(b) = b_0 + v_{[b_0,\textrm{outcome}]} + v_{[b_0,\textrm{resource}]} + b_{[\textrm{sex}]} + b_{[\textrm{sex,outcome}]} + b_{[\textrm{sex,resource}]} $$
+$$ \textrm{log}(\eta) = \eta_0 + v_{[\eta_0,\textrm{outcome}]} + v_{[\eta_0,\textrm{resource}]} + \eta_{[\textrm{sex}]} + \eta_{[\textrm{sex,outcome}]} + \eta_{[\textrm{sex,resource}]} $$
+
+We also model correlations between the random (varying) effects $v$ to account for%, for example, SHEINA ASKS IF THERE ARE OTHER EXAMPLES :)
+the possibility that studies where the base rate of skill acquisition is higher may have lower age-independent returns. To account for repeated measures of participants in some studies, we also included a random intercept for skill across individuals.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm] {text/images/model_dag.png}
+\caption{On the left, a schematic of the causal relations between the main factors investigated in this analysis. Age and sex influence the choice of return time and contribute to define skill, and amount of return when foraging varies by resource and depends on the skill level of the forager. On the right, priors for for skills and foraging returns.}
+\label{fig:DAG}
+\end{figure}
+%why do we have a direct arrow from sex to returns? I'd expect the effect of sex to be mediated by resource and foraging skill
+
+We accounted for measurement error in forager age, which can lead to deflation of parameter estimates, i.e., attenuation bias, by replacing the extracted ages, which were given as either point estimates or age intervals, with a Gaussian measurement error model.
+
+All analyses were run in R (version 4.0.4) %Ilaria version, to be updated after final run 
+and all models were fit using the RStan package (Stan Development Team 2020), which fits Bayesian models using Hamiltonian Markov Chain Monte Carlo. We employed regularizing priors for all parameters to reduce over-fitting and facilitate model convergence. Markov chain convergence was assessed using standard diagnostics (number of effective samples, the Gelman-Rubin diagnostic, and visual inspection of trace plots). More details on the model can be found in SI \ref{SI:model}. %add priors in the supplementary???
+
+We used posterior samples drawn from our model to predict foraging skill and foraging returns, given different combinations of age, resource type, and sex. These predictions are dimensionless quantities of skill and productivity that are only interpretable in relative terms (as opposed to, for example, a rate with dimensions like kilo-calories per hour). As such, we cannot say whether children in one society are more skilled than another, or whether girls are more productive than boys. What we can look at is how the shape of the age-trajectories vary.  While our model's age functions are continuous, we quantified this pattern by assessing foraging relative to the skill level or return quantity predicted for a 20 year old (the oldest age included in our data-set). This takes the form:
+
+
+		$\frac{\textrm{model prediction at age}~ x}{\textrm{model prediction at age 20}}$
+
+\section{Results}
+
+% put elasticies of resource types into figure, put into the Fig 5
+% put into supp challenges of sparsity in sex diffs
+% put CoV sex diffs plot in supp
+
+We found that, in general, foraging skill increases rapidly during early childhood and begins to plateau in adolescence (figure \ref{fig:sex_diffs}a). By age 5, the average forager has about 45\% of the skill they will have at age 20. Skill increases to 72\% by age 10. Note that the change in skill from $5 \rightarrow 10$ and $10 \rightarrow 20$ is nearly the same, despite the latter taking twice as long. This pattern is referred to as `diminishing returns' because the velocity of skill decreases over time.
+
+This ontogeny of foraging skill appears to vary across resource type (figure \ref{fig:sex_diffs}c) : the greatest gains happen early in life for fruit and marine resources, while game and underground storage organs (USOs) exhibit more linear increases in skill with age--consistent with a skill peak in later adulthood. Even more apparent are differences in returns (i.e. the quantity produced as opposed to the latent skill of a forager, figure \ref{fig:sex_diffs}d): game and USOs exhibit accelerating returns and fruit and marine show diminishing returns with age. This means that disparities in production between a low skill and high skill forager are more apparent for more complex resource types. 
+In addition to these qualitative average differences between resource categories, it is worth noting heterogeneity across studies within each category. In particular, `game/mixed' resources span a wide array of foraging skill and return curves, each implying distinct life history trajectories. Thus, we should be cautious in making strong claims about the differences between hunting and other types of foraging. 
+
+Our predictions do not show strong differentiation by sex in the ontogeny of skill or returns; the age trajectories look qualitatively similar (Figure \ref{fig:sex_diffs}, and SI \ref{SI:sex_diff}). Similarly, the sexes do not differ much when compared within resource type, apart from females showing some more differences in the age specific returns between easy and hard resources than males (see SI ). However, these findings should not be interpreted as evidence for no sex differences, given how uncertain our prediction intervals are. Instead, it may be that our data is of insufficient resolution to detect differences between male and female foragers--which are presumably smaller than differences between resource types. %or conflate with resource types \citep{bird_what_2009}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/skill_returns_resource.png}
+\caption{(a) Predicted change in foraging skill, averaging over variation between studies, individuals, sex, and resource type. Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. Dashed lines highlight major skill differentials across childhood. (c) Predicted change in foraging skill by resource type, with solid line denoting the average posterior median and thin transparent lines denoting the median for each study outcome for that resource type. (b) and (d) The same as above, but for foraging returns rather than skill.}
+\label{fig:skill_return_resource}
+
+\end{figure}
+
+
+
+
+\section{Discussion}
+%Understanding how food production changes across the lifespan is is central to uncovering the selection pressures that have shaped human life history and social organization. Yet few comparative studies have attempted to discern how and why children's participation in foraging varies across cultures and studies. 
+In the present paper, we sought to understand how age and resource type contribute to variation in children's foraging returns. Specifically, we conducted a latent variable meta-analysis, which allowed us to simultaneously improve effect size estimates while measuring underlying skill. Our findings have important implications for current debates regarding the evolution of childhood, and point to several avenues for future research.
+
+We found that by ten years of age, children had acquired three quarters of the skill of a 20-year-old. Like research among Hadza, Mardu, Maya, BaYaka, Aka, and communities in the Okavango Delta \citep{bird_mardu_2005, crittenden_juvenile_2013, bock_learning_2002, froehle_physical_2019, lew-levy_life_2021, kramer_variation_2002}, these findings suggest that children are independent foragers before adolescence. Still, skill and returns continue to increase at least until adulthood, suggesting that individuals acquire embodied capital throughout the entire pre-reproductive stage \citep{kaplan_theory_2000}. %As you know though Kaplan et al have argued that skill doesnt actually peak till well afer pre-repro stage.
+%Taken together, these findings suggest that children simultaneously invest in immediate and delayed production. Thus, neither learning nor strength and size appear to wholly constrain children's foraging returns. %I know you set this up in Intro, but what data might you have produced that would contravene this inference? Would they have to become fully competent on a single day?? I know this is a silly suggestion, but I dont understand how your data could either challenge immediate versus delayed production, nor indeed how learning/skill/size fully constrain foraging returns. What I would encourage you to do is to sit down with a sheet of paper and make sketch graphs of what functions would look like under these different scenarios, and really pinpoint what YOUR data enables you to show, and what the counterfactual (if the particular theoretical claim were not true) would look like.
+
+Further, we found variation in return rates between resource types, with returns and skill for more complex resources (USOs and game) peaking later than those for simpler resources (marine and fruit). Resources can vary in complexity according to the motor skill required to collect them, and cognitive skill needed to locate them \citep{schuppli_life_2016}. A combination of both types of skill is likely necessary to acquiring the most complex resources \citep{gurven_determinants_2006, bock_learning_2002}. %Individual level measures of ecological knowledge, height, strength and hand-eye coordination would be necessary to disentangle this issue.%citations
+For example, \cite{bird_mardu_2005} measured walking speed of Mardu children in western Australia and found that this measure is a good predictor of goanna lizard hunting success. Also, \cite{blurton_jones_selection_2002} found that years spent in boarding school does not negatively predict Hadza USO extraction, suggesting that strength rather than skill explains tuber foraging success in this community. %or that skill is quickly attained!!!!
+
+Finally, cross-cultural variation within resource type differed substantially. The developmental trajectories of skill related to fruit and marine resources remains relatively stable across studies. Children may focus on these resources because they require less skill and strength to master, because they are rich in sugar and fat needed to support growing brains, or because children actively specialize in collecting them.  In contrast, foraging skill development for complex resources shows several fold more variability across studies. These findings confirm cross-cultural variation in the age-specific skill development observed for hunting returns \citep{koster_life_2020}. They also extend them to the extraction of USOs,  highlighting the skill requirements for this activity performed primarily by women. %If there are goodreasons for including USO as demanding skill (rather than strength), these should have been presented earlier - see my objection above. You could also then use Koster et al to support your interpretation of Schuppli.
+Larger variance for complex resources could be due to a variety of factors, including ecological differences in the abundance of resources \citep{ember_resource_2020}, cross-cultural differences in foraging technology (e.g., guns, dogs, see \cite{alvard_shotguns_1995, koster_hunting_2008, pacheco-cobos_ethnographic_2021}), and unmeasured differences in study methodology, such as the measurement of zero-return foraging bouts and treatment of group hunts.
+
+This paper has several limitations related to our meta-analytic approach. Because we extracted data from published reports, there was considerable differences in how data were collected, whether returns were presented as quantities or rates, and whether data were for individuals or for age class. As a result, we have limited our interpretation to those which can be confidently inferred by our model.  Our combined dataset contain few repeated measures, which prevented us from constructing individual forager's skill development curves. We could not compare studies across resource types, because study specific parameters are heavily conflated with resource type parameters. Finally, few researchers studied marine resources so that not only our analysis is limited to fish and shellfish, ignoring hunting of marine mammals, but also this could explain the similarities between the results for this resource type.
+
+More generally, our meta-analysis highlights the difficulties of testing hypotheses on the evolution of childhood on real world data. The level of detail and quantity of the observations needed are hard to achieve for three main reasons.
+First, the fact that we are studying the lifelong variation in productivity in our own species, means that the considered timeframe equals the life of one single researcher. Hence, longitudinal datasets of foraging returns that span several decades and that are collected by more than one researcher are needed \citep{koster_life_2020}. 
+Second, individual level variables such as knowledge or strength should be included in the analyses, as they likely contribute to foraging success. Future research should aim to tease apart the complexity of specific foraging activities by combining ethnographic accounts of the type of foraging \citep{bird_constraints_2002}, and analyses that consider causal pathways for individual characteristics that are relevant to foraging activities. %this is so true. This whole literature to me looks like a massive causal salad. I would restructure this paper to focus EXPLICITLY on the resource difficulty, with a dag to control for age (which as richard loves to say is actually nothing but a slew of other things), and at least be able to make one substantive claim 
+Third, humans and their offspring live in a dense social network, which drives their needs and motivations to engage in foraging activities. 
+As \cite{kramer_evolution_2011]} point out, adults and children pool their energy budgets through labour specialization and food sharing \citep{kramer_pooled_2010}. %could also cite Gurven & Hill 2009 Man the hunter here, which makes exactly this point regarding sexual division of labor
+While much research into human social organization has focused on the gendered division of labour, the coordination of work between children and adults may be equally important \citep{collings_birth_2009, kramer_cooperative_2010,lancy_children_2015, munroe_childrens_1984, stieglitz_nuclear_2009}. For example, the combined foraging returns of San mother-child pairs is greater when San children stay behind to process \textit{mongongo} nuts while their mothers collect them, than it is for mothers and children to collect \textit{mongongo} nuts together \citep{hawkes_hadza_1995}. Children also appear to adjust their work activities to the presence and absence of family members. For example, Tsimane children worked more when their fathers were absent \citep{stieglitz_household_2013}.
+%- although some cultural variation is likely \citep{koster_effects_2013}. 
+%worked more when they had a co-habitating sibling under four years of age Mayangna children worked more when their fathers were absent. 
+Finally, the production of Hadza children sometimes exceeds their daily caloric needs, the surplus of which is shared with parents and other caregivers \citep{crittenden_juvenile_2013}. To fully understand age-specific foraging returns, and the effect of knowledge, strength, and skill on these, future studies should move beyond measuring only individual returns and towards accounting for how children coordinate their labour with other household and community members. %Ignoring the conditions that surround individuals can lead to misinterpretation of data and biased analyses. 
+
+
+
+%methodological implications....
+%specially, combining very different data into a single dataset meant that we compared data for which the collection procedures were highly inconsistent: some studies are only observational, others pseudo-experimental; some report rates of kilocalories per hour, other grams of tubers collected during a foraging trip; some give detailed information on a single forager in a single trip, others report individual averages, or even mean values per age group. This meant that we needed to keep the model as flexible as possible and limit our interpretation of the results to the only truly comparable outcome, i.e. the shape of the functions describing age specific returns and skill across resources and studies.
+
+
+
+
+
+
+%Although compelling, this framework is incredibly hard to test on real world data. First, the fact that we are studying the lifelong variation in productivity in our own species, means that the considered timeframe equals the life of one single researcher. Hence, longitudinal datasets of foraging returns that span several decades and that are collected by more than one researcher are needed. Second, individual level variables such as knowledge or strength should be included in the analyses, as they likely contribute to foraging success. Teasing apart their relative importance is key to understand the evolution of early life history in our species. Third, humans and their offspring live in a dense social network, which drives their needs and motivations to engage in foraging activities. Ignoring the conditions that surround individuals can lead to misinterpretation of data and biased analyses. 
+
+%In summary, our findings reflect many of the ambiguities already present in the literature on children's foraging returns. %"In summary our findings show how skill development occurs throughout childhood, and how it is more delayed for resources deemed to be more complex to acquire
+%Overall, our broad findings lend support to the Embodied Capital Theory.
+In summary, our main finding that skill development for more complex resources continue throughout childhood, is coherent with the idea that the long dependent period in our species is functional to learning to exploit the most complex elements of our niche. However, our comparative approach suggests that age-specific foraging returns and skill for complex resources are not uniform across studies. These findings suggest that unmeasured factors related to individuals and their social and ecological settings also contribute to variation in foraging returns and skill across resource types and cultures \citep{bock_learning_2002}. Indeed, individual level data are needed which include more detail on the factors contributing to foraging returns and a variety of foraged resources. %\textbf{As of yet, few theories regarding the evolution of childhood have not developed theoretical models which account for how individual- and site-specific variation may influence children's skill development and self-sufficiency (but see \cite{kramer_childrens_2005}).} %bring more of uncertainty and hand waving around
+Information on family composition, wealth, competing activities, motivation, resource distribution, anthropometric measures, cognitive skill, opportunities for learning, and ecological knowledge remained unmeasured in most studies of children's foraging returns. In order to fully understand the developmental trajectories of children's foraging returns, and their articulation with ecological and social contexts in the present and throughout our evolutionary history, we call on researchers to consider these variables in their future research. %this says nothing clear, cut. My view is that theoretical models exist. Aspects of these models have been supported with empirical data (although to be honest, as should be clear from my comments above, rarely are they clearly tested - people simply end up saying "my findings are consistent with ECT models, blabla"). Where ethnographers find site specific patterns they typically develop posthoc explanations for why their data are patterned as they are (for example pooled energy budgets, hawkes, possibly kramer) which are undoubtedly useful (we all do this all the time), but these have not yet been built into revised theoretical models (or if they have, you are not citing them here (remember this is not "my" areas)). 
+
+\section{Acknowledgments}
+The authors thank Richard McElreath, Adrian Jaeggi and Monique Borgerhoff Mulder for comments on previous versions of this manuscript.
+
+\section{Author Contributions}
+IP, ER and SLL designed the study, selected the papers and extracted the data. ER performed statistical analysis. IP, ER and SLL drafted the manuscript. 
+
+\section{Financial Support}
+IP has been funded by the Department of Human Behavior, Ecology and Culture at the Max Planck Institute for Evolutionary Anthropology for the duration of this study. %add your founding agencies?
+
+\section{Conflicts of Interest}
+The authors declare they have no conflict of interest.
+
+\section{Research Transparency and Reproducibility}
+The data that support the findings of this study are openly available at https://github.com/erik-ringen/cfr. % at http://doi.org/[doi], reference number [reference number]
 
 
 \bibliography{references}
 
+\include{text/supplementary}
 
 \end{document}

@@ -1,0 +1,131 @@
+\section{Supplementary material}
+\subsection{Datasets and metadata}
+Table \ref{tab:metadata} shows the main metadata referring to the datasets included in the analysis. Those for which the Code of Paper includes the string \texttt{cchunts} are published with the paper from \cite{koster_life_2020}. These have been compiled by Dr. Koster, who "searched for relevant studies on subsistence hunting in the anthropological and biological literature, subsequently contacting authors to invite them to contribute data. The contributors submitted data in a standardized format that included variables for the biomass acquired on terrestrial hunting trips, the ages of the hunters at the time of the hunt, the duration of the trip, the hunting weaponry carried by the hunters, and the presence of dogs or assistants" (from \cite{koster_life_2020}).
+
+We following inclusion of data from this source, we screened the data we extracted from published papers to remove repeated datasets. In particular, data relative to the Ache of Paraguay extracted from \cite{walker_age-dependency_2002}) have not been used because already present in the "Hill\_Kintigh" dataset included in the \texttt{cchunts} package. 
+
+Tsimane data extracted from \cite{gurven_how_2006} are a repetition of those included in the \texttt{cchunts} data ("Trumble\_Gurven"), and the latter were used in the analysis.
+
+Pume' foraging data presented in \cite{kramer_early_2009} refer to underground storage resources, whereas Pume' data in the \texttt{cchunts} package are hunting returns, hence both data have been included in the analysis.
+
+Data collected by Bliege Bird and Bird among the Mardu in Western Australia come from both a 2005 study on children foraging (\cite{bird_mardu_2005}) and from the dataset in the \texttt{cchunts} package (\cite{koster_life_2020}). The 2005 paper reports data from individual of both sexes between 5 and 14 years old, hunting goanna lizards in the rocky outcrop not far from the camp. These data were collected by the authors between 2000 and 2002. The \texttt{cchunts} data were collected between 2002 and 2010, are relative to individuals aged 7 to 79 and partially exclude female contributions ("This dataset includes observations of female foragers when they were accompanied by men on trips, but not women on foraging trips that did not include male foragers"). The two dataset are then not fully overlapping, but there is the possibility that some data are present in both sets. In particular, 14 foraging returns collected in 2002 from individuals below 14 years old are present in the \texttt{cchunts} dataset and could hence have been included in \cite{bird_mardu_2005}. Looking in detail to these subsets of data, they do not seem to be one the repetition of the other (a 9 years old boy present in the \texttt{cchunts} dataset does not appear in the \cite{bird_mardu_2005} study, for example, and none of the younger individuals' returns reported here appear in \texttt{cchunts}). % but MAYBE WE SHOULD RERUN THE ANALYSIS WITHOUT THOSE 14 DATA POINTS TO BE SURE.  %to remove the 14 observations that could be repeated from the cchunts dataset, add to the processing data: cchunts_dat <- cchunts_dat[-which ( cchunts_dat$society == "Bird_Bird_Codding" & cchunts_dat$trip_year <= "2002" & cchunts_dat$age_dist_1 <= 14), ]
+
+
+
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+% \usepackage{lscape}
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{landscape}
+\begin{longtable}{M{2.6cm} M{3.6cm} M{1.5cm} c c M{1cm} c c}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+Code of data                  & Paper                                     & Population      & Years      & Unit      & Resource           & Ages    & Sample size \\ \hline
+\endfirsthead
+%
+\endhead
+%
+Bird\_2002b                    & \cite{bird_children_2002}                 & Meriam          & 1993-1999  & kcal/hr   & fish               & 6- 64   & 52 (19)     \\
+\rowcolor[HTML]{EFEFEF} 
+Bird\_2005                     & \cite{bird_mardu_2005}                    & Mardu           & 2000-2002  & kcal/hr   & game               & 4- 14   & 157 (26)    \\
+BliegeBird\_1995               & \cite{bird_children_1995}                 & Meriam          & 1993       & g/min     & fish, fruit, mixed & 3-14    & 12(12)      \\
+\rowcolor[HTML]{EFEFEF} 
+BliegeBird\_2002a              & \cite{bird_constraints_2002}              & Meriam          & 1993-1998  & kcal/hr   & fish               & 4-75    & 196(NA)     \\
+BlurtonJones\_1989             & \cite{blurton_jones_modelling_1989}       & Hadza           & 1985-1986  & g/hr      & USO, mixed, fruit  & 2- 20+  & 70 (29)     \\
+\rowcolor[HTML]{EFEFEF} 
+BlurtonJones\_2002             & \cite{blurton_jones_selection_2002}       & Hadza           & 1997       & kg/hr     & USO                & 6-75    & 79 (46)     \\
+BlurtonJones\_1997             & \cite{blurton_jones_why_1997}             & Hadza           & 1986- 1989 & kcal/hr   & USO, fruits        & 2-18    & 61 (61)     \\
+\rowcolor[HTML]{EFEFEF} 
+Bock\_2005                     & \cite{bock_what_2005}                     & Bugakwhe, etc & 1994       & kcal/hr   & fish               & 5- 14   & 16 (16)     \\
+Crittenden\_2013               & \cite{crittenden_juvenile_2013}           & Hadza           & 2005       & kcals/day & mixed              & 3-17    & 34 (34)     \\
+\rowcolor[HTML]{EFEFEF} 
+Froehle\_2018                  & \cite{froehle_physical_2019}              & Hadza           & 2005       & kcal/trip & mixed              & 5- 14   & 9 (9)       \\
+Hagino\_2016                   & \cite{hagino_high_2016}                   & Baka            & 2012       & g/6 days  & mixed              & 2 - 20+ & 22 (14)     \\
+\rowcolor[HTML]{EFEFEF} 
+Hawkes\_1995                   & \cite{hawkes_hadza_1995}                  & Hadza           & 1988       & g/hr      & USO, fruits        & 3-17    & 20 (20)     \\
+Kramer\_2009a                  & \cite{kramer_early_2009}                  & Pume'           & NA         & kg/hr     & USO, fruits        & 6- 60   & NA          \\
+\rowcolor[HTML]{EFEFEF} 
+Tucker\_2005                   & \cite{tucker_growing_2005}                & Mikea           & 1997- 2003 & kcal/hr   & USO                & NA      & 254(NA)     \\
+Alvard\_cchunts                & \cite{alvard_shotguns_1995}               & Piro            & 1989-1991  & kg/trip   & game               & 15-70   & 274(16)     \\
+\rowcolor[HTML]{EFEFEF} 
+Beckerman\_cchunts             & \cite{beckerman_ecology_2013}             & Bari            & 1970-1972  & kg/trip   & game               & 12-55   & 233(112)    \\
+Bird\_Bird\_Codding\_ cchunts     & \cite{bird_pursuit_2009}                  & Mardu           & 2000-2010  & kg/trip   & game               & 7-79    & 758(73)     \\
+\rowcolor[HTML]{EFEFEF} 
+Coad\_cchunts                  & \cite{coad_bushmeat_2008}                 & Pouvi, etc    & 2004-2010  & kg/trip   & game               & 15- 69  & 493(39)     \\
+Duda\_cchunts                  & \cite{reyes-garcia_adaptive_2016}         & Baka            & 2012-2013  & kg/trip   & game               & 16- 69  & 114(9)      \\
+\rowcolor[HTML]{EFEFEF} 
+Ellen\_cchunts                 & \cite{ellen_individual_1996}              & Nuaulu          & 1970       & kg/trip   & game               & 10-70   & 140(48)     \\
+Fernandez\_Llamazares\_ cchunts  & \cite{reyes-garcia_adaptive_2016}         & Tsimane         & 2012-2013  & kg/trip   & game               & 15-70   & 127(10)     \\
+\rowcolor[HTML]{EFEFEF} 
+Franzen\_cchunts               & \cite{franzen_evaluating_2006}            & Waorani         & 2002       & kg/trip   & game               & 16- 77  & 373(7)      \\
+Gallois\_cchunts               & \cite{reyes-garcia_adaptive_2016}         & Baka            & 2012-2013  & kg/trip   & game               & 16- 75  & 249(23)     \\
+\rowcolor[HTML]{EFEFEF} 
+Gueze\_cchunts                 & \cite{reyes-garcia_adaptive_2016}         & Punan           & 2012-2013  & kg/trip   & game               & 16- 61  & 119(2)      \\
+Headland\_cchunts              & \cite{headland_why_1986}                  & Agta            & 1962-1984  & kg/trip   & game               & 13- 66  & 211(19)     \\
+\rowcolor[HTML]{EFEFEF} 
+Healey\_Nen\_PNG\_cchunts        & Preliminary fieldwork                     & Nen             & 2013       & kg/trip   & game               & 18- 46  & 7(2)        \\
+Hill\_Kintigh\_ cchunts          & \cite{hill_can_2009}                      & Ache            & 1980-2007  & kg/trip   & game               & 11- 75  & 14364(426)  \\
+\rowcolor[HTML]{EFEFEF} 
+Koster\_cchunts                & \cite{koster_hunting_2008}                & Mayanga         & 2004-2013  & kg/trip   & game               & 8- 63   & 359(37)     \\
+Kramer\_Greaves\_cchunts        & \cite{kramer_why_2017}                    & Pume'           & 1990-2006  & kg/trip   & game               & 11- 65  & 172(36)     \\
+\rowcolor[HTML]{EFEFEF} 
+Lupo\_Schmitt\_cchunts          & \cite{lupo_upper_2002}                    & Bofi, Aka       & 1999-2002  & kg/trip   & game               & 6- 60   & 433(148)    \\
+Pacheco\_cchunts               & \cite{pacheco-cobos_economic_2015}        & Maya            & 2011-2012  & kg/trip   & game               & 16- 60  & 464(55)     \\
+\rowcolor[HTML]{EFEFEF} 
+Pangau\_Adam\_cchunts           & \cite{pangau-adam_wildmeat_2012}          & Nimboran        & 2005-2006  & kg/trip   & game               & 16- 67  & 182(5)      \\
+Ready\_cchunts                 & \cite{ready_food_2016}                    & Inuit           & 2013-2014  & kg/trip   & game               & 12- 55  & 29(6)       \\
+\rowcolor[HTML]{EFEFEF} 
+Reyes\_Garcia\_cchunts          & \cite{reyes-garcia_adaptive_2016}         & Tsimane         & 2012-2013  & kg/trip   & game               & 16- 91  & 139(5)      \\
+Sillitoe\_cchunts              & \cite{sillitoe_managing_2004}             & Wola            & 1977       & kg/trip   & game               & 10- 45  & 410(161)    \\
+\rowcolor[HTML]{EFEFEF} 
+Siren\_cchunts                 & \cite{siren_effects_2016}                 & Quichua         & 1999, 2008 & kg/trip   & game               & 19- 59  & 189(7)      \\
+Trumble\_Gurven\_cchunts        & \cite{gurven_how_2006}                    & Tsimane         & 2002-2011  & kg/trip   & game               & 7- 82   & 809(136)    \\
+\rowcolor[HTML]{EFEFEF} 
+Van\_Vliet\_ et\_al\_ Gabon\_cchunts & \cite{van_vliet_hunting_2008}             & Ba-Kota et al   & 2006-2007  & kg/trip   & game               & 15- 45  & 114(3)      \\
+Venkataraman\_et\_al\_cchunts    & \cite{endicott_hunting_1979}              & Batek           & 1975-1976  & kg/trip   & game               & 9- 50   & 268(68)     \\
+\rowcolor[HTML]{EFEFEF} 
+Winterhalder\_cchunts          & \cite{winterhalder_boreal_1983}           & Cree            & 1975       & kg/trip   & game               & 15- 59  & 127(30)     \\
+Yu\_et\_al\_cchunts              & \cite{ohl-schacherer_sustainability_2007} & Matsigenka      & 2004-2007  & kg/trip   & game               & 8- 52   & 1441(186)   \\
+\rowcolor[HTML]{EFEFEF} 
+Ziker\_cchunts                 & \cite{ziker_peoples_2002}                 & Dolgan          & 1993-1997 & kg/trip   & game               & 15-66  & 76(3)     \\ 
+\caption{Metadata for each source of foraging returns data included in the analysis. The first 14 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations present in the dataset and, among parentheses, the number of observations relative to individuals below 20 years of age, which were included in our analysis. }
+\label{tab:metadata}
+\end{longtable}
+\end{landscape}
+
+\subsection{Statistical model}\label{SI:model}
+
+\subsubsection{Integrating individual-level data with study-level summary statistics}
+
+Our data included a mix of individual-level returns (e.g., a forager brought back $y$ kilograms of fish) and summary statistics, such as the mean and standard deviation of returns for children/adults (e.g., over the study period, children averaged $\bar{y}$ kilograms of fish per day). The challenge was to synthesize two distinct types of data: individual-level observations drawn from $f(y|\mu,\sigma)$ and group-level averages $\mathbb{E}[y|\mu,\sigma]$.
+
+When returns were given as summaries statistics (i.e., mean and standard error), we modelled them using a measurement error model:
+
+$$ \mu_{[\textrm{obs}]} \sim \textrm{Normal}(\mathbb{E}[y|\mu,\sigma], \sigma_{\bar{\mu})} $$
+
+Where $\mu_{[\textrm{obs}]}$ is the group-level mean, $\sigma_{\bar{\mu}}$ is the standard error of that mean, and, following our generative model defined in the main text, $\mathbb{E}[y|\mu,\sigma]$ = $p(\textrm{exp}( \textrm{log}(\mu) + \frac{\sigma^2}{2})) $.
+
+Finally, there was some variation in the number of measures available for individuals, and some studies have multiple measurements from the same forager, in which case we included a random effect on skill to account for non-independence of these data points. However, lack of longitudinal data meant that it was not possible to estimate individual differences in the life history parameters.
+
+
+\subsection{Dealing with uncertainty }
+
+\emph{Uncertainty in age:} Forager age was not reported exactly in any study. Most frequently, authors reported an integer age for each child. In other cases an interval of possible ages was given (e.g., 4-7). We modelled age using a Gaussian measurement error model:
+
+$$ \textrm{age}_{\textrm{obs}} \sim \textrm{Normal}(\mu_{\textrm{age}}, \sigma_{\bar{\textrm{age}_{\textrm{obs}}}}) $$
+
+\emph{Uncertainty in sex}: In cases where sex of the forager was not reported (or was given as a summary statistic), we average over sex differences in proportion to how often males and females appeared in a given study using Stan's log\_mix() function.
+
+\section{Sex differences}\label{SI:sex_diff}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/sex_diffs.png}
+\caption{ Predicted change in foraging skill by sex, averaging over variation between studies, individuals, and resource type.}
+\label{fig:sex_diffs}
+\end{figure}

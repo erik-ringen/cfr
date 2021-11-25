@@ -40,7 +40,7 @@ id <- ifelse(is.na(id), -99, id) # flag NA's as -99 for Stan
 
 d$outcome_id <- match(d$outcome, unique(d$outcome))
 
-d$resource_id <- match(d$resource, unique(d$resource))
+d$resource_id <- match(d$resource_cat, unique(d$resource_cat))
 
 # Organize age data and divide by max age (20)
 age <- ifelse(is.na(d$age), (d$age_lower + d$age_upper)/2, d$age) / 20
@@ -83,8 +83,6 @@ stan_model <- stan_model("stan_models/model_cfr.stan")
 
 ### run MCMC program
 fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=1000, init="0", control=list(adapt_delta=0.95) )
-
-post <- extract.samples(fit)
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")

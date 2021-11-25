@@ -115,8 +115,8 @@ d_combined <- bind_rows(d_round2, cchunts_dat_child2)
 d_combined <- d_combined %>% mutate(resource_cat = as.character(fct_recode(resource, game = "small_game", marine = "shellfish", marine = "fish", USOs = "tubers", USOs = "roots", fruit = "fruit", fruit = "fruits", mixed_other = "eggs", mixed_other = "honey", mixed_other = "mixed")))
 
 # Consolidate the mixed and game categories
-d_combined$resource <- ifelse(d_combined$resource == "mixed_other", "game", d_combined$resource)
-d_combined$resource <- ifelse(d_combined$resource == "game", "game_mixed", d_combined$resource)
+d_combined$resource_cat <- ifelse(d_combined$resource_cat == "mixed_other", "game", d_combined$resource_cat)
+d_combined$resource_cat <- ifelse(d_combined$resource_cat == "game", "game_mixed", d_combined$resource_cat)
 
 
 # Adjust age error variables
@@ -131,7 +131,16 @@ d <- d %>%
   filter(outcome != "Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h") %>% # zero-return and no adult value
   filter(outcome != "Bird_2002b_table2_Trid. gigas") # zero-return summary stat
 
-####################################################
+########################################################
+#### Drop outcomes where we only have one observation ##
+d_out <- d %>% 
+  group_by(outcome) %>% 
+  summarise(n = n())
+
+d <- left_join(d, d_out) %>% 
+  filter(n > 1) %>% 
+  select(-n)
+
 #### Export combined dataset #######################
 write_csv(d_combined, "data.csv")
 write_csv(d_combined, "text/data/d_all_data.csv")

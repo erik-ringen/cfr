@@ -14,12 +14,12 @@ d <- d %>%
   filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
 
 ### Re-create indices for resource and outcome
-d$resource_id <- match(d$resource, unique(d$resource))
+d$resource_id <- match(d$resource_cat, unique(d$resource_cat_cat))
 d$outcome_id <- match(d$outcome, unique(d$outcome))
 
 ### Get resource id to link model fit indices with dataset
 d_r <- d %>% 
-  group_by(resource) %>% 
+  group_by(resource_cat) %>% 
   summarise(id = unique(resource_id))
 
 ### Get outcome id, resource type, and age range for each study*outcome
@@ -190,7 +190,7 @@ par(mfrow=c(2,2),
 )
 
 # loop over resource type
-for (r in 1:length(unique(d$resource))) {
+for (r in 1:length(unique(d$resource_cat_cat))) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
@@ -250,7 +250,7 @@ par(mfrow=c(2,2),
 )
 
 # loop over resource type
-for (r in 1:length(unique(d$resource))) {
+for (r in 1:length(unique(d$resource_cat))) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
@@ -310,7 +310,7 @@ par(mfrow=c(2,2),
     cex=1.3
 )
 
-for (r in 1:length(unique(d$resource))) {
+for (r in 1:length(unique(d$resource_cat))) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   
@@ -360,7 +360,7 @@ par(mfrow=c(2,2),
     cex=1.3
 )
 
-for (r in 1:length(unique(d$resource))) {
+for (r in 1:length(unique(d$resource_cat))) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   
@@ -402,11 +402,26 @@ dev.off()
 
 #####################################################
 #### Plot all raw data ##############################
+# If age given as sd
+age_sd <- ifelse(is.na(d$age_sd), -99, d$age_sd / 20 )
+
+# If age given as intervals
+age_range <- (d$age_upper - d$age_lower) / 20
+age_sd <- ifelse(!is.na(age_range), age_range/2, age_sd)
+
 d_raw <- d %>% 
-  mutate(age = ifelse(is.na(age), age_upper - age_lower, age)) %>% 
-  mutate()
+  mutate(age = ifelse(is.na(age), age_upper - age_lower, age),
+         age_range = age_upper - age_lower) %>% 
+  mutate(age_sd = ifelse(is.na(age_sd), age_range/2, age_sd))
 
+marine_plots <- filter(d_raw, resource_cat == "marine") %>% 
+  ggplot(aes(x = age, y = scaled_return)) +
+  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return)) + 
+  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age)) +
+  facet_wrap(~outcome) +
+  geom_jitter()
 
+marine_plots
 
 
 

@@ -14,12 +14,12 @@ d <- d %>%
   filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
 
 ### Re-create indices for resource and outcome
-d$resource_id <- match(d$resource, unique(d$resource))
+d$resource_id <- match(d$resource_cat, unique(d$resource_cat))
 d$outcome_id <- match(d$outcome, unique(d$outcome))
 
 ### Get resource id to link model fit indices with dataset
 d_r <- d %>% 
-  group_by(resource) %>% 
+  group_by(resource_cat) %>% 
   summarise(id = unique(resource_id))
 
 ### Get outcome id, resource type, and age range for each study*outcome
@@ -84,7 +84,7 @@ par(mfrow=c(2,2),
     )
 
 # loop over resource type
-for (r in 1:length(unique(d$resource))) {
+for (r in 1:length(unique(d$resource_cat))) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
@@ -176,7 +176,7 @@ par(mfrow=c(2,2),
     cex=1.3
 )
 
-for (r in 1:length(unique(d$resource))) {
+for (r in 1:length(unique(d$resource_cat))) {
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   

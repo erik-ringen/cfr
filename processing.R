@@ -127,17 +127,17 @@ d_combined$age_sd <- ifelse( d_combined$age_sd == 0, NA, d_combined$age_sd )
 
 ########################################################
 #### Drop a couple of problematic obs ##################
-d <- d %>% 
+d_combined <- d_combined %>% 
   filter(outcome != "Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h") %>% # zero-return and no adult value
   filter(outcome != "Bird_2002b_table2_Trid. gigas") # zero-return summary stat
 
 ########################################################
 #### Drop outcomes where we only have one observation ##
-d_out <- d %>% 
+d_out <- d_combined %>% 
   group_by(outcome) %>% 
   summarise(n = n())
 
-d <- left_join(d, d_out) %>% 
+d_combined <- left_join(d_combined, d_out) %>% 
   filter(n > 1) %>% 
   select(-n)
 

@@ -1,20 +1,4 @@
 study,outcome,id,sex,age,age_error,age_sd,age_lower,age_upper,resource,units,raw_return,raw_sd,raw_se,adult_return,adult_sd,adult_se,resource_cat
-Bird_2002b,Bird_2002b_table2_Hippopus,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,1.02,1.3606983501129117,0.23,6.73,11.037603906645682,1.61,marine
-Bird_2002b,Bird_2002b_table2_Tridacna spp.,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,0.8,1.6565023392678926,0.28,2.15,3.564940392208543,0.52,marine
-Bird_2002b,Bird_2002b_table2_Trochus (lg),NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,0.2,0.7099295739719539,0.12,0.2,0.6855654600401044,0.1,marine
-Bird_2002b,Bird_2002b_table2_Lambis,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,7.24,7.9867077071844825,1.35,19.6,18.990163243110892,2.77,marine
-Bird_2002b,Bird_2002b_table2_Cypraea,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,0.71,3.4313262741977772,0.58,2.65,9.32369025654542,1.36,marine
-Bird_2002b,Bird_2002b_table2_Trochus (sm),NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,0.61,1.4198591479439078,0.24,0,0,0,marine
-Bird_2002b,Bird_2002b_table2_Strombus,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,4,6.034401378761609,1.02,1.56,4.250505852248647,0.62,marine
-Bird_2002b,Bird_2002b_table2_Trid. crocea,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,0.08,0.2958039891549808,0.05,0.02,0.13711309200802088,0.02,marine
-Bird_2002b,Bird_2002b_table2_Trid. gigas,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,item/h,0,0,0,0.34,1.3025743740761984,0.19,marine
-Bird_2002b,Bird_2002b_table3_Hippopus,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,3106.2,2466.0939398165674,711.9,6858.9,2705.5616792082196,464,marine
-Bird_2002b,Bird_2002b_table3_Tridacna spp.,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,1652,427.5,142.5,4534.2,2704.4,676.1,marine
-Bird_2002b,Bird_2002b_table3_Trochus (lg),NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,1638.9,538.3911031954373,380.7,3904,933.6,466.8,marine
-Bird_2002b,Bird_2002b_table3_Lambis,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,895.5,303.8028307965546,91.6,3411.9,986.02296119309506,205.6,marine
-Bird_2002b,Bird_2002b_table3_Cypraea,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,852.3,259.36676733922565,183.4,2214.4,414.3065531704754,239.2,marine
-Bird_2002b,Bird_2002b_table3_Tridacna crocea,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,257.3,221.18288812654563,127.7,763.7,106.06601717798213,75,marine
-Bird_2002b,Bird_2002b_table3_Strombus,NA,0.457142857142857,NA,interval,NA,5,15,shellfish,kcal/h,747.8,322.33465528856806,186.1,534.6,205.59443085842574,118.7,marine
 Bird_2005,Bird_2005_fig6.2,Bird_2005_fig6.2_1,0.461538461538462,5,none,NA,NA,NA,game,kcal/h,607.1713147410358,NA,NA,1102.1,3164.687148834779,276.5,game_mixed
 Bird_2005,Bird_2005_fig6.2,Bird_2005_fig6.2_2,0.461538461538462,5,none,NA,NA,NA,game,kcal/h,678.8844621513944,NA,NA,1102.1,3164.687148834779,276.5,game_mixed
 Bird_2005,Bird_2005_fig6.2,Bird_2005_fig6.2_3,0.461538461538462,6,none,NA,NA,NA,game,kcal/h,674.1035856573704,NA,NA,1102.1,3164.687148834779,276.5,game_mixed
@@ -99,7 +83,6 @@ BliegeBird_2002a,BliegeBird_2002a_fig3,BliegeBird_2002a_fig3_3,0.5,7.66129032258
 BliegeBird_2002a,BliegeBird_2002a_fig3,BliegeBird_2002a_fig3_4,0.5,10.887096774193552,NA,NA,NA,NA,fish,net kcal/h,270.5394190871368,NA,NA,427.38589211618233,422.27251700098697,140.75750566699566,marine
 BliegeBird_2002a,BliegeBird_2002a_fig3,BliegeBird_2002a_fig3_5,0.5,12.903225806451616,NA,NA,NA,NA,fish,net kcal/h,1473.0290456431537,NA,NA,427.38589211618233,422.27251700098697,140.75750566699566,marine
 BliegeBird_2002a,BliegeBird_2002a_fig3,BliegeBird_2002a_fig3_8,0.5,18.817204301075268,NA,NA,NA,NA,fish,net kcal/h,68.87966804979237,NA,NA,427.38589211618233,422.27251700098697,140.75750566699566,marine
-BliegeBird_2002a,BliegeBird_2002a_fig4,NA,0.5,NA,NA,NA,5,15,fish,net kcal/h,716.5048543689327,361.3019381120082,161.57913880417448,110.67961165048564,98.51884909775268,32.83961636591756,marine
 BliegeBird_2002a,BliegeBird_2002a_fig5a,BliegeBird_2002a_fig5a_1,0,7.218225419664265,NA,NA,NA,NA,shellfish,net kcal/hr,523.6363636363634,NA,NA,1096.6233766233763,716.7166379254095,156.4003926251165,marine
 BliegeBird_2002a,BliegeBird_2002a_fig5a,BliegeBird_2002a_fig5a_2,0,6.211031175059951,NA,NA,NA,NA,shellfish,net kcal/hr,981.8181818181816,NA,NA,1096.6233766233763,716.7166379254095,156.4003926251165,marine
 BliegeBird_2002a,BliegeBird_2002a_fig5a,BliegeBird_2002a_fig5a_3,0,12.589928057553948,NA,NA,NA,NA,shellfish,net kcal/hr,1210.9090909090905,NA,NA,1096.6233766233763,716.7166379254095,156.4003926251165,marine
@@ -554,12 +537,6 @@ Froehle_2018,Froehle_2018_table4,Froehle_2018_table4_F2,NA,9,NA,NA,NA,NA,mixed,k
 Froehle_2018,Froehle_2018_table4,Froehle_2018_table4_F3,NA,9,NA,NA,NA,NA,mixed,kcal/h,316,NA,NA,NA,NA,NA,game_mixed
 Froehle_2018,Froehle_2018_table4,Froehle_2018_table4_F4,NA,6,NA,NA,NA,NA,mixed,kcal/h,371,NA,NA,NA,NA,NA,game_mixed
 Froehle_2018,Froehle_2018_table4,Froehle_2018_table4_F5,NA,5,NA,NA,NA,NA,mixed,kcal/h,76,NA,NA,NA,NA,NA,game_mixed
-Hagino_2016,Hagino_2016_Gaboon viper (Bitis gabonica),NA,0.5,NA,interval,NA,10,16,small_game,g/6days,0,NA,NA,6800,NA,NA,game_mixed
-Hagino_2016,Hagino_2016_Giant pouched rat (Cricetomys emini),NA,0.5,NA,interval,NA,10,16,small_game,g/6days,2551,NA,NA,0,NA,NA,game_mixed
-Hagino_2016,Hagino_2016_Common tortoise (Kinixys erosa),NA,0.5,NA,interval,NA,10,16,small_game,g/6days,0,NA,NA,5472,NA,NA,game_mixed
-Hagino_2016,Hagino_2016_African snail (Achatina fulica),NA,0.5,NA,interval,NA,10,16,small_game,g/6days,0,NA,NA,137,NA,NA,game_mixed
-Hagino_2016,Hagino_2016_Thomasâ€™s dwarf galago (Galagoides thomasi),NA,0.5,NA,interval,NA,10,16,small_game,g/6days,236,NA,NA,0,NA,NA,game_mixed
-Hagino_2016,Hagino_2016_Wild yam (D. mangenotiana Mie Ìge),NA,0.5,NA,interval,NA,10,16,small_game,g/6days,0,NA,NA,3300,NA,NA,game_mixed
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_208,0,3.5,NA,NA,NA,NA,tubers,g/h,39,8.485281374238571,6,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_208,0,3.5,NA,NA,NA,NA,tubers,g/h,42,NA,NA,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_209,0,4,NA,NA,NA,NA,tubers,g/h,67,59.396969619669996,42,NA,NA,NA,USOs
@@ -567,63 +544,47 @@ Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_7,0,4,NA,NA,NA,NA
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_306,1,5,NA,NA,NA,NA,tubers,g/h,259,18.520259177452136,7,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_306,1,5,NA,NA,NA,NA,tubers,g/h,117,68,34,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_109,1,6.5,NA,NA,NA,NA,tubers,g/h,220,NA,NA,NA,NA,NA,USOs
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_109,1,6.5,NA,NA,NA,NA,fruits,g/h,0,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_307,1,6.5,NA,NA,NA,NA,tubers,g/h,254,65.05382386916237,46,NA,NA,NA,USOs
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_307,1,6.5,NA,NA,NA,NA,fruits,g/h,0,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_308,1,8.2,NA,NA,NA,NA,tubers,g/h,480,NA,NA,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_308,1,8.2,NA,NA,NA,NA,tubers,g/h,211,110.85125168440814,64,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_308,1,8.2,NA,NA,NA,NA,fruits,g/h,958,302.64170234784234,214,1156,227.80254607883555,93,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_308,1,8.2,NA,NA,NA,NA,fruits,g/h,52,48,24,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_214,0,8.2,NA,NA,NA,NA,tubers,g/h,1158,601.5022859474435,269,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_214,0,8.2,NA,NA,NA,NA,tubers,g/h,270,202.64994448555862,117,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_214,0,8.2,NA,NA,NA,NA,fruits,g/h,600,NA,NA,1281,347.97413696997654,93,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Ondishibe_rates_g.h,Hawkes_1995_214,0,8.2,NA,NA,NA,NA,fruits,g/h,1088,804.6875169902911,569,2771,730.4861394988957,231,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_214,0,8.2,NA,NA,NA,NA,fruits,g/h,188,77.78174593052023,55,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_214,0,8.2,NA,NA,NA,NA,fruits,g/h,400,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_221,0,8.2,NA,NA,NA,NA,tubers,g/h,370,232,116,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_221,0,8.2,NA,NA,NA,NA,tubers,g/h,94,76.02631123499285,34,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_221,0,8.2,NA,NA,NA,NA,fruits,g/h,780,NA,NA,1281,347.97413696997654,93,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_221,0,8.2,NA,NA,NA,NA,fruits,g/h,236,31.112698372208094,22,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_221,0,8.2,NA,NA,NA,NA,fruits,g/h,800,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_219,0,11,NA,NA,NA,NA,tubers,g/h,601,389.71143170299734,225,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_219,0,11,NA,NA,NA,NA,tubers,g/h,197,83.28265125462805,34,NA,NA,NA,USOs
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_219,0,11,NA,NA,NA,NA,fruits,g/h,157,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_219,0,11,NA,NA,NA,NA,fruits,g/h,62,107.38715006927039,62,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_216,0,11.5,NA,NA,NA,NA,tubers,g/h,550,260,130,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_216,0,11.5,NA,NA,NA,NA,fruits,g/h,610,NA,NA,1281,347.97413696997654,93,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Ondishibe_rates_g.h,Hawkes_1995_216,0,11.5,NA,NA,NA,NA,fruits,g/h,1714,NA,NA,2771,730.4861394988957,231,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_216,0,11.5,NA,NA,NA,NA,fruits,g/h,288,64.08587988004845,37,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_216,0,11.5,NA,NA,NA,NA,fruits,g/h,487,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_18,0,11.5,NA,NA,NA,NA,tubers,g/h,529,42.42640687119285,30,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_18,0,11.5,NA,NA,NA,NA,fruits,g/h,978,152.4204710660612,88,1281,347.97413696997654,93,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Ondishibe_rates_g.h,Hawkes_1995_18,0,11.5,NA,NA,NA,NA,fruits,g/h,1510,786.3510666362703,454,2771,730.4861394988957,231,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_18,0,11.5,NA,NA,NA,NA,fruits,g/h,384,234,117,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_18,0,11.5,NA,NA,NA,NA,fruits,g/h,533,NA,NA,NA,NA,NA,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_311,1,12,NA,NA,NA,NA,fruits,g/h,17,29.444863728670914,17,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Makalita_rates_g.h,Hawkes_1995_19,0,13.6,NA,NA,NA,NA,tubers,g/h,1100,NA,NA,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_19,0,13.6,NA,NA,NA,NA,tubers,g/h,484,274.3428511917159,112,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_19,0,13.6,NA,NA,NA,NA,fruits,g/h,844,124.45079348883237,88,1281,347.97413696997654,93,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Ondishibe_rates_g.h,Hawkes_1995_19,0,13.6,NA,NA,NA,NA,fruits,g/h,2040,NA,NA,2771,730.4861394988957,231,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_19,0,13.6,NA,NA,NA,NA,fruits,g/h,308,11.313708498984761,8,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_19,0,13.6,NA,NA,NA,NA,fruits,g/h,588,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_122,1,14,NA,NA,NA,NA,fruits,g/h,1025,22.627416997969522,16,1156,227.80254607883555,93,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_122,1,14,NA,NA,NA,NA,fruits,g/h,32,55.42562584220407,32,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_122,1,14,NA,NA,NA,NA,fruits,g/h,0,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_317,1,14,NA,NA,NA,NA,tubers,g/h,229,148.95636945092343,86,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_317,1,14,NA,NA,NA,NA,fruits,g/h,923,31.112698372208094,22,1156,227.80254607883555,93,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_317,1,14,NA,NA,NA,NA,fruits,g/h,33,53.665631459994955,24,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_317,1,14,NA,NA,NA,NA,fruits,g/h,0,NA,NA,NA,NA,NA,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_119,1,14,NA,NA,NA,NA,fruits,g/h,29,41.01219330881976,29,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h,Hawkes_1995_119,1,14,NA,NA,NA,NA,fruits,g/h,0,NA,NA,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_316,1,14,NA,NA,NA,NA,tubers,g/h,271,NA,NA,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_316,1,14,NA,NA,NA,NA,fruits,g/h,965,NA,NA,1156,227.80254607883555,93,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Ondishibe_rates_g.h,Hawkes_1995_316,1,14,NA,NA,NA,NA,fruits,g/h,977,NA,NA,NA,NA,NA,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_316,1,14,NA,NA,NA,NA,fruits,g/h,0,0,0,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_4_ekwa_rates_g.h,Hawkes_1995_125,1,15,NA,NA,NA,NA,tubers,g/h,2145,NA,NA,NA,NA,NA,USOs
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Tafabe_rates_g.h,Hawkes_1995_125,1,15,NA,NA,NA,NA,fruits,g/h,1248,48,24,1156,227.80254607883555,93,fruit
 Hawkes_1995,Hawkes_1995_Table_4_tin_measured_Ondishibe_rates_g.h,Hawkes_1995_125,1,15,NA,NA,NA,NA,fruits,g/h,2033,NA,NA,NA,NA,NA,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_125,1,15,NA,NA,NA,NA,fruits,g/h,217,56,28,NA,NA,NA,fruit
-Hawkes_1995,Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h,Hawkes_1995_318,1,17,NA,NA,NA,NA,fruits,g/h,39,55.15432893255071,39,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_5_Ondishibe,NA,0,8.38888888888889,NA,3.805077017763387,3.5,13.6,fruit,g/h,1547,416,208,2771,730.4861394988957,231,fruit
 Hawkes_1995,Hawkes_1995_Table_5_Ondishibe,NA,1,11.472727272727273,NA,4.1337854102725045,5,17,fruit,g/h,1505,746.7047609329942,528,NA,NA,NA,fruit
 Hawkes_1995,Hawkes_1995_Table_5_Ondishibe,NA,0.5,10.084999999999999,NA,4.191378996790537,3.5,17,fruit,g/h,1533,46.54030511288038,19,2771,730.4861394988957,231,fruit
@@ -639,9 +600,6 @@ Hawkes_1995,Hawkes_1995_Table_6_Consumption_rate_Cal.h,NA,1,11.472727272727273,d
 Hawkes_1995,Hawkes_1995_Table_6_tin_measured_rates_Cal.h,NA,0.5,10.084999999999999,distribution,4.191378996790537,3.5,17,fruit,kcal/h,964,211.87260323128143,67,1342.5,626.7954950321457,140.15573348825095,fruit
 Hawkes_1995,Hawkes_1995_Table_6_stashing_rate_Cal.h,NA,0.5,10.084999999999999,distribution,4.191378996790537,3.5,17,fruit,kcal/h,123,123.03657992645925,29,669.9090909090909,490.52420939236015,104.58011283222064,fruit
 Hawkes_1995,Hawkes_1995_Table_6_Consumption_rate_Cal.h,NA,0.5,10.084999999999999,distribution,4.191378996790537,3.5,17,fruit,kcal/h,373,8,2,420.28,92.835759601942,18.5671519203884,fruit
-Kramer_2009a,Kramer_2009a_fig5_sr,NA,0,NA,interval,NA,6,14,roots,g/h,670.2127659574497,648.9307202422013,129.78614404844026,1779.2553191489396,836.0544828146609,124.63164376446743,USOs
-Kramer_2009a,Kramer_2009a_fig5_lr,NA,0,NA,interval,NA,6,14,roots,g/h,742.0212765957475,1555.8510638297873,285.00986282358866,2904.255319148939,1899.8746116687212,219.37862369469437,USOs
-Kramer_2009a,Kramer_2009a_fig5_m,NA,0,NA,interval,NA,6,14,fruit,g/h,1867.0212765957483,1311.0380365815058,338.50856546164283,3662.234042553194,1315.400904003261,139.1199383666756,fruit
 Tucker_2005,Tucker_2005_1997_returns,Tucker_2005_1997_returns_f1,0,NA,NA,NA,6,11,mixed,net kcal/h,298.5074626865644,NA,NA,1914.0268047517493,1061.0907916496797,151.5843988070971,game_mixed
 Tucker_2005,Tucker_2005_1997_returns,Tucker_2005_1997_returns_f2,0,NA,NA,NA,6,11,mixed,net kcal/h,0,NA,NA,1914.0268047517493,1061.0907916496797,151.5843988070971,game_mixed
 Tucker_2005,Tucker_2005_1997_returns,Tucker_2005_1997_returns_f3,0,NA,NA,NA,6,11,mixed,net kcal/h,335.8208955223854,NA,NA,1914.0268047517493,1061.0907916496797,151.5843988070971,game_mixed

@@ -14,7 +14,7 @@ d <- d %>%
   filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
 
 ### Re-create indices for resource and outcome
-d$resource_id <- match(d$resource_cat, unique(d$resource_cat_cat))
+d$resource_id <- match(d$resource_cat, unique(d$resource_cat))
 d$outcome_id <- match(d$outcome, unique(d$outcome))
 
 ### Get resource id to link model fit indices with dataset
@@ -188,9 +188,10 @@ par(mfrow=c(2,2),
     oma=c(0,0,0,0),
     cex=1.3
 )
-
 # loop over resource type
-for (r in 1:length(unique(d$resource_cat_cat))) {
+for (r in 1:length(unique(d$resource_cat))) {
+  
+  r = resource_seq[r]
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
@@ -251,6 +252,7 @@ par(mfrow=c(2,2),
 
 # loop over resource type
 for (r in 1:length(unique(d$resource_cat))) {
+  r = resource_seq[r]
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
@@ -311,13 +313,14 @@ par(mfrow=c(2,2),
 )
 
 for (r in 1:length(unique(d$resource_cat))) {
+  r = resource_seq[r]
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   
   #### Average curve ################
   preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=1)
   
-  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.5), xlim=c(0,20), ylab="", xlab="", axes=F)
   
   axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
   axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
@@ -361,13 +364,14 @@ par(mfrow=c(2,2),
 )
 
 for (r in 1:length(unique(d$resource_cat))) {
+  r = resource_seq[r]
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   
   #### Average curve ################
   preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r, male=0)
   
-  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.5), xlim=c(0,20), ylab="", xlab="", axes=F)
   
   axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
   axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
@@ -410,16 +414,27 @@ age_range <- (d$age_upper - d$age_lower) / 20
 age_sd <- ifelse(!is.na(age_range), age_range/2, age_sd)
 
 d_raw <- d %>% 
-  mutate(age = ifelse(is.na(age), age_upper - age_lower, age),
+  mutate(age = ifelse(is.na(age), (age_upper + age_lower)/2, age),
          age_range = age_upper - age_lower) %>% 
-  mutate(age_sd = ifelse(is.na(age_sd), age_range/2, age_sd))
+  mutate(age_sd = ifelse(is.na(age_sd), age_range/2, age_sd)) %>% 
+  mutate(resource = ifelse(resource == "fruits", "fruit", resource)) %>% 
+  mutate(outcome_label = paste(outcome, resource))
+
 
 marine_plots <- filter(d_raw, resource_cat == "marine") %>% 
   ggplot(aes(x = age, y = scaled_return)) +
-  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return)) + 
-  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age)) +
-  facet_wrap(~outcome) +
-  geom_jitter()
+  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return),color=resource_cols[2],alpha=0.7) + 
+  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age),color=resource_cols[2],alpha=0.7) +
+  facet_wrap(~outcome_label, labeller = label_wrap_gen(width=20)) + 
+  geom_point(color=resource_cols[2],alpha=0.7) +
+  theme_minimal(base_size=12) +
+  theme(
+    axis.text.y = element_blank(),
+    panel.spacing = unit(2, "lines")) +
+  ylab("Return (scaled)") +
+  xlab("Age") + 
+  ggtitle("Marine Foraging Returns")
+
 
 marine_plots
 

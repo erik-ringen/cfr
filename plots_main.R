@@ -86,6 +86,8 @@ par(mfrow=c(2,2),
 # loop over resource type
 for (r in 1:length(unique(d$resource_cat))) {
   
+  r = resource_seq[r]
+  
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
   plot(NULL, ylim=c(0,1), xlim=c(0,20), ylab="", xlab="", axes=F)
@@ -178,12 +180,14 @@ par(mfrow=c(2,2),
 
 for (r in 1:length(unique(d$resource_cat))) {
   
+  r = resource_seq[r]
+  
   d_outcome_temp <- filter(d_outcome, resource == r)
   
   #### Average curve ################
   preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r)
   
-  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.5), xlim=c(0,20), ylab="", xlab="", axes=F)
   
   axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
   axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)

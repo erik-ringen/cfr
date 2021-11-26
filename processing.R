@@ -143,7 +143,7 @@ d_combined <- left_join(d_combined, d_out) %>%
 
 #### Make sure there's no one over 20 ##############
 d_combined <- d_combined %>% 
-  filter(age_upper <= 20)
+  filter(age_upper <= 20 | is.na(age_upper))
 
 #### Export combined dataset #######################
 write_csv(d_combined, "data.csv")

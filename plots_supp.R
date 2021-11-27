@@ -418,16 +418,17 @@ d_raw <- d %>%
          age_range = age_upper - age_lower) %>% 
   mutate(age_sd = ifelse(is.na(age_sd), age_range/2, age_sd)) %>% 
   mutate(resource = ifelse(resource == "fruits", "fruit", resource)) %>% 
+  mutate(outcome = str_replace_all(outcome, "_", " ")) %>% 
   mutate(outcome_label = paste(outcome, resource))
 
 
 marine_plots <- filter(d_raw, resource_cat == "marine") %>% 
   ggplot(aes(x = age, y = scaled_return)) +
-  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return),color=resource_cols[2],alpha=0.7) + 
-  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age),color=resource_cols[2],alpha=0.7) +
-  facet_wrap(~outcome_label, labeller = label_wrap_gen(width=20)) + 
-  geom_point(color=resource_cols[2],alpha=0.7) +
-  theme_minimal(base_size=12) +
+  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return),color=resource_cols[2],alpha=0.5) + 
+  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age),color=resource_cols[2],alpha=0.5) +
+  facet_wrap(~outcome_label, labeller = label_wrap_gen(width=17)) + 
+  geom_point(color=resource_cols[2],alpha=0.5) +
+  theme_minimal(base_size=9) +
   theme(
     axis.text.y = element_blank(),
     panel.spacing = unit(2, "lines")) +
@@ -435,8 +436,61 @@ marine_plots <- filter(d_raw, resource_cat == "marine") %>%
   xlab("Age") + 
   ggtitle("Marine Foraging Returns")
 
+ggsave("marine_data.pdf", plot=marine_plots, dpi=600, height=11, width=8.5, units="in")
 
-marine_plots
+
+game_plots <- filter(d_raw, resource_cat == "game_mixed") %>% 
+  ggplot(aes(x = age, y = scaled_return)) +
+  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return),color=resource_cols[1],alpha=0.5) + 
+  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age),color=resource_cols[1],alpha=0.5) +
+  facet_wrap(~outcome_label, labeller = label_wrap_gen(width=17)) + 
+  geom_point(color=resource_cols[1],alpha=0.5) +
+  theme_minimal(base_size=9) +
+  theme(
+    axis.text.y = element_blank(),
+    panel.spacing = unit(2, "lines")) +
+  ylab("Return (scaled)") +
+  xlab("Age") + 
+  ggtitle("Game/Mixed Foraging Returns")
+
+ggsave("game_data.pdf", plot=game_plots, dpi=600, height=11, width=8.5, units="in")
+
+
+
+fruit_plots <- filter(d_raw, resource_cat == "fruit") %>% 
+  ggplot(aes(x = age, y = scaled_return)) +
+  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return),color=resource_cols[3],alpha=0.5) + 
+  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age),color=resource_cols[3],alpha=0.5) +
+  facet_wrap(~outcome_label, labeller = label_wrap_gen(width=17)) + 
+  geom_point(color=resource_cols[3],alpha=0.5) +
+  theme_minimal(base_size=9) +
+  theme(
+    axis.text.y = element_blank(),
+    panel.spacing = unit(2, "lines")) +
+  ylab("Return (scaled)") +
+  xlab("Age") + 
+  ggtitle("Fruit Foraging Returns")
+
+ggsave("fruit_data.pdf", plot=fruit_plots, dpi=600, height=11, width=8.5, units="in")
+
+
+USO_plots <- filter(d_raw, resource_cat == "USOs") %>% 
+  ggplot(aes(x = age, y = scaled_return)) +
+  geom_errorbarh(aes(xmin = age - age_sd, xmax=age + age_sd, y=scaled_return),color=resource_cols[4],alpha=0.7) + 
+  geom_errorbar(aes(ymin=scaled_return - scaled_se, ymax=scaled_return + scaled_se, x=age),color=resource_cols[4],alpha=0.7) +
+  facet_wrap(~outcome_label, labeller = label_wrap_gen(width=17)) + 
+  geom_point(color=resource_cols[4],alpha=0.7) +
+  theme_minimal(base_size=9) +
+  theme(
+    axis.text.y = element_blank(),
+    panel.spacing = unit(2, "lines")) +
+  ylab("Return (scaled)") +
+  xlab("Age") + 
+  ggtitle("USO Foraging Returns")
+
+ggsave("USO_data.pdf", plot=USO_plots, dpi=600, height=11, width=8.5, units="in")
+
+
 
 
 

@@ -126,10 +126,9 @@ d_combined$age_upper <- ifelse( d_combined$age_lower == d_combined$age_upper, d_
 d_combined$age_sd <- ifelse( d_combined$age_sd == 0, NA, d_combined$age_sd )
 
 ########################################################
-#### Drop a couple of problematic obs ##################
+#### Drop problematic/duplicated obs ##################
 d_combined <- d_combined %>% 
-  filter(outcome != "Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h") %>% # zero-return and no adult value
-  filter(outcome != "Bird_2002b_table2_Trid. gigas") # zero-return summary stat
+  filter( !(outcome %in% c("Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h","Bird_2002b_table2_Trid. gigas", "Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h", "Hawkes_1995_Table_6_Consumption_rate_Cal.h", "Hawkes_1995_Table_6_stashing_rate_Cal.h", "Hawkes_1995_Table_5_Ondishibe", "Hawkes_1995_Table_5_Tafabe", "Crittenden_2013_Fig_3")))
 
 ########################################################
 #### Drop outcomes where we only have one observation ##

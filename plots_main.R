@@ -5,14 +5,6 @@ source("cfr_functions.R")
 ##### Read in study data
 d <- read_csv("data.csv")
 
-d <- d %>% 
-  group_by(outcome) %>% 
-  mutate(scaled_return = raw_return /  max(raw_return, na.rm=T),
-         scaled_se = raw_se / max(raw_return, na.rm=T),
-  ) %>% 
-  ungroup() %>% 
-  filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
-
 ### Re-create indices for resource and outcome
 d$resource_id <- match(d$resource_cat, unique(d$resource_cat))
 d$outcome_id <- match(d$outcome, unique(d$outcome))
@@ -85,6 +77,8 @@ par(mfrow=c(2,2),
 
 # loop over resource type
 for (r in 1:length(unique(d$resource_cat))) {
+  
+  r = resource_seq[r]
   
   d_outcome_temp <- filter(d_outcome, resource == r)
   # Set up plot area
@@ -178,12 +172,14 @@ par(mfrow=c(2,2),
 
 for (r in 1:length(unique(d$resource_cat))) {
   
+  r = resource_seq[r]
+  
   d_outcome_temp <- filter(d_outcome, resource == r)
   
   #### Average curve ################
   preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = r)
   
-  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.3), xlim=c(0,20), ylab="", xlab="", axes=F)
+  plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.5), xlim=c(0,20), ylab="", xlab="", axes=F)
   
   axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
   axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)

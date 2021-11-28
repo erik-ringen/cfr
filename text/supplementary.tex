@@ -29,7 +29,6 @@ Code of data                  & Paper                                     & Popu
 %
 \endhead
 %
-Bird\_2002b                    & \cite{bird_children_2002}                 & Meriam          & 1993-1999  & kcal/hr   & fish               & 6- 64   & 52 (19)     \\
 \rowcolor[HTML]{EFEFEF} 
 Bird\_2005                     & \cite{bird_mardu_2005}                    & Mardu           & 2000-2002  & kcal/hr   & game               & 4- 14   & 157 (26)    \\
 BliegeBird\_1995               & \cite{bird_children_1995}                 & Meriam          & 1993       & g/min     & fish, fruit, mixed & 3-14    & 12(12)      \\
@@ -37,17 +36,14 @@ BliegeBird\_1995               & \cite{bird_children_1995}                 & Mer
 BliegeBird\_2002a              & \cite{bird_constraints_2002}              & Meriam          & 1993-1998  & kcal/hr   & fish               & 4-75    & 196(NA)     \\
 BlurtonJones\_1989             & \cite{blurton_jones_modelling_1989}       & Hadza           & 1985-1986  & g/hr      & USO, mixed, fruit  & 2- 20+  & 70 (29)     \\
 \rowcolor[HTML]{EFEFEF} 
-BlurtonJones\_2002             & \cite{blurton_jones_selection_2002}       & Hadza           & 1997       & kg/hr     & USO                & 6-75    & 79 (46)     \\
 BlurtonJones\_1997             & \cite{blurton_jones_why_1997}             & Hadza           & 1986- 1989 & kcal/hr   & USO, fruits        & 2-18    & 61 (61)     \\
+BlurtonJones\_2002             & \cite{blurton_jones_selection_2002}       & Hadza           & 1997       & kg/hr     & USO                & 6-75    & 79 (46)     \\
 \rowcolor[HTML]{EFEFEF} 
 Bock\_2005                     & \cite{bock_what_2005}                     & Bugakwhe, etc & 1994       & kcal/hr   & fish               & 5- 14   & 16 (16)     \\
 Crittenden\_2013               & \cite{crittenden_juvenile_2013}           & Hadza           & 2005       & kcals/day & mixed              & 3-17    & 34 (34)     \\
 \rowcolor[HTML]{EFEFEF} 
 Froehle\_2018                  & \cite{froehle_physical_2019}              & Hadza           & 2005       & kcal/trip & mixed              & 5- 14   & 9 (9)       \\
-Hagino\_2016                   & \cite{hagino_high_2016}                   & Baka            & 2012       & g/6 days  & mixed              & 2 - 20+ & 22 (14)     \\
-\rowcolor[HTML]{EFEFEF} 
 Hawkes\_1995                   & \cite{hawkes_hadza_1995}                  & Hadza           & 1988       & g/hr      & USO, fruits        & 3-17    & 20 (20)     \\
-Kramer\_2009a                  & \cite{kramer_early_2009}                  & Pume'           & NA         & kg/hr     & USO, fruits        & 6- 60   & NA          \\
 \rowcolor[HTML]{EFEFEF} 
 Tucker\_2005                   & \cite{tucker_growing_2005}                & Mikea           & 1997- 2003 & kcal/hr   & USO                & NA      & 254(NA)     \\
 Alvard\_cchunts                & \cite{alvard_shotguns_1995}               & Piro            & 1989-1991  & kg/trip   & game               & 15-70   & 274(16)     \\
@@ -96,6 +92,19 @@ Ziker\_cchunts                 & \cite{ziker_peoples_2002}                 & Dol
 \label{tab:metadata}
 \end{longtable}
 \end{landscape}
+
+
+\subsubsection{Excluded datasets} \label{SI:excluded}
+
+Several papers passed the first rounds of selection (i.e. appeared to report original data on children foraging returns) were not included in the analysis for a variety of reasons. 
+
+Some were actually found not to report children data \citep{blurton_jones_foraging_1994, kraft_foraging_2019}. 
+Others do not include enough data on forager ages \citep{bird_children_2002, hagino_high_2016, hooper_skills_2015, kramer_early_2009}.   
+\cite{kramer_production_2005} does not include data relative to foraging, and \cite{kramer_does_2009} estimates returns from time allocation data, which is not consistent with the other types of datasets.  
+Several papers reported data in formats that do not allow them to be extracted for analysis, failing to report errors around mean return per age class \citep{kaplan_evolution_1997, kaplan_theory_2000, kaplan_emergence_2002}, or including smoothed loess curves \citep{kaplan_evolutionary_1994, kaplan_theory_1996, kaplan_embodied_2003, marlowe_foraging_2010}. 
+\cite{kawabe_development_1983} reports ranges for individual returns (e.g. "more than 5 specimens killed") and the plots shown in \cite{koster_hunting_2007} are structured so that it is very difficult to extract the information they contain.
+Finally, a number of papers uses the same data, so that we included only the datasets from the latest/most informative paper. \cite{bird_ethnoarchaeology_2000, blurton_jones_lives_1993, crittenden_allomaternal_2009, kramer_evolution_2011, mcelreath_using_2014, pollom_changes_2020, walker_evolution_2004} all present data which are best extracted from other papers.
+
 
 \subsection{Statistical model}\label{SI:model}
 

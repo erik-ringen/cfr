@@ -5,14 +5,6 @@ source("cfr_functions.R")
 ##### Read in study data
 d <- read_csv("data.csv")
 
-d <- d %>% 
-  group_by(outcome) %>% 
-  mutate(scaled_return = raw_return /  max(raw_return, na.rm=T),
-         scaled_se = raw_se / max(raw_return, na.rm=T),
-  ) %>% 
-  ungroup() %>% 
-  filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
-
 ### Re-create indices for resource and outcome
 d$resource_id <- match(d$resource_cat, unique(d$resource_cat))
 d$outcome_id <- match(d$outcome, unique(d$outcome))

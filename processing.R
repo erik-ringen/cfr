@@ -112,12 +112,7 @@ d_round2$sex <- as.numeric(d_round2$sex)
 
 d_combined <- bind_rows(d_round2, cchunts_dat_child2)
 
-d_combined <- d_combined %>% mutate(resource_cat = as.character(fct_recode(resource, game = "small_game", marine = "shellfish", marine = "fish", USOs = "tubers", USOs = "roots", fruit = "fruit", fruit = "fruits", mixed_other = "eggs", mixed_other = "honey", mixed_other = "mixed")))
-
-# Consolidate the mixed and game categories
-d_combined$resource_cat <- ifelse(d_combined$resource_cat == "mixed_other", "game", d_combined$resource_cat)
-d_combined$resource_cat <- ifelse(d_combined$resource_cat == "game", "game_mixed", d_combined$resource_cat)
-
+d_combined <- d_combined %>% mutate(resource_cat = as.character(fct_recode(resource, game = "small_game", fish_shellfish = "shellfish", fish_shellfish = "fish", USOs = "tubers", USOs = "roots", fruit = "fruit", fruit = "fruits", z = "eggs", z = "honey", z = "mixed")))
 
 # Adjust age error variables
 d_combined$age_lower <- ifelse( d_combined$age_lower == d_combined$age_upper, d_combined$age_lower - 0.5, d_combined$age_lower )
@@ -143,6 +138,16 @@ d_combined <- left_join(d_combined, d_out) %>%
 #### Make sure there's no one over 20 ##############
 d_combined <- d_combined %>% 
   filter(age_upper <= 20 | is.na(age_upper))
+
+#########################################################
+#### Scale returns data by maximum in each outcome ######
+d_combined <- d_combined %>% 
+  group_by(outcome) %>% 
+  mutate(scaled_return = raw_return /  max(raw_return, na.rm=T),
+         scaled_se = raw_se / max(raw_return, na.rm=T),
+  ) %>% 
+  ungroup() %>% 
+  filter( !(is.na(scaled_return)) & ( is.na(raw_se) | raw_se > 0) )
 
 #### Export combined dataset #######################
 write_csv(d_combined, "data.csv")

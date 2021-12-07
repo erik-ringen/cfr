@@ -76,3 +76,5 @@ fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=1000, ini
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")
+
+

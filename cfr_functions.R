@@ -1,11 +1,11 @@
 # color palette to denote resources
-resource_cols <- c("#CB2313","#046C9A", "#0C775E", "#EBCC2A") 
+resource_cols <- c("#046C9A","#CB2313", "#0C775E", "#EBCC2A") 
 
 # pub-friendly labels
-resource_names <- c("Game/Mixed","Marine", "Fruit", "USOs") 
+resource_names <- c("Fish/Shellfish","Game", "Fruit", "USOs") 
 
 # resource seq for plotting
-resource_seq <- c(2,1,3,4)
+resource_seq <- c(2,1,4,5)
 
 # sex-coded colors
 f_col <- "slategray"

@@ -110,7 +110,6 @@ transformed parameters{
       S = exp( log(S) + id_v[id[i]] );
     }
     
-    # We'll use the more linear log(1 + exp(x)) link for alpha_p, to avoid concentration of prior probability on extreme values after getting passed through the inv_logit() later on
     if (s == 1) alpha_p = exp( a[5] + a_p[1]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],12] + resource_v[resource[i],12]);
     if (s == 2) alpha_p = exp( a[5] + a_p[2]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],19] + resource_v[resource[i],19]);
     
@@ -186,8 +185,8 @@ model{
     
     // If data were given as summary statitics, can only meta-analyze the expected value
     if (child_summary_returns[i] > 0) {
-    lp_r[1] = normal_lpdf( returns[i] | 2*(inv_logit(mu_p[i,1]) - 0.5) * exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
-    lp_r[2] = normal_lpdf( returns[i] | 2*(inv_logit(mu_p[i,2]) - 0.5) * exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
+    lp_r[1] = normal_lpdf( returns[i] | exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
+    lp_r[2] = normal_lpdf( returns[i] | exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
     
     // Mix over male or female in proportion to their probability
     target += log_mix( 1 - sex[i], lp_r[1], lp_r[2] );
@@ -211,7 +210,7 @@ model{
     // only summary statistics
     if (child_summary_returns[i] > 0) {
     
-    returns[i] ~ normal( 2*(inv_logit(mu_p[i,1]) - 0.5) * exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
+    returns[i] ~ normal( exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
     }
     
     // individual-level returns
@@ -232,7 +231,7 @@ model{
     // only summary statistics
     if (child_summary_returns[i] > 0) {
     
-    returns[i] ~ normal(  2*(inv_logit(mu_p[i,2]) - 0.5) * exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
+    returns[i] ~ normal( exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
     }
     
     // individual-level returns

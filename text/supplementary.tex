@@ -1,14 +1,14 @@
 \section{Supplementary material}
-\subsection{Datasets and metadata}
-Table \ref{tab:metadata} shows the main metadata referring to the datasets included in the analysis. Those for which the Code of Paper includes the string \texttt{cchunts} are published with the paper from \cite{koster_life_2020}. These have been compiled by Dr. Koster, who "searched for relevant studies on subsistence hunting in the anthropological and biological literature, subsequently contacting authors to invite them to contribute data. The contributors submitted data in a standardized format that included variables for the biomass acquired on terrestrial hunting trips, the ages of the hunters at the time of the hunt, the duration of the trip, the hunting weaponry carried by the hunters, and the presence of dogs or assistants" (from \cite{koster_life_2020}).
+\subsection{Data sets and metadata}
+Table \ref{tab:metadata} shows the main metadata referring to the data sets included in the analysis. Those for which the Code of Paper includes the string \texttt{cchunts} are published with the paper from \citet{koster_life_2020}. These were compiled by Koster, who ``searched for relevant studies on subsistence hunting in the anthropological and biological literature, subsequently contacting authors to invite them to contribute data. The contributors submitted data in a standardized format that included variables for the biomass acquired on terrestrial hunting trips, the ages of the hunters at the time of the hunt, the duration of the trip, the hunting weaponry carried by the hunters, and the presence of dogs or assistants" \citep{koster_life_2020}.
 
-We following inclusion of data from this source, we screened the data we extracted from published papers to remove repeated datasets. In particular, data relative to the Ache of Paraguay extracted from \cite{walker_age-dependency_2002}) have not been used because already present in the "Hill\_Kintigh" dataset included in the \texttt{cchunts} package. 
+Following inclusion of data from this source, we screened the data we extracted from published papers to remove repeated data sets. In particular, data relative to the Ache of Paraguay extracted from \citet{walker_age-dependency_2002} have not been used because they are already present in the "Hill\_Kintigh" data set included in the \texttt{cchunts} package. 
 
-Tsimane data extracted from \cite{gurven_how_2006} are a repetition of those included in the \texttt{cchunts} data ("Trumble\_Gurven"), and the latter were used in the analysis.
+Tsimane data extracted from \citet{gurven_how_2006} are a repetition of those included in the \texttt{cchunts} data (``Trumble\_Gurven"). Only the latter were used in the analysis.
 
-Pume' foraging data presented in \cite{kramer_early_2009} refer to underground storage resources, whereas Pume' data in the \texttt{cchunts} package are hunting returns, hence both data have been included in the analysis.
+%Pume' foraging data presented in \cite{kramer_early_2009} refer to underground storage resources, whereas Pume' data in the \texttt{cchunts} package are hunting returns, hence both data have been included in the analysis.
 
-Data collected by Bliege Bird and Bird among the Mardu in Western Australia come from both a 2005 study on children foraging (\cite{bird_mardu_2005}) and from the dataset in the \texttt{cchunts} package (\cite{koster_life_2020}). The 2005 paper reports data from individual of both sexes between 5 and 14 years old, hunting goanna lizards in the rocky outcrop not far from the camp. These data were collected by the authors between 2000 and 2002. The \texttt{cchunts} data were collected between 2002 and 2010, are relative to individuals aged 7 to 79 and partially exclude female contributions ("This dataset includes observations of female foragers when they were accompanied by men on trips, but not women on foraging trips that did not include male foragers"). The two dataset are then not fully overlapping, but there is the possibility that some data are present in both sets. In particular, 14 foraging returns collected in 2002 from individuals below 14 years old are present in the \texttt{cchunts} dataset and could hence have been included in \cite{bird_mardu_2005}. Looking in detail to these subsets of data, they do not seem to be one the repetition of the other (a 9 years old boy present in the \texttt{cchunts} dataset does not appear in the \cite{bird_mardu_2005} study, for example, and none of the younger individuals' returns reported here appear in \texttt{cchunts}). % but MAYBE WE SHOULD RERUN THE ANALYSIS WITHOUT THOSE 14 DATA POINTS TO BE SURE.  %to remove the 14 observations that could be repeated from the cchunts dataset, add to the processing data: cchunts_dat <- cchunts_dat[-which ( cchunts_dat$society == "Bird_Bird_Codding" & cchunts_dat$trip_year <= "2002" & cchunts_dat$age_dist_1 <= 14), ]
+Data collected by Bliege Bird and Bird among the Mardu in Western Australia come from both a 2005 study on children foraging \citep{bird_mardu_2005} and from the dataset in the \texttt{cchunts} package \citep{koster_life_2020}. The 2005 paper reports data from individual of both sexes between 5 and 14 years old hunting goanna lizards in the rocky outcrop not far from the camp. These data were collected by the authors between 2000 and 2002. The \texttt{cchunts} data were collected between 2002 and 2010, are relative to individuals aged 7 to 79 and partially exclude female contributions (``This data set includes observations of female foragers when they were accompanied by men on trips, but not women on foraging trips that did not include male foragers"). The two data set are thus not fully overlapping, but there is the possibility that some data are present in both sets. In particular, 14 foraging returns collected in 2002 from individuals below 14 years old are present in the \texttt{cchunts} data set and could hence have been included in \citet{bird_mardu_2005}. Looking in detail at these subsets, they do not appear to be repetitious (a 9 years old boy present in the \texttt{cchunts} dataset does not appear in the \citet{bird_mardu_2005} study, for example, and none of the younger individuals' returns reported here appear in \texttt{cchunts}). % but MAYBE WE SHOULD RERUN THE ANALYSIS WITHOUT THOSE 14 DATA POINTS TO BE SURE.  %to remove the 14 observations that could be repeated from the cchunts dataset, add to the processing data: cchunts_dat <- cchunts_dat[-which ( cchunts_dat$society == "Bird_Bird_Codding" & cchunts_dat$trip_year <= "2002" & cchunts_dat$age_dist_1 <= 14), ]
 
 
 
@@ -22,6 +22,7 @@ Data collected by Bliege Bird and Bird among the Mardu in Western Australia come
 % Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
 \begin{landscape}
 \begin{longtable}{M{2.6cm} M{3.6cm} M{1.5cm} c c M{1cm} c c}
+\caption{Metadata for each source of foraging returns data included in the analysis. The first 14 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations present in the dataset and, among parentheses, the number of observations relative to individuals below 20 years of age, which were included in our analysis. }\\
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Code of data                  & Paper                                     & Population      & Years      & Unit      & Resource           & Ages    & Sample size \\ \hline
@@ -88,7 +89,7 @@ Winterhalder\_cchunts          & \cite{winterhalder_boreal_1983}           & Cre
 Yu\_et\_al\_cchunts              & \cite{ohl-schacherer_sustainability_2007} & Matsigenka      & 2004-2007  & kg/trip   & game               & 8- 52   & 1441(186)   \\
 \rowcolor[HTML]{EFEFEF} 
 Ziker\_cchunts                 & \cite{ziker_peoples_2002}                 & Dolgan          & 1993-1997 & kg/trip   & game               & 15-66  & 76(3)     \\ 
-\caption{Metadata for each source of foraging returns data included in the analysis. The first 14 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations present in the dataset and, among parentheses, the number of observations relative to individuals below 20 years of age, which were included in our analysis. }
+\renewcommand{\tablename}{Table S}
 \label{tab:metadata}
 \end{longtable}
 \end{landscape}
@@ -96,14 +97,14 @@ Ziker\_cchunts                 & \cite{ziker_peoples_2002}                 & Dol
 
 \subsubsection{Excluded datasets} \label{SI:excluded}
 
-Several papers passed the first rounds of selection (i.e. appeared to report original data on children foraging returns) were not included in the analysis for a variety of reasons. 
+Several papers that passed the first rounds of selection (i.e. appeared to report original data on children foraging returns) were not included in the analysis for a variety of reasons. 
 
-Some were actually found not to report children data \citep{blurton_jones_foraging_1994, kraft_foraging_2019}. 
-Others do not include enough data on forager ages \citep{bird_children_2002, hagino_high_2016, hooper_skills_2015, kramer_early_2009}.   
-\cite{kramer_production_2005} does not include data relative to foraging, and \cite{kramer_does_2009} estimates returns from time allocation data, which is not consistent with the other types of datasets.  
-Several papers reported data in formats that do not allow them to be extracted for analysis, failing to report errors around mean return per age class \citep{kaplan_evolution_1997, kaplan_theory_2000, kaplan_emergence_2002}, or including smoothed loess curves \citep{kaplan_evolutionary_1994, kaplan_theory_1996, kaplan_embodied_2003, marlowe_foraging_2010}. 
-\cite{kawabe_development_1983} reports ranges for individual returns (e.g. "more than 5 specimens killed") and the plots shown in \cite{koster_hunting_2007} are structured so that it is very difficult to extract the information they contain.
-Finally, a number of papers uses the same data, so that we included only the datasets from the latest/most informative paper. \cite{bird_ethnoarchaeology_2000, blurton_jones_lives_1993, crittenden_allomaternal_2009, kramer_evolution_2011, mcelreath_using_2014, pollom_changes_2020, walker_evolution_2004} all present data which are best extracted from other papers.
+Some were subsequently found not to report relevant data \citep{blurton_jones_foraging_1994, kraft_foraging_2019}. 
+Others did not include enough data on forager ages \citep{bird_children_2002, hagino_high_2016, hooper_skills_2015, kramer_early_2009}.   
+\citet{kramer_production_2005} does not include data relative to foraging, and \citet{kramer_does_2009} estimates returns from time allocation data, which is not consistent with the other data sets.  
+Several papers reported data in formats that did not allow them to be extracted for analysis, such as failing to report errors around mean return per age class \citep{kaplan_evolution_1997, kaplan_theory_2000, kaplan_emergence_2002}, or including smoothed loess curves \citep{kaplan_evolutionary_1994, kaplan_theory_1996, kaplan_embodied_2003, marlowe_foraging_2010}. 
+\citet{kawabe_development_1983} reports ranges for individual returns (e.g. "more than 5 specimens killed") and the plots shown in \citet{koster_hunting_2007} are structured so that it is difficult to extract the information they contain.
+Finally, a number of papers use the same data. In these cases, we included only the data sets for the latest or most informative paper. \citet{bird_ethnoarchaeology_2000, blurton_jones_lives_1993, crittenden_allomaternal_2009, kramer_evolution_2011, mcelreath_using_2014, pollom_changes_2020, walker_evolution_2004} all present data which are best extracted from other papers.
 
 
 \subsection{Statistical model}\label{SI:model}
@@ -127,14 +128,89 @@ Finally, there was some variation in the number of measures available for indivi
 
 $$ \textrm{age}_{\textrm{obs}} \sim \textrm{Normal}(\mu_{\textrm{age}}, \sigma_{\bar{\textrm{age}_{\textrm{obs}}}}) $$
 
-\emph{Uncertainty in sex}: In cases where sex of the forager was not reported (or was given as a summary statistic), we average over sex differences in proportion to how often males and females appeared in a given study using Stan's log\_mix() function.
+\emph{Uncertainty in sex}: In cases where sex of the forager was not reported (or was given as a summary statistic), we average over sex differences in proportion to how often males and females appeared in a given study using Stan's \texttt{log\_mix()} function.
 
-\section{Sex differences}\label{SI:sex_diff}
-
+\subsection{Additional figures}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=12cm] {text/images/sex_diffs.png}
-\caption{ Predicted change in foraging skill by sex, averaging over variation between studies, individuals, and resource type.}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{figure}{0}
+\caption{Predicted change in foraging skill by sex, averaging over variation between studies, individuals, and resource type.}
 \label{fig:sex_diffs}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/by_resource_supp_returns_female.png}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{For females only: (a) Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. (b) Predicted change in foraging returns by resource type. (c) Percentage increase in foraging returns across childhood. This figure is similar to figure \ref{fig:returns}, but focuses only on females.}
+\label{fig:females_only}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/by_resource_supp_returns_male.png}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{For males only: (a) Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. (b) Predicted change in foraging returns by resource type. (c) Percentage increase in foraging returns across childhood. This figure is similar to figure \ref{fig:returns}, but focuses only on males.}
+\label{fig:males_only}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/by_resource_supp_skill.png}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{(a) Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. (b) Predicted change in foraging returns by resource type. (c) Percentage increase in foraging returns across childhood. This figure is similar to figure \ref{fig:returns}, but describe underlying foraging skill instead of returns.}
+\label{fig:skill}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/eta_outcome.pdf}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{Mean posterior values for $\eta$, the skill intensity of foraging, by outcome. Each individual dataset (either present in the \texttt{cchunts} package or extracted from a single figure/table) is represented here, color coded for resource. }
+\label{fig:eta_outcome}
+\end{figure}
+%bird 2005, which has lower eta, is the one where kids target age specific resources that have high returns. Might be an ecological outlier?
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/fishshellfish_data.pdf}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{Data points for all datasets reporting fish and shellfish data.}
+\label{fig:fish}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/fruit_data.pdf}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{Data points for all datasets reporting fruit data.}
+\label{fig:fruit}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/game_data.pdf}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{Data points for all datasets reporting game data.}
+\label{fig:game}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/other_data.pdf}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{Data points for all datasets reporting data for other kinds of resources.}
+\label{fig:other}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm] {text/images/supplementary/USO_data.pdf}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\caption{Data points for all datasets reporting USO data.}
+\label{fig:USO}
 \end{figure}

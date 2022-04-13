@@ -110,6 +110,7 @@ transformed parameters{
       S = exp( log(S) + id_v[id[i]] );
     }
     
+    # We'll use the more linear log(1 + exp(x)) link for alpha_p, to avoid concentration of prior probability on extreme values after getting passed through the inv_logit() later on
     if (s == 1) alpha_p = exp( a[5] + a_p[1]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],12] + resource_v[resource[i],12]);
     if (s == 2) alpha_p = exp( a[5] + a_p[2]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],19] + resource_v[resource[i],19]);
     
@@ -174,8 +175,8 @@ model{
   vector[2] lp_r; // log prob for foraging return
     
   if (returns[i] == 0) {
-    lp_p[1] = bernoulli_lpmf( 0 | 1 - 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
-    lp_p[2] = bernoulli_lpmf( 0 | 1 - 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
+    lp_p[1] = bernoulli_lpmf( 0 | 2*( inv_logit(mu_p[i,1]) - 0.5 ) );   
+    lp_p[2] = bernoulli_lpmf( 0 | 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
   }
   
   else if (returns[i] > 0) {
@@ -216,7 +217,7 @@ model{
     // individual-level returns
     else {
     
-    if (returns[i] == 0) 0 ~ bernoulli( 1 - 2*( inv_logit(mu_p[i,1]) - 0.5 ) );
+    if (returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5 ) );
     else if (returns[i] > 0) {
     
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,1]) - 0.5   ));
@@ -237,7 +238,7 @@ model{
     // individual-level returns
     else {
     
-    if (returns[i] == 0) 0 ~ bernoulli( 1 - 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
+    if (returns[i] == 0) 0 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5 ) );
     else if (returns[i] > 0) {
     
     1 ~ bernoulli( 2*( inv_logit(mu_p[i,2]) - 0.5 ) );

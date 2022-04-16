@@ -75,7 +75,7 @@ lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), lty="dashed", lwd=2)
 dev.off() # end plot
 
 ## 4b: Returns ~ age*resource
-pdf(file = "resource_skill.pdf", width = 8, height= 8)
+pdf(file = "resource_skill.pdf", width = 8, height = 8)
 par(mfrow=c(2,2),
     pty='s',
     oma=c(0,0,0,0),
@@ -847,7 +847,7 @@ d_outcome_sort <- d_outcome %>%
   mutate(outcome = str_replace_all(outcome, "_", " "))
 
 for (s in 1:nrow(d_outcome_sort)) {
-  eta_outcome[,s] = exp(post$a[,4] + post$resource_v[,d_outcome_sort$resource[s],4] + post$outcome_v[,d_outcome_sort$id[s],4])
+  eta_outcome[,s] = log( 1 + exp(post$a[,4] + post$resource_v[,d_outcome_sort$resource[s],4] + post$outcome_v[,d_outcome_sort$id[s],4]))
 }
 
 eta_outcome <- as.data.frame(eta_outcome)
@@ -880,6 +880,65 @@ ggplot(eta_outcome_summary, aes(x = median_eta, y = id)) +
   theme(legend.title = element_blank()) 
 
 ggsave("eta_outcome.pdf", dpi=600, height=11, width=8.5, units="in")
+
+##########################################
+#### Hurdle parameters (outcome specific)
+d$obs_id <- 1:nrow(d)
+d$pred_return <- NA
+
+prob_return <- matrix(NA, nrow=n_samps, ncol=nrow(d))
+
+for (n in 1:nrow(d)) {
+  sex = ifelse(is.na(d$sex[n]), 0.5, d$sex[n])
+  prob_return[,n] = (2*(inv_logit(post$mu_p[,n,1]) - 0.5))*(1-sex) + (2*(inv_logit(post$mu_p[,n,2]) - 0.5))*(sex)
+}
+
+prob_return <- as.data.frame(prob_return)
+names(prob_return) <- d$obs_id
+prob_return$samp <- 1:n_samps
+
+prob_return_long <- prob_return %>% 
+  pivot_longer(-samp, names_to = "obs_id") %>% 
+  mutate(obs_id = as.integer(obs_id))
+
+prob_return_long <- left_join(prob_return_long, select(d, c(obs_id, outcome_id)))
+
+mean_prob_return <- prob_return_long %>% group_by(samp, outcome_id) %>% 
+  summarise(pred_prop_nonzero = mean(value))
+
+# get median and credible intervals
+mean_prob_return_summary <- mean_prob_return %>% 
+  group_by(outcome_id) %>% 
+  summarise(
+    med = median(pred_prop_nonzero),
+    lower = PI(pred_prop_nonzero, prob=0.9)[1],
+    upper = PI(pred_prop_nonzero, prob=0.9)[2])
+
+d_outcome <- d %>% 
+  group_by(outcome) %>% 
+  summarise(outcome_id = unique(outcome_id),
+            resource_label = unique(resource),
+            resource = unique(resource_id),
+            prop_nonzero = mean(scaled_return > 0)
+  ) %>% 
+  mutate(short_name = str_extract(outcome, "[^_]+"),
+         resource2 = factor(resource, labels = c("Game", "Fish/Shellfish", "Mixed/Other", "Fruit", "USOs")))
+
+mean_prob_return_summary <- left_join(mean_prob_return_summary, d_outcome)
+
+# Plot hurdle model predicted vs observed
+ggplot(filter(mean_prob_return_summary, prop_nonzero < 1)) + 
+  geom_errorbarh(aes(xmin=lower, xmax=upper, y=as.character(outcome_id), color=resource2), height=0) +
+  geom_point(aes(x=med, y=as.character(outcome_id), color=resource2), size=2) + 
+  geom_point(aes(x=prop_nonzero, y=as.character(outcome_id), color=resource2), shape=1, size=2) + 
+  scale_color_manual(values = c(resource_cols[c(2,1)], "black", resource_cols[c(3,4)])) +
+  scale_y_discrete(breaks=1:nrow(mean_prob_return_summary), labels=mean_prob_return_summary$outcome) +
+  ylab("") +
+  xlab("Proportion Non-Zero Returns") +
+  theme_minimal(base_size = 14) +
+  theme(legend.title = element_blank()) 
+
+ggsave("hurdle_outcome.pdf", dpi=600, height=11, width=8.5, units="in")
 
 
 #####################################################
@@ -1045,17 +1104,17 @@ ggplot(sigma_eta_mu_long, aes(x = value)) + geom_density(aes(color=name))
 # 3 = fruit
 # 4 = USOs
 
-k_marine <- exp(post$a[,1] + post$resource_v[,1,1])
-k_game <- exp(post$a[,1] + post$resource_v[,2,1])
-k_fruit <- exp(post$a[,1] + post$resource_v[,3,1])
-k_USO <- exp(post$a[,1] + post$resource_v[,4,1])
+k_marine <- log( 1 + exp(post$a[,1] + post$resource_v[,1,1]))
+k_game <- log( 1 + exp(post$a[,1] + post$resource_v[,2,1]))
+k_fruit <- log( 1 + exp(post$a[,1] + post$resource_v[,3,1]))
+k_USO <- log( 1 + exp(post$a[,1] + post$resource_v[,4,1]))
 
-b_marine <- exp(post$a[,2] + post$resource_v[,1,2])
-b_game <- exp(post$a[,2] + post$resource_v[,2,2])
-b_fruit <- exp(post$a[,2] + post$resource_v[,3,2])
-b_USO <- exp(post$a[,2] + post$resource_v[,4,2])
+b_marine <- log(1 + exp(post$a[,2] + post$resource_v[,1,2]))
+b_game <- log( 1 + exp(post$a[,2] + post$resource_v[,2,2]))
+b_fruit <- log( 1 + exp(post$a[,2] + post$resource_v[,3,2]))
+b_USO <- log( 1 + exp(post$a[,2] + post$resource_v[,4,2]))
 
-eta_marine <- exp(post$a[,4] + post$resource_v[,1,4])
-eta_game <- exp(post$a[,4] + post$resource_v[,2,4])
-eta_fruit <- exp(post$a[,4] + post$resource_v[,3,4])
-eta_USO <- exp(post$a[,4] + post$resource_v[,4,4])
+eta_marine <- log( 1 + exp(post$a[,4] + post$resource_v[,1,4]))
+eta_game <- log( 1 + exp(post$a[,4] + post$resource_v[,2,4]))
+eta_fruit <- log( 1 + exp(post$a[,4] + post$resource_v[,3,4]))
+eta_USO <- log( 1 + exp(post$a[,4] + post$resource_v[,4,4]))

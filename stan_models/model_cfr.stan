@@ -67,9 +67,9 @@ transformed parameters{
   
   ///// sds for log-normal returns for each outcome
   for (i in 1:N)  {
-        sd_merged[i,1] = exp( a[7] + a_sd_outcome[1]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],14] + resource_v[resource[i],7] + resource_v[resource[i],14]);
+        sd_merged[i,1] = exp( a[7] + a_sd_outcome[1]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],14] + resource_v[resource[i],7] + resource_v[resource[i],14] );
         
-        sd_merged[i,2] = exp( a[7] + a_sd_outcome[2]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],21] + resource_v[resource[i],7] + resource_v[resource[i],21]);
+        sd_merged[i,2] = exp( a[7] + a_sd_outcome[2]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],21] + resource_v[resource[i],7] + resource_v[resource[i],21] );
     }
   
 //////////////////////////////////////////////////////////
@@ -88,19 +88,19 @@ transformed parameters{
     real alpha_r;
       
     // growth rate k
-    if (s == 1) k = exp( a[1] + a_k[1]*sigma_sex[1] + outcome_v[outcome[i],1] + outcome_v[outcome[i],8] + resource_v[resource[i],1] + resource_v[resource[i],8] );
-    if (s == 2) k = exp( a[1] + a_k[2]*sigma_sex[1] + outcome_v[outcome[i],1] + outcome_v[outcome[i],15] + resource_v[resource[i],1] + resource_v[resource[i],15] );
+    if (s == 1) k = log( 1 + exp( a[1] + a_k[1]*sigma_sex[1] + outcome_v[outcome[i],1] + outcome_v[outcome[i],8] + resource_v[resource[i],1] + resource_v[resource[i],8] ));
+    if (s == 2) k = log( 1 + exp( a[1] + a_k[2]*sigma_sex[1] + outcome_v[outcome[i],1] + outcome_v[outcome[i],15] + resource_v[resource[i],1] + resource_v[resource[i],15] ));
 
     // elasticity of growth b
-    if (s == 1) b = exp( a[2] + a_b[1]*sigma_sex[2] + outcome_v[outcome[i],2] + outcome_v[outcome[i],9] + resource_v[resource[i],2] + resource_v[resource[i],9] );
-    if (s == 2) b = exp( a[2] + a_b[2]*sigma_sex[2] + outcome_v[outcome[i],2] + outcome_v[outcome[i],16] + resource_v[resource[i],2] + resource_v[resource[i],16] );
+    if (s == 1) b = log( 1 + exp( a[2] + a_b[1]*sigma_sex[2] + outcome_v[outcome[i],2] + outcome_v[outcome[i],9] + resource_v[resource[i],2] + resource_v[resource[i],9] ));
+    if (s == 2) b = log( 1 + exp( a[2] + a_b[2]*sigma_sex[2] + outcome_v[outcome[i],2] + outcome_v[outcome[i],16] + resource_v[resource[i],2] + resource_v[resource[i],16] ));
 
     // elasticity of skill eta, for prob non-zero harvest[1] and mu return[2]
-    if (s == 1) eta[1] = exp( a[3] + a_eta[1,1]*sigma_sex[3] + outcome_v[outcome[i],3] + outcome_v[outcome[i],10] + resource_v[resource[i],3] + resource_v[resource[i],10] );
-    if (s == 2) eta[1] = exp( a[3] + a_eta[2,1]*sigma_sex[3] + outcome_v[outcome[i],3] + outcome_v[outcome[i],17] + resource_v[resource[i],3] + resource_v[resource[i],17] );
+    if (s == 1) eta[1] = log( 1 + exp( a[3] + a_eta[1,1]*sigma_sex[3] + outcome_v[outcome[i],3] + outcome_v[outcome[i],10] + resource_v[resource[i],3] + resource_v[resource[i],10] ));
+    if (s == 2) eta[1] = log( 1 + exp( a[3] + a_eta[2,1]*sigma_sex[3] + outcome_v[outcome[i],3] + outcome_v[outcome[i],17] + resource_v[resource[i],3] + resource_v[resource[i],17] ));
     
-    if (s == 1) eta[2] = exp( a[4] + a_eta[1,2]*sigma_sex[4] + outcome_v[outcome[i],4] + outcome_v[outcome[i],11] + resource_v[resource[i],4] + resource_v[resource[i],11] );
-    if (s == 2) eta[2] = exp( a[4] + a_eta[2,2]*sigma_sex[4] + outcome_v[outcome[i],4] + outcome_v[outcome[i],18] + resource_v[resource[i],4] + resource_v[resource[i],18] );
+    if (s == 1) eta[2] = log( 1 + exp( a[4] + a_eta[1,2]*sigma_sex[4] + outcome_v[outcome[i],4] + outcome_v[outcome[i],11] + resource_v[resource[i],4] + resource_v[resource[i],11] ));
+    if (s == 2) eta[2] = log( 1 + exp( a[4] + a_eta[2,2]*sigma_sex[4] + outcome_v[outcome[i],4] + outcome_v[outcome[i],18] + resource_v[resource[i],4] + resource_v[resource[i],18] ));
     
     // Skill, age = age with measurement error
     S = pow( 1 - exp(-k * age_me[i]), b );
@@ -113,8 +113,8 @@ transformed parameters{
     if (s == 1) alpha_p = log( 1 + exp( a[5] + a_p[1]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],12] + resource_v[resource[i],12]) );
     if (s == 2) alpha_p = log( 1 + exp( a[5] + a_p[2]*sigma_sex[5] + outcome_v[outcome[i],5] + resource_v[resource[i],5] + outcome_v[outcome[i],19] + resource_v[resource[i],19]) );
     
-    if (s == 1) alpha_r = exp( a[6] + a_alpha[1]*sigma_sex[6] + outcome_v[outcome[i],6] + resource_v[resource[i],6] + outcome_v[outcome[i],13] + resource_v[resource[i],13]);
-    if (s == 2) alpha_r = exp( a[6] + a_alpha[2]*sigma_sex[6] + outcome_v[outcome[i],6] + resource_v[resource[i],6] + outcome_v[outcome[i],20] + resource_v[resource[i],20]);
+    if (s == 1) alpha_r = log( 1 + exp (a[6] + a_alpha[1]*sigma_sex[6] + outcome_v[outcome[i],6] + resource_v[resource[i],6] + outcome_v[outcome[i],13] + resource_v[resource[i],13]) );
+    if (s == 2) alpha_r = log( 1 + exp( a[6] + a_alpha[2]*sigma_sex[6] + outcome_v[outcome[i],6] + resource_v[resource[i],6] + outcome_v[outcome[i],20] + resource_v[resource[i],20]) );
 
     
     mu_p[i,s] = pow(S,eta[1]) * alpha_p; 
@@ -175,7 +175,7 @@ model{
     // If data were given as summary statitics, can only meta-analyze the expected value
     if (child_summary_returns[i] > 0) {
     lp[1] = normal_lpdf( returns[i] | 2*( inv_logit(mu_p[i,1]) - 0.5 ) * exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
-    lp[2] = normal_lpdf( returns[i] | 2*( inv_logit(mu_p[i,1]) - 0.5 ) * exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
+    lp[2] = normal_lpdf( returns[i] | 2*( inv_logit(mu_p[i,2]) - 0.5 ) * exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
     
     // Mix over male or female in proportion to their probability
     target += log_mix( 1 - sex[i], lp[1], lp[2] );
@@ -205,7 +205,7 @@ model{
     // only summary statistics
     if (child_summary_returns[i] > 0) {
     
-    returns[i] ~ normal( exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
+    returns[i] ~ normal( 2*( inv_logit(mu_p[i,1]) - 0.5 ) * exp(log(mu_r[i,1]) + square(sd_merged[i,1])/2), se_child[i] );
     }
     
     // individual-level returns
@@ -226,7 +226,7 @@ model{
     // only summary statistics
     if (child_summary_returns[i] > 0) {
     
-    returns[i] ~ normal( exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
+    returns[i] ~ normal( 2*( inv_logit(mu_p[i,2]) - 0.5 ) * exp(log(mu_r[i,2]) + square(sd_merged[i,2])/2), se_child[i] );
     }
     
         // individual-level returns

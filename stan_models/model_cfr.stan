@@ -67,9 +67,9 @@ transformed parameters{
   
   ///// sds for log-normal returns for each outcome
   for (i in 1:N)  {
-        sd_merged[i,1] = exp( a[7] + a_sd_outcome[1]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],14] + resource_v[resource[i],7] + resource_v[resource[i],14] );
+        sd_merged[i,1] = log( 1 + exp( a[7] + a_sd_outcome[1]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],14] + resource_v[resource[i],7] + resource_v[resource[i],14] ));
         
-        sd_merged[i,2] = exp( a[7] + a_sd_outcome[2]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],21] + resource_v[resource[i],7] + resource_v[resource[i],21] );
+        sd_merged[i,2] = log( 1 + exp( a[7] + a_sd_outcome[2]*sigma_sex[7] + outcome_v[outcome[i],7] + outcome_v[outcome[i],21] + resource_v[resource[i],7] + resource_v[resource[i],21] ));
     }
   
 //////////////////////////////////////////////////////////

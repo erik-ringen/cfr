@@ -197,7 +197,7 @@ ggsave("returns_age_plot.pdf", width=11, height=6, dpi=600)
 
 #####################################################
 ##### Figure 5 ######################################
-eta <- cbind( exp(post$a[,4]), exp(post$a[,4] + post$resource_v[,,4]) )
+eta <- cbind( log(1 + exp(post$a[,4])), log( 1 + exp(post$a[,4] + post$resource_v[,,4])) )
 eta <- as.data.frame(eta)
 names(eta) <- c("Average", "Game", "Fish/Shellfish", "Mixed", "Fruit", "USOs")
 eta$samp <- 1:nrow(eta)

@@ -72,7 +72,7 @@ data_list <- list(
 stan_model <- stan_model("stan_models/model_cfr.stan")
 
 ### run MCMC program
-fit <- sampling( stan_model, data=data_list, chains=8, cores=8, iter=2000, init="0", control=list(adapt_delta=0.99) )
+fit <- sampling( stan_model, data=data_list, chains=8, cores=8, iter=6000, warmup=500, init="0", control=list(adapt_delta=0.99) )
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")

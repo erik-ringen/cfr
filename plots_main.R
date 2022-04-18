@@ -204,13 +204,13 @@ eta$samp <- 1:nrow(eta)
 
 eta_long <- eta %>% pivot_longer(-samp) %>% filter(!(name %in% c("Mixed")))
 
-eta_long$name <- fct_reorder(eta_long$name,eta_long$value)
+eta_long$name <- factor(eta_long$name,levels=c("Fruit", "Fish/Shellfish", "Average","USOs", "Game"))
 
 eta_resource <- ggplot(eta_long, aes(x = value, y = name)) + 
   geom_hline(yintercept=seq(1:5), alpha=0.6) +
   geom_density_ridges2(aes(color=name, fill=name), alpha=0.8,lwd=0.8,scale=0.9, rel_min_height=0.001) +
   annotate("blank", x = 0, y= 5.7 ) +
-  scale_x_continuous(expand = c(0.00, 0.05), limits=c(0,15)) + 
+  scale_x_continuous(expand = c(0.00, 0.05), limits=c(0,8)) + 
   scale_y_discrete(expand = c(0.00, 0)) + 
   scale_color_manual(values=c(resource_cols[c(3,1)],"black",resource_cols[c(4,2)])) +
   scale_fill_manual(values=c(resource_cols[c(3,1)],"black",resource_cols[c(4,2)])) +
@@ -227,7 +227,7 @@ eta_contrast <- ggplot(eta, aes(x=diff)) +
   geom_density(fill="gray80", color="gray80", alpha=0.8) +
   geom_vline(xintercept = 0, linetype="dashed") +
   theme_minimal(base_size=16) +
-  scale_x_continuous(expand = c(0.00, 0.05), limits=c(-4,15)) +
+  scale_x_continuous(expand = c(0.00, 0.05), limits=c(-4,6)) +
   scale_y_continuous(expand = c(0.00, 0)) +
   theme( axis.text.y = element_blank(),
          axis.ticks.y = element_blank(),

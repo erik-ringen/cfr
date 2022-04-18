@@ -514,9 +514,6 @@ age_returns_plot <- ggplot(age_long_summary, aes(x = med_diff, y = name)) +
 ggsave("returns_age_plot_female.pdf", width=11, height=6, dpi=600)
 
 
-
-
-
 #####################################################
 ##### Like Figure 4, but for skill and MALES ########
 ## 4a: overall skill ~ age

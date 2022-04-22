@@ -77,3 +77,11 @@ fit <- sampling( stan_model, data=data_list, chains=8, cores=8, iter=6000, warmu
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")
 
+#### Checking mcmc diagnostics ########################
+# write.csv(precis(fit, depth=3), "model_precis.csv")
+# prec <- read_csv("model_precis.csv")
+
+## Verify that all population parameters (not necessarily all random effects) have Rhat < 1.01, ESS > 1000.
+# prec %>% filter(Rhat4 > 1.01)
+# prec %>% filter(n_eff < 1000)
+

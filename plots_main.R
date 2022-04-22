@@ -48,8 +48,11 @@ par(pty='s',
 # Get model predictions across ages
 preds_both <- cfr_pred(age=age_seq, resp="nodim_returns")
 
+max_height <- max(apply(preds_both, 2, median))
+preds_both <- preds_both / max_height
+
 # Set up plot window
-plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.4), xlim=c(0,20), ylab="", xlab="", axes=F)
+plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.5), xlim=c(0,20), ylab="", xlab="", axes=F)
 # Plot posterior median age seq, then PI
 lines(apply(preds_both, 2, median), x=age_seq, lwd=3)
 shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("black",0.05))
@@ -206,9 +209,12 @@ eta_long <- eta %>% pivot_longer(-samp) %>% filter(!(name %in% c("Mixed")))
 
 eta_long$name <- factor(eta_long$name,levels=c("Fruit", "Fish/Shellfish", "Average","USOs", "Game"))
 
+eta_summary <- eta_long %>% group_by(name) %>% 
+  summarise(med_eta = median(value))
+
 eta_resource <- ggplot(eta_long, aes(x = value, y = name)) + 
   geom_hline(yintercept=seq(1:5), alpha=0.6) +
-  geom_density_ridges2(aes(color=name, fill=name), alpha=0.8,lwd=0.8,scale=0.9, rel_min_height=0.001) +
+  geom_density_ridges2(aes(color=name, fill=name), alpha=0.8,lwd=0.8,scale=0.9, rel_min_height=0.001, quantile_lines=T, quantile_fun=median) +
   annotate("blank", x = 0, y= 5.7 ) +
   scale_x_continuous(expand = c(0.00, 0.05), limits=c(0,8)) + 
   scale_y_discrete(expand = c(0.00, 0)) + 

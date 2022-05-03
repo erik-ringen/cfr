@@ -61,6 +61,11 @@ d_round2 %>%
 d_round2$resource <- ifelse(is.na(d_round2$resource), "mixed", d_round2$resource)
 
 #####################################################
+#### correct mispelling of fruits in Hawkes 1995
+d_round2$resource <- str_replace(d_round2$resource, "fruits", "fruit")
+
+
+#####################################################
 #### Bring in data from cchunts package #############
 cchunts_dat <- make_joint( cchunts_data_sets )
 
@@ -123,7 +128,19 @@ d_combined$age_sd <- ifelse( d_combined$age_sd == 0, NA, d_combined$age_sd )
 ########################################################
 #### Drop problematic/duplicated obs ##################
 d_combined <- d_combined %>% 
-  filter( !(outcome %in% c("Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h","Bird_2002b_table2_Trid. gigas", "Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h", "Hawkes_1995_Table_6_Consumption_rate_Cal.h", "Hawkes_1995_Table_6_stashing_rate_Cal.h", "Hawkes_1995_Table_5_Ondishibe", "Hawkes_1995_Table_5_Tafabe", "Crittenden_2013_Fig_3")))
+  filter( !(outcome %in% c("Hawkes_1995_Table_4_Tafabe_stashing_rates_g.h",
+                           "Bird_2002b_table2_Trid. gigas", 
+                           "Hawkes_1995_Table_4_Ondishibe_stashing_rates_g.h", 
+                           "Hawkes_1995_Table_6_Consumption_rate_Cal.h", 
+                           "Hawkes_1995_Table_6_stashing_rate_Cal.h", 
+                           "Hawkes_1995_Table_5_Ondishibe", 
+                           "Hawkes_1995_Table_5_Tafabe", 
+                           "Crittenden_2013_Fig_3",
+                           "BliegeBird_2002a_fig2",
+                           "BliegeBird_2002a_fig5c",
+                           "BliegeBird_2002a_fig6",
+                           "Froehle_2018_fig6b",
+                           "Hawkes_1995_Table_6_tin_measured_rates_Cal.h")))
 
 ########################################################
 #### Drop outcomes where we only have one observation ##

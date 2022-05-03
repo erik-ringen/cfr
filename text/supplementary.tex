@@ -1,6 +1,6 @@
 \section{Supplementary material}
 \subsection{Data sets and metadata}
-Table \ref{tab:metadata} shows the main metadata referring to the data sets included in the analysis. Those for which the Code of Paper includes the string \texttt{cchunts} are published with the paper from \citet{koster_life_2020}. These were compiled by Koster, who ``searched for relevant studies on subsistence hunting in the anthropological and biological literature, subsequently contacting authors to invite them to contribute data. The contributors submitted data in a standardized format that included variables for the biomass acquired on terrestrial hunting trips, the ages of the hunters at the time of the hunt, the duration of the trip, the hunting weaponry carried by the hunters, and the presence of dogs or assistants" \citep{koster_life_2020}.
+In figure \ref{fig:selection} we summarize the selection process that produced our sample. Table \ref{tab:metadata} shows the main metadata referring to the data sets included in the analysis. Those for which the Code of Paper includes the string \texttt{cchunts} are published in the \texttt{R} package with the same name associated to the paper from \citet{koster_life_2020}. These were compiled by Koster, who ``searched for relevant studies on subsistence hunting in the anthropological and biological literature, subsequently contacting authors to invite them to contribute data. The contributors submitted data in a standardized format that included variables for the biomass acquired on terrestrial hunting trips, the ages of the hunters at the time of the hunt, the duration of the trip, the hunting weaponry carried by the hunters, and the presence of dogs or assistants" \citep{koster_life_2020}.
 
 Following inclusion of data from this source, we screened the data we extracted from published papers to remove repeated data sets. In particular, data relative to the Ache of Paraguay extracted from \citet{walker_age-dependency_2002} have not been used because they are already present in the "Hill\_Kintigh" data set included in the \texttt{cchunts} package. 
 
@@ -10,7 +10,41 @@ Tsimane data extracted from \citet{gurven_how_2006} are a repetition of those in
 
 Data collected by Bliege Bird and Bird among the Mardu in Western Australia come from both a 2005 study on children foraging \citep{bird_mardu_2005} and from the dataset in the \texttt{cchunts} package \citep{koster_life_2020}. The 2005 paper reports data from individual of both sexes between 5 and 14 years old hunting goanna lizards in the rocky outcrop not far from the camp. These data were collected by the authors between 2000 and 2002. The \texttt{cchunts} data were collected between 2002 and 2010, are relative to individuals aged 7 to 79 and partially exclude female contributions (``This data set includes observations of female foragers when they were accompanied by men on trips, but not women on foraging trips that did not include male foragers"). The two data set are thus not fully overlapping, but there is the possibility that some data are present in both sets. In particular, 14 foraging returns collected in 2002 from individuals below 14 years old are present in the \texttt{cchunts} data set and could hence have been included in \citet{bird_mardu_2005}. Looking in detail at these subsets, they do not appear to be repetitious (a 9 years old boy present in the \texttt{cchunts} dataset does not appear in the \citet{bird_mardu_2005} study, for example, and none of the younger individuals' returns reported here appear in \texttt{cchunts}). % but MAYBE WE SHOULD RERUN THE ANALYSIS WITHOUT THOSE 14 DATA POINTS TO BE SURE.  %to remove the 14 observations that could be repeated from the cchunts dataset, add to the processing data: cchunts_dat <- cchunts_dat[-which ( cchunts_dat$society == "Bird_Bird_Codding" & cchunts_dat$trip_year <= "2002" & cchunts_dat$age_dist_1 <= 14), ]
 
-
+\begin{figure}[h]
+\renewcommand{\thefigure}{S\arabic{figure}}
+    \begin{tikzpicture}[node distance=2cm]
+        \node (SD) [rec] {Science Direct: 25};
+        \node (JS) [rec, right=0.1 of SD] {JStor: 59};
+        \node (GS) [rec, right=0.1 of JS] {Google Scholar: 320};
+        \node (PN) [rec, right=0.1 of GS] {PsycNet: 0};
+        \node (SP) [rec, right=0.1 of PN] {Springer: 75};
+        \node (WI) [rec, right=0.1 of SP] {Wiley: 23};
+        \node (AD) [mainrec, below=1.5 of GS] {After removing duplicates: 360};
+        \node (AF) [mainrec, below=0.8 of AD] {After full text checked: 35};
+        \node (IO) [mainrec, right=2 of AF] {Included from bibliographies and CVs: 5};
+        \node (MA) [mainrec, below right=0.8 and -1 of AF] {Meta-data investigated: 40};
+        \node (SS) [mainrec, below =0.8  of MA] {Selected papers: 13};
+        \node (IA) [mainrec, below =0.8  of SS] {Included in analysis: 38}; %\Sexpr{nlevels(unique(d[,"study"]))}
+        \node (CC) [mainrec, below left =0.8  and 0.3 of MA] {From \texttt{cchunts} package: 26}; %\Sexpr{nlevels(unique(d[,"study"])) - 12}
+        \node (GW) [rec, right=0.3 of SS] {Excluded as duplicated in the \texttt{cchunts} package: 2};
+        \draw[->,line width=1] (SD) -- (AD);
+        \draw[->,line width=1] (JS) -- (AD);
+        \draw[->,line width=1] (GS) -- (AD);
+        \draw[->,line width=1] (PN) -- (AD);
+        \draw[->,line width=1] (SP) -- (AD);
+        \draw[->,line width=1] (WI) -- (AD);
+        \draw[->,line width=1] (AD) -- (AF);
+        \draw[->,line width=1] (AF) -- (IO);
+        \draw[->,line width=1] (AF) -- (MA);
+        \draw[->,line width=1] (IO) -- (MA);
+        \draw[->,line width=1] (MA) -- (SS);
+        \draw[->,line width=1] (SS) -- (IA);
+        \draw[->,line width=1] (CC) -- (IA);
+        \draw[->,line width=1] (SS) -- (GW);
+    \end{tikzpicture}
+    \caption{Schematic summarizing the process of paper selection.}
+    \label{fig:selection}
+\end{figure}
 
 
 
@@ -22,7 +56,7 @@ Data collected by Bliege Bird and Bird among the Mardu in Western Australia come
 % Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
 \begin{landscape}
 \begin{longtable}{M{2.6cm} M{3.6cm} M{1.5cm} c c M{1cm} c c}
-\caption{Metadata for each source of foraging returns data included in the analysis. The first 14 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations present in the dataset and, among parentheses, the number of observations relative to individuals below 20 years of age, which were included in our analysis. }\\
+\caption{Metadata for each source of foraging returns data included in the analysis. The first 11 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations present in the dataset and, among parentheses, the number of observations relative to individuals below 20 years of age, which were included in our analysis. }\\
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Code of data                  & Paper                                     & Population      & Years      & Unit      & Resource           & Ages    & Sample size \\ \hline
@@ -137,7 +171,7 @@ $$ \textrm{age}_{\textrm{obs}} \sim \textrm{Normal}(\mu_{\textrm{age}}, \sigma_{
 \includegraphics[width=12cm] {text/images/sex_diffs.png}
 \renewcommand{\thefigure}{S\arabic{figure}}
 \setcounter{figure}{0}
-\caption{Predicted change in foraging skill by sex, averaging over variation between studies, individuals, and resource type.}
+\caption{Predicted change in foraging skill by sex, averaging over variation between studies, individuals, and resource type. The x-axis shows age, while the y-axis is an unit-free measure of the latent variable.}
 \label{fig:sex_diffs}
 \end{figure}
 

@@ -1,4 +1,5 @@
-\section{Supplementary material}
+\setcounter{section}{0}
+\section{Supplementary Information}
 \subsection{Data sets and metadata}
 In figure \ref{fig:selection} we summarize the literature selection process that produced our sample. Table \ref{tab:metadata} shows the main metadata referring to the datasets included in the analysis. Those for which the Code of Paper includes the string \texttt{cchunts} are published in the \texttt{R} package with the same name, associated to the paper from \citet{koster_life_2020}. These were compiled by Koster, who ``searched for relevant studies on subsistence hunting in the anthropological and biological literature, subsequently contacting authors to invite them to contribute data. The contributors submitted data in a standardized format that included variables for the biomass acquired on terrestrial hunting trips, the ages of the hunters at the time of the hunt, the duration of the trip, the hunting weaponry carried by the hunters, and the presence of dogs or assistants" \citep{koster_life_2020}.
 
@@ -25,7 +26,7 @@ Data collected by Bliege Bird and Bird among the Martu in Western Australia come
         \node (IO) [mainrec, right=2 of AF] {Included from bibliographies and CVs: 5};
         \node (MA) [mainrec, below right=0.8 and -1 of AF] {Meta-data investigated: 40};
         \node (SS) [mainrec, below =0.8  of MA] {Selected papers: 13};
-        \node (IA) [mainrec, below =0.8  of SS] {Included in analysis: 38}; %\Sexpr{nlevels(unique(d[,"study"]))}
+        \node (IA) [mainrec, below =0.8  of SS] {Included in analysis: 37}; %\Sexpr{nlevels(unique(d[,"study"]))}
         \node (CC) [mainrec, below left =0.8  and 0.3 of MA] {From \texttt{cchunts} package: 26}; %\Sexpr{nlevels(unique(d[,"study"])) - 12}
         \node (GW) [rec, right=0.3 of SS] {Excluded as duplicated in the \texttt{cchunts} package: 2};
         \draw[->,line width=1] (SD) -- (AD);
@@ -55,6 +56,8 @@ Data collected by Bliege Bird and Bird among the Martu in Western Australia come
 % \usepackage{lscape}
 % \usepackage{longtable}
 % Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+%Metadata for each source of foraging returns data included in the analysis. The first 14 datasets have been extracted from published papers, the remaining were part of the cchunts package. We report the total number of observations present in the dataset and, among parentheses, the number of observations relative to individuals below 20 years of age, which were included in our analysis
+%These are relative to each source of foraging returns data included in the analysis. The first 11 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations for foraging returns, with the total number of foragers under 20 years included in our analysis in parentheses.
 \begin{landscape}
 \begin{longtable}{M{2.6cm} M{3.6cm} M{1.5cm} c c M{1cm} c c}
 \caption{\textbf{Metadata for included datasets.} These are relative to each source of foraging returns data included in the analysis. The first 11 datasets have been extracted from published papers, the remaining were part of the \texttt{cchunts} package. As sample size we report the total number of observations for foraging returns, with the total number of foragers under 20 years included in our analysis in parentheses. }\\
@@ -66,7 +69,7 @@ Code of data                  & Paper                                     & Popu
 \endhead
 %
 \rowcolor[HTML]{EFEFEF} 
-Bird\_2005                     & \cite{bird_mardu_2005}                    & Martu           & 2000-2002  & kcal/hr   & game               & 4- 14   & 157 (22)    \\
+Bird\_2005                     & \cite{bird_mardu_2005}                    & Martu           & 2000-2002  & kcal/hr   & game               & 4- 14   & 157 (22)    \\%157 (22)
 BliegeBird\_1995               & \cite{bird_children_1995}                 & Meriam          & 1993       & g/min     & fish, fruit, mixed & 3-14    & 12(12)      \\
 \rowcolor[HTML]{EFEFEF} 
 BliegeBird\_2002a              & \cite{bird_constraints_2002}              & Meriam          & 1993-1998  & kcal/hr   & fish               & 4-75    & 196(42)     \\
@@ -82,48 +85,48 @@ Froehle\_2018                  & \cite{froehle_physical_2019}              & Had
 Hawkes\_1995                   & \cite{hawkes_hadza_1995}                  & Hadza           & 1988       & g/hr      & USO, fruits        & 3-17    & 20 (17)     \\
 \rowcolor[HTML]{EFEFEF} 
 Tucker\_2005                   & \cite{tucker_growing_2005}                & Mikea           & 1997- 2003 & kcal/hr   & USO                & NA      & 254(37)     \\
-Alvard\_cchunts                & \cite{alvard_shotguns_1995}               & Piro            & 1989-1991  & kg/trip   & game               & 15-70   & 42(5)     \\
+Alvard\_cchunts                & \cite{alvard_shotguns_1995}               & Piro            & 1989-1991  & kg/trip   & game               & 15-70   & 42(5)     \\%274(16)
 \rowcolor[HTML]{EFEFEF} 
-Beckerman\_cchunts             & \cite{beckerman_ecology_2013}             & Bari            & 1970-1972  & kg/trip   & game               & 12-55   & 18(9)    \\
-Bird\_Bird\_Codding\_ cchunts     & \cite{bird_pursuit_2009}                  & Martu           & 2000-2010  & kg/trip   & game               & 7-79    & 77(21)     \\
+Beckerman\_cchunts             & \cite{beckerman_ecology_2013}             & Bari            & 1970-1972  & kg/trip   & game               & 12-55   & 18(9)    \\%233(112)
+Bird\_Bird\_Codding\_ cchunts     & \cite{bird_pursuit_2009}                  & Martu           & 2000-2010  & kg/trip   & game               & 7-79    & 77(21)     \\%758(73)
 \rowcolor[HTML]{EFEFEF} 
-Coad\_cchunts                  & \cite{coad_bushmeat_2008}                 & Pouvi, etc    & 2004-2010  & kg/trip   & game               & 15- 69  & 70(7)     \\
-Duda\_cchunts                  & \cite{reyes-garcia_adaptive_2016}         & Baka            & 2012-2013  & kg/trip   & game               & 16- 69  & 57(6)      \\
+Coad\_cchunts                  & \cite{coad_bushmeat_2008}                 & Pouvi, etc    & 2004-2010  & kg/trip   & game               & 15- 69  & 70(7)     \\%493(39)
+Duda\_cchunts                  & \cite{reyes-garcia_adaptive_2016}         & Baka            & 2012-2013  & kg/trip   & game               & 16- 69  & 57(6)      \\%114(9)
 \rowcolor[HTML]{EFEFEF} 
-Ellen\_cchunts                 & \cite{ellen_individual_1996}              & Nuaulu          & 1970       & kg/trip   & game               & 10-70   & 37(8)     \\
-Fernandez\_Llamazares\_ cchunts  & \cite{reyes-garcia_adaptive_2016}         & Tsimane         & 2012-2013  & kg/trip   & game               & 15-70   & 29(4)     \\
+Ellen\_cchunts                 & \cite{ellen_individual_1996}              & Nuaulu          & 1970       & kg/trip   & game               & 10-70   & 37(8)     \\%140(48)
+Fernandez\_Llamazares\_ cchunts  & \cite{reyes-garcia_adaptive_2016}         & Tsimane         & 2012-2013  & kg/trip   & game               & 15-70   & 29(4)     \\%127(10)
 \rowcolor[HTML]{EFEFEF} 
-Franzen\_cchunts               & \cite{franzen_evaluating_2006}            & Waorani         & 2002       & kg/trip   & game               & 16- 77  & 48(4)      \\
-Gallois\_cchunts               & \cite{reyes-garcia_adaptive_2016}         & Baka            & 2012-2013  & kg/trip   & game               & 16- 75  & 80(9)     \\
+Franzen\_cchunts               & \cite{franzen_evaluating_2006}            & Waorani         & 2002       & kg/trip   & game               & 16- 77  & 48(4)      \\%373(7)
+Gallois\_cchunts               & \cite{reyes-garcia_adaptive_2016}         & Baka            & 2012-2013  & kg/trip   & game               & 16- 75  & 80(9)     \\%249(23)
 \rowcolor[HTML]{EFEFEF} 
-Gueze\_cchunts                 & \cite{reyes-garcia_adaptive_2016}         & Punan           & 2012-2013  & kg/trip   & game               & 16- 61  & 35(2)      \\
-Headland\_cchunts              & \cite{headland_why_1986}                  & Agta            & 1962-1984  & kg/trip   & game               & 13- 66  & 44(7)     \\
+Gueze\_cchunts                 & \cite{reyes-garcia_adaptive_2016}         & Punan           & 2012-2013  & kg/trip   & game               & 16- 61  & 35(2)      \\%119(2)
+Headland\_cchunts              & \cite{headland_why_1986}                  & Agta            & 1962-1984  & kg/trip   & game               & 13- 66  & 44(7)     \\%211(19)
 \rowcolor[HTML]{EFEFEF} 
 Healey\_Nen\_PNG\_cchunts        & Preliminary fieldwork                     & Nen             & 2013       & kg/trip   & game               & 18- 46  & 7(2)        \\
-Hill\_Kintigh\_ cchunts          & \cite{hill_can_2009}                      & Ache            & 1980-2007  & kg/trip   & game               & 11- 75  & 147(37)  \\
+Hill\_Kintigh\_ cchunts          & \cite{hill_can_2009}                      & Ache            & 1980-2007  & kg/trip   & game               & 11- 75  & 147(37)  \\%14364(426)
 \rowcolor[HTML]{EFEFEF} 
-Koster\_cchunts                & \cite{koster_hunting_2008}                & Mayanga         & 2004-2013  & kg/trip   & game               & 8- 63   & 52(17)     \\
-Kramer\_Greaves\_cchunts        & \cite{kramer_why_2017}                    & Pume'           & 1990-2006  & kg/trip   & game               & 11- 65  & 23(9)     \\
+Koster\_cchunts                & \cite{koster_hunting_2008}                & Mayanga         & 2004-2013  & kg/trip   & game               & 8- 63   & 52(17)     \\%359(37)
+Kramer\_Greaves\_cchunts        & \cite{kramer_why_2017}                    & Pume'           & 1990-2006  & kg/trip   & game               & 11- 65  & 23(9)     \\%172(36)
 \rowcolor[HTML]{EFEFEF} 
-Lupo\_Schmitt\_cchunts          & \cite{lupo_upper_2002}                    & Bofi, Aka       & 1999-2002  & kg/trip   & game               & 6- 60   & 59(20)    \\
-Pacheco\_cchunts               & \cite{pacheco-cobos_economic_2015}        & Maya            & 2011-2012  & kg/trip   & game               & 16- 60  & 59(10)     \\
+Lupo\_Schmitt\_cchunts          & \cite{lupo_upper_2002}                    & Bofi, Aka       & 1999-2002  & kg/trip   & game               & 6- 60   & 59(20)    \\%433(148)
+Pacheco\_cchunts               & \cite{pacheco-cobos_economic_2015}        & Maya            & 2011-2012  & kg/trip   & game               & 16- 60  & 59(10)     \\%464(55)
 \rowcolor[HTML]{EFEFEF} 
-Pangau\_Adam\_cchunts           & \cite{pangau-adam_wildmeat_2012}          & Nimboran        & 2005-2006  & kg/trip   & game               & 16- 67  & 26(1)      \\
-Ready\_cchunts                 & \cite{ready_food_2016}                    & Inuit           & 2013-2014  & kg/trip   & game               & 12- 55  & 15(4)       \\
+Pangau\_Adam\_cchunts           & \cite{pangau-adam_wildmeat_2012}          & Nimboran        & 2005-2006  & kg/trip   & game               & 16- 67  & 26(1)      \\%182(5)
+Ready\_cchunts                 & \cite{ready_food_2016}                    & Inuit           & 2013-2014  & kg/trip   & game               & 12- 55  & 15(4)       \\%29(6)
 \rowcolor[HTML]{EFEFEF} 
-Reyes\_Garcia\_cchunts          & \cite{reyes-garcia_adaptive_2016}         & Tsimane         & 2012-2013  & kg/trip   & game               & 16- 91  & 37(2)      \\
-Sillitoe\_cchunts              & \cite{sillitoe_managing_2004}             & Wola            & 1977       & kg/trip   & game               & 10- 45  & 27(10)    \\
+Reyes\_Garcia\_cchunts          & \cite{reyes-garcia_adaptive_2016}         & Tsimane         & 2012-2013  & kg/trip   & game               & 16- 91  & 37(2)      \\%139(5)
+Sillitoe\_cchunts              & \cite{sillitoe_managing_2004}             & Wola            & 1977       & kg/trip   & game               & 10- 45  & 27(10)    \\%410(161)
 \rowcolor[HTML]{EFEFEF} 
-Siren\_cchunts                 & \cite{siren_effects_2016}                 & Quichua         & 1999, 2008 & kg/trip   & game               & 19- 59  & 32(1)      \\
-Trumble\_Gurven\_cchunts        & \cite{gurven_how_2006}                    & Tsimane         & 2002-2011  & kg/trip   & game               & 7- 82   & 172(53)    \\
+Siren\_cchunts                 & \cite{siren_effects_2016}                 & Quichua         & 1999, 2008 & kg/trip   & game               & 19- 59  & 32(1)      \\%189(7)
+Trumble\_Gurven\_cchunts        & \cite{gurven_how_2006}                    & Tsimane         & 2002-2011  & kg/trip   & game               & 7- 82   & 172(53)    \\%809(136)
 \rowcolor[HTML]{EFEFEF} 
-Van\_Vliet\_ et\_al\_ Gabon\_cchunts & \cite{van_vliet_hunting_2008}             & Ba-Kota et al   & 2006-2007  & kg/trip   & game               & 15- 45  & 19(3)      \\
-Venkataraman\_et\_al\_cchunts    & \cite{endicott_hunting_1979}              & Batek           & 1975-1976  & kg/trip   & game               & 9- 50   & 27(11)     \\
+Van\_Vliet\_ et\_al\_ Gabon\_cchunts & \cite{van_vliet_hunting_2008}             & Ba-Kota et al   & 2006-2007  & kg/trip   & game               & 15- 45  & 19(3)      \\%114(3)
+Venkataraman\_et\_al\_cchunts    & \cite{endicott_hunting_1979}              & Batek           & 1975-1976  & kg/trip   & game               & 9- 50   & 27(11)     \\%268(68)
 \rowcolor[HTML]{EFEFEF} 
-Winterhalder\_cchunts          & \cite{winterhalder_boreal_1983}           & Cree            & 1975       & kg/trip   & game               & 15- 59  & 16(4)     \\
-Yu\_et\_al\_cchunts              & \cite{ohl-schacherer_sustainability_2007} & Matsigenka      & 2004-2007  & kg/trip   & game               & 8- 52   & 69(18)   \\
+Winterhalder\_cchunts          & \cite{winterhalder_boreal_1983}           & Cree            & 1975       & kg/trip   & game               & 15- 59  & 16(4)     \\%127(30)
+Yu\_et\_al\_cchunts              & \cite{ohl-schacherer_sustainability_2007} & Matsigenka      & 2004-2007  & kg/trip   & game               & 8- 52   & 69(18)   \\%1441(186)
 \rowcolor[HTML]{EFEFEF} 
-Ziker\_cchunts                 & \cite{ziker_peoples_2002}                 & Dolgan          & 1993-1997 & kg/trip   & game               & 15-66  & 26(3)     \\ 
+Ziker\_cchunts                 & \cite{ziker_peoples_2002}                 & Dolgan          & 1993-1997 & kg/trip   & game               & 15-66  & 26(3)     \\ %76(3)
 \renewcommand{\tablename}{Table S}
 \label{tab:metadata}
 \end{longtable}
@@ -185,7 +188,7 @@ $$ \textrm{age}_{\textrm{obs}} \sim \textrm{Normal}(\mu_{\textrm{age}}, \sigma_{
 \centering
 \includegraphics[width=12cm] {text/images/Figure_S3.pdf}
 \renewcommand{\thefigure}{S\arabic{figure}}
-\caption{\textbf{Foraging returns for females only.} (A)Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. The x-axis shows age, while the y-axis is an unit-free measure of the proportion of increase compared to the maximum value (predicted returns at age 20).} Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. \textcolor{red}{Dashed lines highlight arbitrary age differentials across childhood. (B) Predicted change in foraging returns by resource type, with solid line denoting the average posterior median and transparent lines denoting the median for each unique study outcome for that resource type. All curves are scaled by their maximum value (predicted returns at age 20). However, the shape of the curves illustrates how productivity increases with age. (C) Percentage increase in foraging returns across childhood, covering the intervals denoted by the dashed lines in A-B. Points indicate posterior median, bars indicate 90\% HPDI. This figure is similar to figure \ref{fig:returns}, but focuses only on females.}
+\caption{\textbf{Foraging returns for females only.} (A)Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. The x-axis shows age, while the y-axis is an unit-free measure of the proportion of increase compared to the maximum value (predicted returns at age 20). Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. Dashed lines highlight arbitrary age differentials across childhood. (B) Predicted change in foraging returns by resource type, with thick line denoting the average posterior median and thin lines denoting the median for each unique study outcome for that resource type. All curves are scaled by their maximum value (predicted returns at age 20). The shape of the curves illustrates how productivity increases with age. (C) Percentage increase in foraging returns across childhood, covering the intervals denoted by the dashed lines in A-B. Points indicate posterior median, bars indicate 90\% HPDI. This figure is similar to figure \ref{fig:returns}, but focuses only on females.}
 \label{fig:females_only}
 \end{figure}
 
@@ -193,7 +196,7 @@ $$ \textrm{age}_{\textrm{obs}} \sim \textrm{Normal}(\mu_{\textrm{age}}, \sigma_{
 \centering
 \includegraphics[width=12cm] {text/images/Figure_S4.pdf}
 \renewcommand{\thefigure}{S\arabic{figure}}
-\caption{\textbf{Foraging returns for males only.} (A)Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. \textcolor{red}{The x-axis shows age, while the y-axis is an unit-free measure of the proportion of increase compared to the maximum value (predicted returns at age 20).} Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. \textcolor{red}{Dashed lines highlight arbitrary age differentials across childhood.} (B) Predicted change in foraging returns by resource type, with solid line denoting the average posterior median and transparent lines denoting the median for each unique study outcome for that resource type. All curves are scaled by their maximum value (predicted returns at age 20). However, the shape of the curves illustrates how productivity increases with age. (C) Percentage increase in foraging returns across childhood, covering the intervals denoted by the dashed lines in A-B. Points indicate posterior median, bars indicate 90\% HPDI. This figure is similar to figure \ref{fig:returns}, but focuses only on males.}
+\caption{\textbf{Foraging returns for males only.} (A)Predicted change in foraging returns with age, averaging over variation between studies, individuals, and resource type. The x-axis shows age, while the y-axis is an unit-free measure of the proportion of increase compared to the maximum value (predicted returns at age 20). Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. Dashed lines highlight arbitrary age differentials across childhood.  (B) Predicted change in foraging returns by resource type, with thick line denoting the average posterior median and thin lines denoting the median for each unique study outcome for that resource type. All curves are scaled by their maximum value (predicted returns at age 20). The shape of the curves illustrates how productivity increases with age. (C) Percentage increase in foraging returns across childhood, covering the intervals denoted by the dashed lines in A-B. Points indicate posterior median, bars indicate 90\% HPDI. This figure is similar to figure \ref{fig:returns}, but focuses only on males.}
 \label{fig:males_only}
 \end{figure}
 
@@ -201,7 +204,7 @@ $$ \textrm{age}_{\textrm{obs}} \sim \textrm{Normal}(\mu_{\textrm{age}}, \sigma_{
 \centering
 \includegraphics[width=12cm] {text/images/Figure_S5.pdf}
 \renewcommand{\thefigure}{S\arabic{figure}}
-\caption{\textbf{Foraging skill.} (A)Predicted change in foraging skill with age, averaging over variation between studies, individuals, sex, and resource type. \textcolor{red}{The x-axis shows age, while the y-axis is an unit-free measure of the proportion of increase compared to the maximum value (predicted returns at age 20).} Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. \textcolor{red}{Dashed lines highlight arbitrary age differentials across childhood.} (B) Predicted change in foraging skill by resource type, with solid line denoting the average posterior median and transparent lines denoting the median for each unique study outcome for that resource type. All curves are scaled by their maximum value (predicted returns at age 20). However, the shape of the curves illustrates how skill increases with age. (C) Percentage increase in foraging skill across childhood, covering the intervals denoted by the dashed lines in A-B. Points indicate posterior median, bars indicate 90\% HPDI. This figure is similar to figure \ref{fig:returns}, but describe underlying foraging skill instead of returns.}
+\caption{\textbf{Foraging skill.} (A)Predicted change in foraging skill with age, averaging over variation between studies, individuals, sex, and resource type. The x-axis shows age, while the y-axis is an unit-free measure of the proportion of increase compared to the maximum value (predicted returns at age 20). Solid line is the posterior median prediction, shaded intervals depict the 30th, 60th, and 90th percentile credible intervals. Dashed lines highlight arbitrary age differentials across childhood. (B) Predicted change in foraging skill by resource type, with thick line denoting the average posterior median and thin lines denoting the median for each unique study outcome for that resource type. All curves are scaled by their maximum value (predicted returns at age 20). The shape of the curves illustrates how skill increases with age. (C) Percentage increase in foraging skill across childhood, covering the intervals denoted by the dashed lines in A-B. Points indicate posterior median, bars indicate 90\% HPDI. This figure is similar to figure \ref{fig:returns}, but describe underlying foraging skill instead of returns.}
 \label{fig:skill}
 \end{figure}
 

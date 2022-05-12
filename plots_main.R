@@ -48,11 +48,13 @@ par(pty='s',
 # Get model predictions across ages
 preds_both <- cfr_pred(age=age_seq, resp="nodim_returns")
 
-max_height <- max(apply(preds_both, 2, median))
-preds_both <- preds_both / max_height
+# scale by returns at age 20
+for (i in 1:nrow(preds_both)) {
+  preds_both[i,] = preds_both[i,] / preds_both[i,ncol(preds_both)]
+}
 
 # Set up plot window
-plot(NULL, ylim=c(0,max(apply(preds_both, 2, median))+0.5), xlim=c(0,20), ylab="", xlab="", axes=F)
+plot(NULL, ylim=c(0,1), xlim=c(0,20), ylab="", xlab="", axes=F)
 # Plot posterior median age seq, then PI
 lines(apply(preds_both, 2, median), x=age_seq, lwd=3)
 shade(apply(preds_both, 2, PI, prob=0.9), age_seq, col=col.alpha("black",0.05))
@@ -62,6 +64,10 @@ shade(apply(preds_both, 2, PI, prob=0.3), age_seq, col=col.alpha("black",0.05))
 # Axis labels and ticks
 axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
 axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+
+# Axis labels and ticks
+axis(2, at=c(0,0.25,0.5, 0.75, 1), tck=-0.02, labels=NA)
+axis(2, at=c(0,0.25,0.5, 0.75, 1), labels=c("0%", "25%", "50%", "75%", "100%"), tck=0, lwd=0, line=-0.5)
 
 # Now, draw differentials (dashed lines)
 # 0 to 5 diff 
@@ -102,8 +108,10 @@ for (r in 1:4) {
   axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
   axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
   
-  mtext(resource_names[r], cex=1.25)
-  mtext(ifelse(r %in% c(1,3), "Returns", ""), side=2, cex=1.25, line=1)
+  if (r %% 2 == 1) {
+    axis(2, at=c(0,0.25,0.5, 0.75, 1), tck=-0.02, labels=NA)
+    axis(2, at=c(0,0.25,0.5, 0.75, 1), labels=c("0%", "25%", "50%", "75%", "100%"), tck=0, lwd=0, line=-0.5)
+  }
   
   lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col = resource_cols[r])
   
@@ -196,7 +204,7 @@ age_returns_plot <- ggplot(age_long_summary, aes(x = med_diff, y = name)) +
   xlab("% Increase in Foraging Returns") +
   ylab("")
 
-ggsave("returns_age_plot.pdf", width=11, height=6, dpi=600)
+ggsave("returns_age_plot.pdf", width=12.5, height=6, dpi=600)
 
 #####################################################
 ##### Figure 5 ######################################
@@ -225,21 +233,40 @@ eta_resource <- ggplot(eta_long, aes(x = value, y = name)) +
   ylab("") + 
   xlab(expression(paste(eta, " (elasticity of returns on skill)"))) 
 
-eta <- eta %>% mutate(diff = Game - Fruit)
+eta <- eta %>% mutate(
+  diff_game = Game - Fruit,
+  diff_USO = USOs - Fruit,
+  diff_fish = `Fish/Shellfish` - Fruit)
 
-PP <- mean(eta$Game > eta$Fruit) 
+# posterior probabilities
+round(mean(eta$USOs > eta$Fruit),2)
+round(mean(eta$Game > eta$Fruit),2)
+round(mean(eta$`Fish/Shellfish` > eta$Fruit),2)
 
-eta_contrast <- ggplot(eta, aes(x=diff)) +
-  geom_density(fill="gray80", color="gray80", alpha=0.8) +
+d_eta_contrast <- eta %>% select(c(samp, diff_game, diff_USO, diff_fish)) %>% 
+  pivot_longer(-samp) %>% 
+  mutate(contrast = fct_recode(name,
+                               `Game - Fruit` = "diff_game",
+                               `USOs - Fruit` = "diff_USO",
+                               `Fish/Shellfish - Fruit` = "diff_fish")
+  )
+
+eta_contrast <- ggplot(d_eta_contrast, aes(x=value, y=contrast, fill=contrast, color=contrast)) +
+  geom_hline(yintercept=seq(1:3), alpha=0.6) +
+  geom_density_ridges2(alpha=0.8,lwd=0.8,scale=0.9, rel_min_height=0.001) +
+  annotate("blank", x = 0, y= 3.7 ) +
   geom_vline(xintercept = 0, linetype="dashed") +
+  scale_fill_manual(values=resource_cols[c(1,2,4)]) +
+  scale_color_manual(values=resource_cols[c(1,2,4)]) +
   theme_minimal(base_size=16) +
-  scale_x_continuous(expand = c(0.00, 0.05), limits=c(-4,6)) +
-  scale_y_continuous(expand = c(0.00, 0)) +
-  theme( axis.text.y = element_blank(),
-         axis.ticks.y = element_blank(),
+  scale_x_continuous(expand = c(0.00, 0.05), limits=c(-4,6)) + 
+  scale_y_discrete(expand = c(0.00, 0)) +
+  theme(legend.position = "none",
          panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   ylab("") +
-  xlab(expression(Delta(eta[Game]-eta[Fruit])))
+  xlab(expression(paste(Delta,eta)))
+
+eta_contrast
 
 eta_resource + eta_contrast
 

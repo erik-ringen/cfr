@@ -156,14 +156,11 @@ data_list_np <- list(
   child_summary_returns = child_summary_returns
 )
 
-### compile model 
-stan_model <- stan_model("stan_models/model_cfr.stan")
-
 ### run MCMC program
 fit_np <- sampling( stan_model, data=data_list_np, chains=10, cores=10, iter=1000, init="0", control=list(adapt_delta=0.98) )
 
 ### save fit model for use with other scripts
-saveRDS(fit, "fit_np_cfr.rds")
+saveRDS(fit_np, "fit_np_cfr.rds")
 
                                 
 #### Checking mcmc diagnostics ########################

@@ -1,11 +1,11 @@
 # color palette to denote resources
-resource_cols <- c("#CB2313","#046C9A", "#0C775E", "#EBCC2A") 
+resource_cols <- c("#046C9A","#CB2313", "#0C775E", "#EBCC2A") 
 
 # pub-friendly labels
-resource_names <- c("Game/Mixed","Marine", "Fruit", "USOs") 
+resource_names <- c("Fish/Shellfish","Game", "Fruit", "USOs") 
 
 # resource seq for plotting
-resource_seq <- c(2,1,3,4)
+resource_seq <- c(2,1,4,5)
 
 # sex-coded colors
 f_col <- "slategray"
@@ -35,7 +35,7 @@ cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="nodim_retur
   else id_v <- matrix(0, nrow=n_samps, ncol=2)
   
   ## log normal sd
-  sd <- exp( post$a[,7] + post$a_sd_outcome[,1]*post$sigma_sex[,7]*female + outcome_v[,7] + outcome_v[,14]*female + outcome_v[,21]*male + post$a_sd_outcome[,2]*post$sigma_sex[,7]*male + resource_v[,7] + resource_v[,14]*female + resource_v[,21]*male) 
+  sd <- log( 1 + exp( post$a[,7] + post$a_sd_outcome[,1]*post$sigma_sex[,7]*female + outcome_v[,7] + outcome_v[,14]*female + outcome_v[,21]*male + post$a_sd_outcome[,2]*post$sigma_sex[,7]*male + resource_v[,7] + resource_v[,14]*female + resource_v[,21]*male) )
   
   # number of ages to predict over
   n_preds <- length(age)
@@ -47,23 +47,23 @@ cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="nodim_retur
   mu_r <- mu_p
   
   ## k
-  k = exp( post$a[,1] + post$a_k[,1]*post$sigma_sex[,1]*female + post$a_k[,2]*post$sigma_sex[,1]*male + outcome_v[,1] + outcome_v[,8]*female + outcome_v[,15]*male + resource_v[,1] + resource_v[,8]*female + resource_v[,15]*male )
+  k = log(1 + exp( post$a[,1] + post$a_k[,1]*post$sigma_sex[,1]*female + post$a_k[,2]*post$sigma_sex[,1]*male + outcome_v[,1] + outcome_v[,8]*female + outcome_v[,15]*male + resource_v[,1] + resource_v[,8]*female + resource_v[,15]*male ))
   
   ## b
-  b = exp( post$a[,2] + post$a_b[,1]*post$sigma_sex[,2]*female + post$a_b[,2]*post$sigma_sex[,2]*male + outcome_v[,2] + outcome_v[,9]*female + outcome_v[,16]*male + resource_v[,2] + resource_v[,9]*female + resource_v[,16]*male )
+  b = log(1 + exp( post$a[,2] + post$a_b[,1]*post$sigma_sex[,2]*female + post$a_b[,2]*post$sigma_sex[,2]*male + outcome_v[,2] + outcome_v[,9]*female + outcome_v[,16]*male + resource_v[,2] + resource_v[,9]*female + resource_v[,16]*male ))
   
   ## eta_p
-  eta[,1] = exp( post$a[,3] + post$a_eta[,1,1]*post$sigma_sex[,3]*female + post$a_eta[,2,1]*post$sigma_sex[,3]*male + outcome_v[,3] + outcome_v[,10]*female + outcome_v[,17]*male + resource_v[,3] + resource_v[,10]*female + resource_v[,17]*male )
+  eta[,1] = log(1 + exp( post$a[,3] + post$a_eta[,1,1]*post$sigma_sex[,3]*female + post$a_eta[,2,1]*post$sigma_sex[,3]*male + outcome_v[,3] + outcome_v[,10]*female + outcome_v[,17]*male + resource_v[,3] + resource_v[,10]*female + resource_v[,17]*male ))
   
   ## eta_r
-  eta[,2] = exp( post$a[,4] + post$a_eta[,1,2]*post$sigma_sex[,4]*female + post$a_eta[,2,2]*post$sigma_sex[,4]*male + outcome_v[,4] + outcome_v[,11]*female + outcome_v[,18]*male + resource_v[,4] + resource_v[,11]*female + resource_v[,18]*male )
+  eta[,2] = log(1 + exp( post$a[,4] + post$a_eta[,1,2]*post$sigma_sex[,4]*female + post$a_eta[,2,2]*post$sigma_sex[,4]*male + outcome_v[,4] + outcome_v[,11]*female + outcome_v[,18]*male + resource_v[,4] + resource_v[,11]*female + resource_v[,18]*male ))
   
   ## Skill
   for (n in 1:n_preds) S[,n] = ( 1 - exp(-k * (age[n]/20) ))^b
   
-  p = exp( post$a[,5] + post$a_p[,1]*post$sigma_sex[,5]*female + post$a_p[,2]*post$sigma_sex[,5]*male + outcome_v[,5] + outcome_v[,12]*female + outcome_v[,19]*male + resource_v[,5] + resource_v[,12]*female + resource_v[,19]*male )
+  p = log( 1 + exp( post$a[,5] + post$a_p[,1]*post$sigma_sex[,5]*female + post$a_p[,2]*post$sigma_sex[,5]*male + outcome_v[,5] + outcome_v[,12]*female + outcome_v[,19]*male + resource_v[,5] + resource_v[,12]*female + resource_v[,19]*male ))
   
-  alpha = exp( post$a[,6] + post$a_alpha[,1]*post$sigma_sex[,6]*female + post$a_alpha[,2]*post$sigma_sex[,6]*male + outcome_v[,6] + outcome_v[,13]*female + outcome_v[,20]*male + resource_v[,6] + resource_v[,13]*female + resource_v[,20]*male )
+  alpha = log(1 + exp( post$a[,6] + post$a_alpha[,1]*post$sigma_sex[,6]*female + post$a_alpha[,2]*post$sigma_sex[,6]*male + outcome_v[,6] + outcome_v[,13]*female + outcome_v[,20]*male + resource_v[,6] + resource_v[,13]*female + resource_v[,20]*male ))
   
   for (n in 1:n_preds) {
     mu_p[,n] = (S[,n]^eta[,1]) * p
@@ -76,6 +76,7 @@ cfr_pred <- function( outcome=NA, male=NA, id=NA, resource=NA, resp="nodim_retur
   if (resp == "S_returns") return( S )
   if (resp == "dim_returns") return(  prob_return * exp( log(mu_r) + (sd^2)/2) )
   if (resp == "nodim_returns") return( prob_return * (mu_r/alpha) )
+  if (resp == "prob_return") return( prob_return )
   if (resp == "CoV") {
 
     y_pred <- matrix(NA, nrow=n_samps, ncol=1000)

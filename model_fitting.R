@@ -80,7 +80,7 @@ data_list <- list(
 stan_model <- stan_model("stan_models/model_cfr.stan")
 
 ### run MCMC program
-fit <- sampling( stan_model, data=data_list, chains=10, cores=10, iter=1000, init="0", control=list(adapt_delta=0.98) )
+fit <- sampling( stan_model, data=data_list, chains=8, cores=8, iter=6000, warmup=500, init="0", control=list(adapt_delta=0.99) )
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_cfr.rds")
@@ -164,3 +164,12 @@ fit_np <- sampling( stan_model, data=data_list_np, chains=10, cores=10, iter=100
 
 ### save fit model for use with other scripts
 saveRDS(fit, "fit_np_cfr.rds")
+
+                                
+#### Checking mcmc diagnostics ########################
+# write.csv(precis(fit, depth=3), "model_precis.csv")
+# prec <- read_csv("model_precis.csv")
+
+## Verify that all population parameters (not necessarily all random effects) have Rhat < 1.01, ESS > 1000.
+# prec %>% filter(Rhat4 > 1.01)
+# prec %>% filter(n_eff < 1000)

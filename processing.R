@@ -86,7 +86,7 @@ cchunts_dat_adult <- cchunts_dat %>%
 # Then get, individual-level data from foragers under 20
 cchunts_dat_child <- cchunts_dat %>% 
   filter(age_dist_1 < 20) %>%
-  select(society, forager_id, sex, harvest, age_type, age_dist_1, age_dist_2, age_type) %>% 
+  select(society, forager_id, sex, harvest, age_type, age_dist_1, age_dist_2, age_type, pooled) %>% 
   mutate(study = paste0(society, "_cchunts"),
          outcome = paste0(society, "_cchunts"),
          id = paste0(society, forager_id),
@@ -100,7 +100,7 @@ cchunts_dat_child <- cchunts_dat %>%
          raw_return = harvest,
          raw_sd = NA
          ) %>% 
-  select(names(d_both_rounds[1:13]))
+  select(c(names(d_both_rounds[1:13]), "pooled"))
   
 # Match child with average adult values
 cchunts_dat_child2 <- left_join(cchunts_dat_child, cchunts_dat_adult)
@@ -114,6 +114,7 @@ for (i in 1:nrow(d_round2)) {
 }
 
 d_round2$sex <- as.numeric(d_round2$sex)
+d_round2$pooled <- 0
 
 d_combined <- bind_rows(d_round2, cchunts_dat_child2)
 

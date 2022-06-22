@@ -1105,3 +1105,74 @@ other_plots <- filter(d_raw, resource_cat == "z") %>%
   ggtitle("Mixed/Other Foraging Returns")
 
 ggsave("other_data.pdf", plot=other_plots, dpi=600, height=11, width=8.5, units="in")
+
+
+########################################
+#Removing pooled data
+
+d <- d %>% filter(pooled == 0)
+
+##### Read in previously fit stan model
+fit <- readRDS("fit_np_cfr.rds")
+
+# extract posterior samples
+post <- extract.samples(fit)
+n_samps <- length(post$lp__)
+
+## 4b: Returns ~ age*resource
+pdf(file = "resource_return_np.pdf", width = 8, height= 8)
+par(mfrow=c(2,2),
+    pty='s',
+    oma=c(0,0,0,0),
+    mai = c(0.5,0.5,0.5,0.5),
+    cex=1.3
+)
+
+for (r in 1:4) {
+  
+  d_outcome_temp <- filter(d_outcome, resource == resource_seq[r])
+  
+  #### Average curve ################
+  preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = resource_seq[r])
+  
+  max_height <- max(apply(preds_both, 2, median))
+  preds_both <- preds_both / max_height
+  
+  plot(NULL, ylim=c(0,1), xlim=c(0,20), ylab="", xlab="", axes=F)
+  
+  axis(1, at=c(0,5,10,15,20), tck=-0.02, labels=NA)
+  axis(1, at=c(0,5,10,15,20), tck=0, lwd=0, line=-0.5)
+  
+  if (r %% 2 == 1) {
+    axis(2, at=c(0,0.25,0.5, 0.75, 1), tck=-0.02, labels=NA)
+    axis(2, at=c(0,0.25,0.5, 0.75, 1), labels=c("0%", "25%", "50%", "75%", "100%"), tck=0, lwd=0, line=-0.5)
+  }
+  
+  lines(apply(preds_both, 2, median), x=age_seq, lwd=3, col = resource_cols[r])
+  
+  ## lines to connect different ages ####
+  # 0 to 5 diff 
+  lines(x = rep(0,2), y = c(0, median(preds_both[,6])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(0, 5), y = rep(median(preds_both[,6]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  # 5 to 10 diff 
+  lines(x = rep(5,2), y = c(median(preds_both[,6]), median(preds_both[,11])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(5, 10), y = rep(median(preds_both[,11]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  # 10 to 20 diff
+  lines(x = rep(10,2), y = c(median(preds_both[,11]), median(preds_both[,21])), col=resource_cols[r], lty="dashed", lwd=2)
+  lines(x = c(10, 20), y = rep(median(preds_both[,21]),2), col=resource_cols[r], lty="dashed", lwd=2)
+  
+  #### Study-specific curves ########
+  for (s in 1:nrow(d_outcome_temp)) {
+    
+    preds_both <- cfr_pred(age=age_seq, resp="nodim_returns", resource = resource_seq[r], outcome = d_outcome_temp$id[s])
+    
+    max_height <- max(apply(preds_both, 2, median))
+    preds_both <- preds_both / max_height
+    
+    lines(apply(preds_both, 2, median), x=age_seq, lwd=1, col=col.alpha(resource_cols[r], 0.4))
+  }
+  
+}
+dev.off()

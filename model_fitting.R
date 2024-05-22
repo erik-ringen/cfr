@@ -1,5 +1,6 @@
 library(tidyverse)
 library(rethinking)
+library(rstan)
 
 d <- read_csv("data.csv")
 

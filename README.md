@@ -1,8 +1,8 @@
 # cfr
-This repo contains the data file, processing and analysis scripts behind "Child Foraging Returns: A Meta-Analysis"
+This repo contains the data file, processing and analysis scripts behind "Foraging complexity and the evolution of childhood" (Pretelli, Ringen, and Lew-Levy, 2022).
 
 ## Data
-`paper_data` and `paper_data_round2` folders contain the raw data (including tables and screenshots of plots) extracted from studies, as well as R scripts to clean those individual chunks of foraging data. `processing.R` wrangles all of the data from individual studies (as well as child foraging retursn from [cchunts](https://github.com/rmcelreath/cchunts) and then produces the integrated dataset used in our analysis, simply called `data.csv`.
+`paper_data` and `paper_data_round2` folders contain the raw data (including tables and screenshots of plots) extracted from studies, as well as R scripts to clean those individual chunks of foraging data. `processing.R` wrangles all of the data from individual studies (as well as child foraging returns from [cchunts](https://github.com/rmcelreath/cchunts) and then produces the integrated dataset used in our analysis, simply called `data.csv`.
 
 Column | Description
 ---------|-------------
